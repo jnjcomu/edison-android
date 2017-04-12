@@ -1,22 +1,24 @@
 package com.jnjcomu.edison;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.jnjcomu.edison.callback.CloudEventListener;
 import com.jnjcomu.edison.module.Encrypt;
 import com.jnjcomu.edison.module.LoadJson;
+import com.loplat.placeengine.PlengiResponse;
 
-import java.io.UnsupportedEncodingException;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CloudEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EdisonApplication.getInstance().setEventListener(this);
+
         //Edison.json 불러오기
-        String[] s =LoadJson.loadloplat(getApplicationContext());
+        String[] s = LoadJson.loadloplat(getApplicationContext());
         Log.d("id", s[0]);
         Log.d("pw", s[1]);
 
@@ -36,4 +38,24 @@ public class MainActivity extends AppCompatActivity {
         Log.d("id_d", Encrypt.decrypt(getApplicationContext(), s[1]));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EdisonApplication.getInstance().setEventListener(null);
+    }
+
+    @Override
+    public void onPlaceDefault(PlengiResponse response) {
+
+    }
+
+    @Override
+    public void onPlaceNear(PlengiResponse response) {
+
+    }
+
+    @Override
+    public void onPlaceIn(PlengiResponse response) {
+
+    }
 }
