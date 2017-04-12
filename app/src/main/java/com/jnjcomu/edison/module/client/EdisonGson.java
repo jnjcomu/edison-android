@@ -1,0 +1,16 @@
+package com.jnjcomu.edison.module.client;
+
+import com.google.gson.annotations.SerializedName;
+
+/**
+ * @author kimwoojae <wj1187@naver.com>
+ * @since 2017-04-12
+ */
+
+public class EdisonGson {
+
+    @SerializedName("user_type") String user_type() {
+        return user_type();
+    }
+
+}
