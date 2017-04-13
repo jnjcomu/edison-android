@@ -1,9 +1,11 @@
-package com.jnjcomu.edison;
+package com.jnjcomu.edison.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.jnjcomu.edison.EdisonApplication;
+import com.jnjcomu.edison.R;
 import com.jnjcomu.edison.callback.CloudEventListener;
 import com.jnjcomu.edison.module.Encrypt;
 import com.jnjcomu.edison.module.LoadJson;

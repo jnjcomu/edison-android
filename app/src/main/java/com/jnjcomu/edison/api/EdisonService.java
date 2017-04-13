@@ -1,4 +1,6 @@
-package com.jnjcomu.edison.module.client;
+package com.jnjcomu.edison.api;
+
+import com.jnjcomu.edison.model.EdisonGson;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

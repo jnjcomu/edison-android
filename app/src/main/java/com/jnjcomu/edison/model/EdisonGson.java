@@ -1,4 +1,4 @@
-package com.jnjcomu.edison.module.client;
+package com.jnjcomu.edison.model;
 
 import com.google.gson.annotations.SerializedName;
 

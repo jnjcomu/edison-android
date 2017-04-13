@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by kimwoojae on 2017. 4. 5.
+ * @author kimwoojae <wj1187@naver.com>
+ * @since 2017-04-12
  */
 
 public class LoadJson {
