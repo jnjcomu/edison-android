@@ -9,8 +9,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class EdisonGson {
 
-    @SerializedName("user_type") String user_type() {
-        return user_type();
+    @SerializedName("user_type") String usertype;
+
+    String getUsertype() {
+        return usertype;
     }
 
 }
