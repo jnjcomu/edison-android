@@ -43,7 +43,7 @@ public class EdisonThread extends Thread {
             public void onResponse(Call<EdisonGson> call, Response<EdisonGson> response) {
                 if(response.isSuccessful()){
                     mEdison = response.body();
-                    String usertype = mEdison.user_type();
+                    String usertype = mEdison.getUsertype();
                     switch (usertype) {
                         case "S" :
                             break;
