@@ -26,7 +26,7 @@ public class Configuration {
         this.context = context;
 
         InputStream inputStream = null;
-        Encrypt encrypt = new Encrypt(context);
+        Encrypter encrypt = new Encrypter(context);
 
         try {
             // read edison.json file

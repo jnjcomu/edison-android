@@ -17,7 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
  * @since 2017-04-05
  */
 
-public class Encrypt {
+public class Encrypter {
     private static final String DIGEST_ALGORITHM = "SHA-256";
     private static final String ENCRYPT_ALGORITHM = "AES/CBC/PKCS5Padding";
     private static final String ENCODING = "UTF-8";
@@ -25,7 +25,7 @@ public class Encrypt {
     private Context context;
     private String keyIV;
 
-    public Encrypt(Context context) {
+    public Encrypter(Context context) {
         this.context = context;
     }
 
