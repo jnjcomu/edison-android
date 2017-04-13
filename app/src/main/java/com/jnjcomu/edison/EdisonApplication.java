@@ -23,8 +23,9 @@ public class EdisonApplication extends Application {
 
         cloudlistener = new LoplatCloudListener();
         plengi = Plengi.getInstance(this);
-
         plengi.setListener(cloudlistener);
+
+        instance = this;
     }
 
     public Plengi getPlengi() {
@@ -32,7 +33,9 @@ public class EdisonApplication extends Application {
     }
 
     public void setEventListener(CloudEventListener cloudEventListener) {
-        cloudlistener.setListener(cloudEventListener);
+        if(cloudlistener != null) {
+            cloudlistener.setListener(cloudEventListener);
+        }
     }
 
     public static EdisonApplication getInstance() {

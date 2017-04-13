@@ -8,5 +8,6 @@
 /captures
 .externalNativeBuild
 /app/src/main/assets/Edison.json
+/app/src/main/assets/edison.json
 /app/app-release.apk
 /app/app-debug.apk
