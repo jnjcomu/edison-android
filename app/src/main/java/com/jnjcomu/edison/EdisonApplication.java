@@ -1,35 +1,41 @@
 package com.jnjcomu.edison;
 
 import android.app.Application;
-import android.content.Context;
 
+import com.jnjcomu.edison.callback.CloudEventListener;
+import com.jnjcomu.edison.cloud.LoplatCloudListener;
 import com.loplat.placeengine.Plengi;
-import com.loplat.placeengine.utils.LoplatLogger;
 
 /**
- * @author kimwoojae <wj1187@naver.com>
+ * @author CodeRi13 <ruto1924@gmail.com>
  * @since 2017-04-12
  */
 
 public class EdisonApplication extends Application {
-
-    Plengi mPlengi = null;
-
     private static EdisonApplication instance;
 
-    public static Context getContext(){
-        return instance;
-    }
+    private Plengi plengi;
+    private LoplatCloudListener cloudlistener;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        instance = this;
+        cloudlistener = new LoplatCloudListener();
+        plengi = Plengi.getInstance(this);
 
-        // set up loplat engine
-        mPlengi = Plengi.getInstance(this);
-        //mPlengi.setListener(new LoplatPlengiListener());
+        plengi.setListener(cloudlistener);
     }
 
+    public Plengi getPlengi() {
+        return plengi;
+    }
+
+    public void setEventListener(CloudEventListener cloudEventListener) {
+        cloudlistener.setListener(cloudEventListener);
+    }
+
+    public static EdisonApplication getInstance() {
+        return instance;
+    }
 }
