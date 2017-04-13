@@ -1,6 +1,6 @@
 package com.jnjcomu.edison.api;
 
-import com.jnjcomu.edison.model.EdisonGson;
+import com.jnjcomu.edison.model.Login;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -11,9 +11,9 @@ import retrofit2.http.Path;
  * @since 2017-04-12
  */
 
-public interface EdisonService {
+public interface EdisonLogin {
 
     @GET("users/identify?username={username}&password={passwd}")
-    Call<EdisonGson> getUser(@Path("username") String username, @Path("passwd") String passwd);
+    Call<Login> getUser(@Path("username") String username, @Path("passwd") String passwd);
 
 }

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * @since 2017-04-12
  */
 
-public class EdisonGson {
+public class Login {
 
     @SerializedName("user_type") String usertype;
 
