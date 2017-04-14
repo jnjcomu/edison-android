@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.jnjcomu.edison.callback.CloudEventListener;
 import com.jnjcomu.edison.cloud.LoplatCloudListener;
+import com.jnjcomu.edison.storage.Configuration;
 import com.loplat.placeengine.Plengi;
 
 /**
@@ -21,9 +22,14 @@ public class EdisonApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Configuration conf = new Configuration(this);
+
         cloudlistener = new LoplatCloudListener();
         plengi = Plengi.getInstance(this);
         plengi.setListener(cloudlistener);
+
+        // TODO : Please change the "12345" be named user unique code to be unique
+        plengi.init(conf.getClientKey(), conf.getClientKey(), "12345");
 
         instance = this;
     }
