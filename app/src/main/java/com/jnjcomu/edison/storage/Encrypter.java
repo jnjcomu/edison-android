@@ -3,6 +3,8 @@ package com.jnjcomu.edison.storage;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
 import java.security.MessageDigest;
@@ -33,6 +35,7 @@ public class Encrypter {
      *
      * @return
      */
+    @Nullable
     private SecretKey fetchSignature() {
         SecretKey secretKey = null;
 
@@ -57,6 +60,7 @@ public class Encrypter {
      * @param plainText
      * @return
      */
+    @NonNull
     public String encrypt(String plainText) {
         Cipher cipher;
         IvParameterSpec ivParameterSpec;
@@ -73,7 +77,7 @@ public class Encrypter {
             encryptedData = cipher.doFinal(plainText.getBytes(ENCODING));
             encrypted = Base64.encodeToString(encryptedData, Base64.DEFAULT);
         } catch (Exception ignored) {
-            return "";
+            encrypted = "";
         }
 
         return encrypted;
@@ -84,6 +88,7 @@ public class Encrypter {
      * @param encrypted
      * @return
      */
+    @NonNull
     public String decrypt(String encrypted) {
         Cipher cipher;
         IvParameterSpec ivParameterSpec;
@@ -99,7 +104,7 @@ public class Encrypter {
 
             decrypted = new String(cipher.doFinal(data), ENCODING);
         } catch (Exception ignored) {
-            return "";
+            decrypted = "";
         }
 
         return decrypted;

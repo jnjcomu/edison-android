@@ -1,6 +1,7 @@
 package com.jnjcomu.edison.storage;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -55,6 +56,7 @@ public class Configuration {
         }
     }
 
+    @NonNull
     public String getClientKey() {
         return clientKey;
     }

@@ -11,7 +11,7 @@ import retrofit2.http.Path;
  * @since 2017-04-12
  */
 
-public interface EdisonLogin {
+public interface EdisonAPI {
 
     @GET("users/identify?username={username}&password={passwd}")
     Call<Login> getUser(@Path("username") String username, @Path("passwd") String passwd);
