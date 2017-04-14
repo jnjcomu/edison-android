@@ -3,6 +3,7 @@ package com.jnjcomu.edison.cloud;
 import android.content.Intent;
 
 import com.jnjcomu.edison.EdisonApplication;
+import com.jnjcomu.edison.broadcast.PlengiEventBroadcastReceiver;
 import com.jnjcomu.edison.callback.CloudEventListener;
 import com.loplat.placeengine.PlengiListener;
 import com.loplat.placeengine.PlengiResponse;
@@ -41,10 +42,11 @@ public class LoplatCloudListener implements PlengiListener {
     }
 
     private void sendBroadcast(PlengiResponse response) {
-        Intent broadcastInfo = new Intent();
+        Intent broadcastInfo = new Intent(PlengiEventBroadcastReceiver.RECEIVER_ID);
 
         broadcastInfo.putExtra("place.name", response.place.name);
         broadcastInfo.putExtra("place.floor", response.place.floor);
+
         broadcastInfo.putExtra("response.result", response.result);
         broadcastInfo.putExtra("response.enterType", response.enterType);
         broadcastInfo.putExtra("response.type", response.type);

@@ -22,15 +22,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/EdisonTheme">
-
-        <activity android:name=".activity.MainActivity"></activity>
-
-        <activity android:name=".activity.SplashActivity"
+        android:theme="@style/EdisonTheme"
+        android:fullBackupContent="false">
+        <activity android:name=".activity.MainActivity_" />
+        <activity
+            android:name=".activity.SplashActivity_"
             android:theme="@style/EdisonTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -47,6 +46,14 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".broadcast.PlengiEventBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.jnjcomu.edison.cloud.response" />
+            </intent-filter>
+        </receiver>
+
         <service android:name="com.loplat.placeengine.location.LocationMonitorService" />
+
     </application>
+
 </manifest>

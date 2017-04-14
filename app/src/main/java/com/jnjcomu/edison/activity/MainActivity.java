@@ -9,12 +9,14 @@ import com.jnjcomu.edison.callback.CloudEventListener;
 import com.jnjcomu.edison.storage.Configuration;
 import com.loplat.placeengine.PlengiResponse;
 
+import org.androidannotations.annotations.EActivity;
+
+@EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements CloudEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         EdisonApplication.getInstance().setEventListener(this);
 
         // get edison configuration file
