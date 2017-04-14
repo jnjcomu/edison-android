@@ -1,5 +1,8 @@
 package com.jnjcomu.edison.cloud;
 
+import android.content.Intent;
+
+import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.callback.CloudEventListener;
 import com.loplat.placeengine.PlengiListener;
 import com.loplat.placeengine.PlengiResponse;
@@ -15,7 +18,7 @@ public class LoplatCloudListener implements PlengiListener {
     @Override
     public void listen(PlengiResponse plengiResponse) {
         if (cloudEventListener == null) return; // Null check for cloudEventListener
-        
+
         switch (plengiResponse.type) {
             case PlengiResponse.ResponseType.PLACE:
                 cloudEventListener.onPlaceDefault(plengiResponse);
@@ -29,9 +32,24 @@ public class LoplatCloudListener implements PlengiListener {
                 }
                 break;
         }
+
+        sendBroadcast(plengiResponse);
     }
 
     public void setListener(CloudEventListener cloudEventListener) {
         this.cloudEventListener = cloudEventListener;
+    }
+
+    private void sendBroadcast(PlengiResponse response) {
+        Intent broadcastInfo = new Intent();
+
+        broadcastInfo.putExtra("place.name", response.place.name);
+        broadcastInfo.putExtra("place.floor", response.place.floor);
+        broadcastInfo.putExtra("response.result", response.result);
+        broadcastInfo.putExtra("response.enterType", response.enterType);
+        broadcastInfo.putExtra("response.type", response.type);
+        broadcastInfo.putExtra("response.placeEvent", response.placeEvent);
+
+        EdisonApplication.getInstance().sendBroadcast(broadcastInfo);
     }
 }

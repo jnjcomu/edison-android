@@ -10,18 +10,34 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="201dp">
+            android:layout_height="224dp">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="56dp" />
 
-            <ImageView
-                android:layout_width="96dp"
-                android:layout_height="96dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/logo_white"/>
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:src="@drawable/logo_white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="TESTING"
+                    android:textSize="16sp"
+                    android:textColor="#fff" />
+            </LinearLayout>
         </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -31,18 +47,18 @@
         android:background="@color/color700">
 
         <TextView
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_margin="16dp"
-            android:textColor="#fff"
-            android:text="Scanning"/>
+            android:text="Scanning"
+            android:textColor="#fff" />
 
         <Switch
             android:id="@+id/swt_scanning"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingRight="16dp"/>
+            android:paddingRight="16dp" />
     </RelativeLayout>
 
     <ListView

@@ -9,10 +9,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Login {
 
-    @SerializedName("user_type") String usertype;
+    @SerializedName("user_type")
+    String usertype;
 
     String getUsertype() {
         return usertype;
     }
-
 }

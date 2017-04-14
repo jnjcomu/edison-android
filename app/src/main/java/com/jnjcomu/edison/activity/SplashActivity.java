@@ -14,14 +14,33 @@ import com.jnjcomu.edison.R;
 public class SplashActivity extends AppCompatActivity {
     private ImageView imgLogo;
 
+    private Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
         imgLogo = (ImageView) findViewById(R.id.img_logo);
+        handler = new Handler();
 
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                imgLogo.startAnimation(getReadyAnimation());
+            }
+        }, 2000);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_simple_in, R.anim.activity_simple_out);
+    }
+
+    private Animation getReadyAnimation() {
         final Animation ani = AnimationUtils.loadAnimation(this, R.anim.dynamic_logo);
+
         ani.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -40,17 +59,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-        (new Handler()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                imgLogo.startAnimation(ani);
-            }
-        }, 2000);
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.activity_simple_in, R.anim.activity_simple_out);
+        return ani;
     }
 }
