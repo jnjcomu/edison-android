@@ -22,14 +22,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         imgLogo = (ImageView) findViewById(R.id.img_logo);
-        handler = new Handler();
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                imgLogo.startAnimation(getReadyAnimation());
-            }
-        }, 2000);
+        handler = new Handler();
+        handler.postDelayed(() -> imgLogo.startAnimation(getReadyAnimation()), 2000);
     }
 
     @Override
