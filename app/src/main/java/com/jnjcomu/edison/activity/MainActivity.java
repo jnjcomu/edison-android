@@ -2,32 +2,38 @@ package com.jnjcomu.edison.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
 import com.jnjcomu.edison.callback.CloudEventListener;
-import com.jnjcomu.edison.storage.Configuration;
 import com.loplat.placeengine.PlengiResponse;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements CloudEventListener {
+
+    @ViewById(R.id.toolbar)
+    protected Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdisonApplication.getInstance().setEventListener(this);
-
-        // get edison configuration file
-        Configuration conf = new Configuration(this);
-        String clientKey = conf.getClientKey();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EdisonApplication.getInstance().setEventListener(null);
+    }
+
+    @AfterViews
+    protected void initToolbar() {
+        setSupportActionBar(toolbar);
     }
 
     @Override
