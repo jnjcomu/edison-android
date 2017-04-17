@@ -16,7 +16,7 @@ import java.io.InputStream;
 public class Configuration {
     private static final String TAG = "Configuration";
     private static final String ENCODING = "UTF-8";
-    private static final String CONFIGURATION_JSON_NAME = "edison.json";
+    private static final String CONFIGURATION_JSON_NAME = "Edison.json";
 
     private JSONObject json;
     private Context context;
