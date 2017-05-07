@@ -2,6 +2,8 @@ package com.jnjcomu.edison.api;
 
 import android.support.annotation.NonNull;
 
+import com.jnjcomu.edison.util.Schema;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -17,7 +19,7 @@ public class APIBuilder {
         EdisonAPI api;
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://")
+                .baseUrl(Schema.SERVER_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

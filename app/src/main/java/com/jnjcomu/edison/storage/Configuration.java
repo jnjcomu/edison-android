@@ -9,23 +9,23 @@ import org.json.JSONObject;
 import java.io.InputStream;
 
 /**
+ * Configuration Class
+ *
+ * 키스토어에 의해 암호화된 키를 해독하는 클레스.
+ *
+ *
  * @author CodeRi13 <ruto1924@gmail.com>
  * @since 2017-04-13
  */
-
 public class Configuration {
     private static final String TAG = "Configuration";
     private static final String ENCODING = "UTF-8";
     private static final String CONFIGURATION_JSON_NAME = "Edison.json";
 
     private JSONObject json;
-    private Context context;
-
     private String clientKey;
 
     public Configuration(Context context) {
-        this.context = context;
-
         InputStream inputStream = null;
         Encrypter encrypt = new Encrypter(context);
 

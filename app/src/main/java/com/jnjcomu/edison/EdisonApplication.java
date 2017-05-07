@@ -29,7 +29,8 @@ public class EdisonApplication extends Application {
         plengi.setListener(cloudlistener);
 
         // TODO : Please change the "12345" be named user unique code to unique.
-        plengi.init(conf.getClientKey(), conf.getClientKey(), "12345");
+        // NOTE : Please register when login into edison server
+        // plengi.init(conf.getClientKey(), conf.getClientKey(), "12345");
 
         instance = this;
     }
