@@ -9,9 +9,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
     @SerializedName("name") private String name;
-    @SerializedName("grade") private String grade;
-    @SerializedName("class") private String clazz;
-    @SerializedName("number") private String number;
+    @SerializedName("grade") private Integer grade;
+    @SerializedName("class") private Integer clazz;
+    @SerializedName("number") private Integer number;
     @SerializedName("auth_key") private String authKey;
 
     public String getName() {
@@ -22,27 +22,27 @@ public class User {
         this.name = name;
     }
 
-    public String getGrade() {
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(Integer grade) {
         this.grade = grade;
     }
 
-    public String getClazz() {
+    public Integer getClazz() {
         return clazz;
     }
 
-    public void setClazz(String clazz) {
+    public void setClazz(Integer clazz) {
         this.clazz = clazz;
     }
 
-    public String getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 
