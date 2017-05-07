@@ -1,8 +1,10 @@
 package com.jnjcomu.edison.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
@@ -19,21 +21,20 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdisonApplication.getInstance().setEventListener(this);
-    }
+    @ViewById
+    protected TextView txtPlace;
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EdisonApplication.getInstance().setEventListener(null);
+        EdisonApplication.getInstance().destroyEventListener();
     }
 
     @AfterViews
-    protected void initToolbar() {
+    protected void activitySetting() {
         setSupportActionBar(toolbar);
+        EdisonApplication.getInstance().setEventListener(this);
     }
 
     @Override
@@ -48,6 +49,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     @Override
     public void onPlaceIn(PlengiResponse response) {
-
+        txtPlace.setText(response.place.name);
     }
 }

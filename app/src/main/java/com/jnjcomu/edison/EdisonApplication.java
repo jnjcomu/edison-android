@@ -45,6 +45,10 @@ public class EdisonApplication extends Application {
         }
     }
 
+    public void destroyEventListener() {
+        cloudlistener = null;
+    }
+
     public static EdisonApplication getInstance() {
         return instance;
     }
