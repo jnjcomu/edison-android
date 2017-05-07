@@ -1,7 +1,5 @@
 package com.jnjcomu.edison.activity;
 
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -37,16 +35,34 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         EdisonApplication.getInstance().setEventListener(this);
     }
 
+    /**
+     * EventListener
+     *
+     * @param response PlengiResponse
+     * @see CloudEventListener
+     */
     @Override
     public void onPlaceDefault(PlengiResponse response) {
 
     }
 
+    /**
+     * EventListener
+     *
+     * @param response PlengiResponse
+     * @see CloudEventListener
+     */
     @Override
     public void onPlaceNear(PlengiResponse response) {
 
     }
 
+    /**
+     * EventListener
+     *
+     * @param response PlengiResponse
+     * @see CloudEventListener
+     */
     @Override
     public void onPlaceIn(PlengiResponse response) {
         txtPlace.setText(response.place.name);
