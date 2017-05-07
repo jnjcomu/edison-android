@@ -1,4 +1,4 @@
-package com.jnjcomu.edison.storage;
+package com.jnjcomu.edison.encrypt;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
