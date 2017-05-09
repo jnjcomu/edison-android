@@ -12,10 +12,15 @@ import com.jnjcomu.edison.model.User;
 
 public class UserStorage {
     private static UserStorage instance;
-    public static final String TAG = "UserStorage";
 
     private static final String STORAGE_NAME = "user_storage";
     private static final int SHARED_PREFERENCE_MODE = Context.MODE_PRIVATE;
+
+    private static final String USER_NAME_PREF = "user_name";
+    private static final String USER_GRADE_PREF = "user_grade";
+    private static final String USER_CLASS_PREF = "user_class";
+    private static final String USER_NUMBER_PREF = "user_number";
+    private static final String USER_TICKET_PREF = "user_ticket";
 
     private SharedPreferences mPref;
     private SharedPreferences.Editor mEditor;
@@ -24,7 +29,7 @@ public class UserStorage {
     private Integer userGrade;
     private Integer userClazz;
     private Integer userNumber;
-    private String userAuthKey;
+    private String userTicket;
 
     public static UserStorage getInstance(Context context) {
         if(instance == null) instance = new UserStorage(context);
@@ -36,13 +41,11 @@ public class UserStorage {
         mPref = context.getSharedPreferences(STORAGE_NAME, SHARED_PREFERENCE_MODE);
         mEditor = mPref.edit();
 
-        userName = mPref.getString("name", "");
-        userGrade = mPref.getInt("grade", 0);
-        userClazz = mPref.getInt("class", 0);
-        userNumber = mPref.getInt("number", 0);
-
-        // TODO : Pleasssssse encrypt auth key when save!
-        userAuthKey = mPref.getString("authKey", "");
+        userName = mPref.getString(USER_NAME_PREF, "");
+        userGrade = mPref.getInt(USER_GRADE_PREF, 0);
+        userClazz = mPref.getInt(USER_CLASS_PREF, 0);
+        userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
+        userTicket = mPref.getString(USER_TICKET_PREF, "");
     }
 
     public String getUserName() {
@@ -61,8 +64,54 @@ public class UserStorage {
         return userNumber;
     }
 
-    public String getUserAuthKey() {
-        return userAuthKey;
+    public String getUserTicket() {
+        return userTicket;
+    }
+
+    public void saveUserName(String userName) {
+        this.userName = userName;
+
+        mEditor.putString(USER_NAME_PREF, userName);
+        mEditor.commit();
+    }
+
+    public void saveUserGrade(Integer userGrade) {
+        this.userGrade = userGrade;
+
+        mEditor.putInt(USER_GRADE_PREF, userGrade);
+        mEditor.commit();
+    }
+
+    public void saveUserClazz(Integer userClazz) {
+        this.userClazz = userClazz;
+
+        mEditor.putInt(USER_CLASS_PREF, userClazz);
+        mEditor.commit();
+    }
+
+    public void saveUserNumber(Integer userNumber) {
+        this.userNumber = userNumber;
+
+        mEditor.putInt(USER_NUMBER_PREF, userNumber);
+        mEditor.commit();
+    }
+
+    public void saveUserTicket(String userTicket) {
+        this.userTicket = userTicket;
+
+        mEditor.putString(USER_TICKET_PREF, userTicket);
+        mEditor.commit();
+    }
+
+    /**
+     * NOTE : Please! this method need some time.
+     */
+    public void syncUserData() {
+        this.userName = mPref.getString(USER_NAME_PREF, "");
+        this.userGrade = mPref.getInt(USER_GRADE_PREF, 0);
+        this.userClazz = mPref.getInt(USER_CLASS_PREF, 0);
+        this.userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
+        this.userTicket = mPref.getString(USER_TICKET_PREF, "");
     }
 
     public User toUser() {
@@ -72,7 +121,7 @@ public class UserStorage {
         user.setClazz(userClazz);
         user.setGrade(userGrade);
         user.setNumber(userNumber);
-        user.setAuthKey(userAuthKey);
+        user.setAuthKey(userTicket);
 
         return user;
     }
