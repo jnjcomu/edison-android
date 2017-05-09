@@ -17,11 +17,23 @@ public class LoginResponse {
         return reponseCode;
     }
 
+    public void setReponseCode(Integer reponseCode) {
+        this.reponseCode = reponseCode;
+    }
+
     public String getMessage() {
         return message;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public User getUserData() {
         return userData;
+    }
+
+    public void setUserData(User userData) {
+        this.userData = userData;
     }
 }
