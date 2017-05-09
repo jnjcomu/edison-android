@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @ViewById
     protected TextView txtPlace;
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
