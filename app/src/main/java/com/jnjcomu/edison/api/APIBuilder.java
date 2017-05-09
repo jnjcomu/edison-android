@@ -2,8 +2,6 @@ package com.jnjcomu.edison.api;
 
 import android.support.annotation.NonNull;
 
-import com.jnjcomu.edison.util.Schema;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,18 +11,19 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class APIBuilder {
+    private static final String SERVER_ENDPOINT_PROTOCOL = "http";
+    private static final String SERVER_ENDPOINT_PORT = "80";
+    private static final String SERVER_ENDPOINT_URL = "dev.jnj.club";
+    private static final String SERVER_ENDPOINT =
+            SERVER_ENDPOINT_PROTOCOL + "://" + SERVER_ENDPOINT_URL + ":" + SERVER_ENDPOINT_PORT;
 
     @NonNull
     public static EdisonAPI getAPI() {
-        EdisonAPI api;
-
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Schema.SERVER_ENDPOINT)
+                .baseUrl(SERVER_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        api = retrofit.create(EdisonAPI.class);
-
-        return api;
+        return retrofit.create(EdisonAPI.class);
     }
 }
