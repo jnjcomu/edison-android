@@ -19,20 +19,21 @@ public class LoplatCloudListener implements PlengiListener {
     @Override
     public void listen(PlengiResponse plengiResponse) {
         if (cloudEventListener == null) return; // Null check for cloudEventListener
-
-        switch (plengiResponse.type) {
-            case PlengiResponse.ResponseType.PLACE:
-                cloudEventListener.onPlaceDefault(plengiResponse);
-                break;
-            case PlengiResponse.ResponseType.PLACE_EVENT:
-                if (plengiResponse.placeEvent == PlengiResponse.PlaceEvent.ENTER) {
-                    if (plengiResponse.enterType == PlengiResponse.EnterType.ENTER)
-                        cloudEventListener.onPlaceIn(plengiResponse);
-                    else if (plengiResponse.enterType == PlengiResponse.EnterType.NEARBY)
-                        cloudEventListener.onPlaceNear(plengiResponse);
-                }
-                break;
-        }
+        try {
+            switch (plengiResponse.type) {
+                case PlengiResponse.ResponseType.PLACE:
+                    cloudEventListener.onPlaceDefault(plengiResponse);
+                    break;
+                case PlengiResponse.ResponseType.PLACE_EVENT:
+                    if (plengiResponse.placeEvent == PlengiResponse.PlaceEvent.ENTER) {
+                        if (plengiResponse.enterType == PlengiResponse.EnterType.ENTER)
+                            cloudEventListener.onPlaceIn(plengiResponse);
+                        else if (plengiResponse.enterType == PlengiResponse.EnterType.NEARBY)
+                            cloudEventListener.onPlaceNear(plengiResponse);
+                    }
+                    break;
+            }
+        } catch (Exception ignored) {}
 
         sendBroadcast(plengiResponse);
     }
