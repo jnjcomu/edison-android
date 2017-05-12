@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         } else {
             EdisonApplication.getInstance().destroyEventListener();
             anim.cancelAnim(logo);
-            anim.startAnim(this, logo, R.anim.logo_scale, li);
         }
     }
 
