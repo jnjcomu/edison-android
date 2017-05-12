@@ -46,6 +46,7 @@ public class Configuration {
 
             // get decrypted key
             String clientKeyEncrypted = json.getString("client_key");
+
             clientKey = encrypt.decrypt(clientKeyEncrypted);
         } catch (Exception ignored) {
             Log.d(TAG, "Cant read json from assets");

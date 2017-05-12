@@ -5,15 +5,12 @@ import com.jnjcomu.edison.model.Ticket;
 
 /**
  * @author CodeRi13 <ruto1924@gmail.com>
- * @since 2017-05-09
+ * @since 2017-05-11
  */
 
-public class CheckTicketResponse {
+public class FetchTicketResponse {
     @SerializedName("response_code")
     private int responseCode;
-
-    @SerializedName("does_need_new_ticket")
-    private boolean doesNeedNewTicket;
 
     @SerializedName("ticket")
     private Ticket ticket;
@@ -24,14 +21,6 @@ public class CheckTicketResponse {
 
     public void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
-    }
-
-    public boolean isDoesNeedNewTicket() {
-        return doesNeedNewTicket;
-    }
-
-    public void setDoesNeedNewTicket(boolean doesNeedNewTicket) {
-        this.doesNeedNewTicket = doesNeedNewTicket;
     }
 
     public Ticket getTicket() {

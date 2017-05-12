@@ -9,15 +9,20 @@ import com.jnjcomu.edison.model.User;
  */
 
 public class LoginResponse {
-    @SerializedName("response_code") private Integer reponseCode;
-    @SerializedName("message") private String message;
-    @SerializedName("user_data") private User userData;
+    @SerializedName("response_code")
+    private int reponseCode;
 
-    public Integer getReponseCode() {
+    @SerializedName("message")
+    private String message;
+
+    @SerializedName("user_data")
+    private User userData;
+
+    public int getReponseCode() {
         return reponseCode;
     }
 
-    public void setReponseCode(Integer reponseCode) {
+    public void setReponseCode(int reponseCode) {
         this.reponseCode = reponseCode;
     }
 

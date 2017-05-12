@@ -68,39 +68,49 @@ public class UserStorage {
         return userTicket;
     }
 
-    public void saveUserName(String userName) {
+    public UserStorage saveUserName(String userName) {
         this.userName = userName;
 
         mEditor.putString(USER_NAME_PREF, userName);
         mEditor.commit();
+
+        return this;
     }
 
-    public void saveUserGrade(Integer userGrade) {
+    public UserStorage saveUserGrade(Integer userGrade) {
         this.userGrade = userGrade;
 
         mEditor.putInt(USER_GRADE_PREF, userGrade);
         mEditor.commit();
+
+        return this;
     }
 
-    public void saveUserClazz(Integer userClazz) {
+    public UserStorage saveUserClazz(Integer userClazz) {
         this.userClazz = userClazz;
 
         mEditor.putInt(USER_CLASS_PREF, userClazz);
         mEditor.commit();
+
+        return this;
     }
 
-    public void saveUserNumber(Integer userNumber) {
+    public UserStorage saveUserNumber(Integer userNumber) {
         this.userNumber = userNumber;
 
         mEditor.putInt(USER_NUMBER_PREF, userNumber);
         mEditor.commit();
+
+        return this;
     }
 
-    public void saveUserTicket(String userTicket) {
+    public UserStorage saveUserTicket(String userTicket) {
         this.userTicket = userTicket;
 
         mEditor.putString(USER_TICKET_PREF, userTicket);
         mEditor.commit();
+
+        return this;
     }
 
     /**
