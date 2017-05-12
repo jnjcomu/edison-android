@@ -10,7 +10,7 @@ import com.jnjcomu.edison.model.User;
 
 public class LoginResponse {
     @SerializedName("response_code")
-    private int reponseCode;
+    private int responseCode;
 
     @SerializedName("message")
     private String message;
@@ -18,12 +18,12 @@ public class LoginResponse {
     @SerializedName("user_data")
     private User userData;
 
-    public int getReponseCode() {
-        return reponseCode;
+    public int getResponseCode() {
+        return responseCode;
     }
 
-    public void setReponseCode(int reponseCode) {
-        this.reponseCode = reponseCode;
+    public void setResponseCode(int reponseCode) {
+        this.responseCode = reponseCode;
     }
 
     public String getMessage() {
