@@ -21,7 +21,7 @@ import org.androidannotations.annotations.ViewById;
 public class MainActivity extends AppCompatActivity implements CloudEventListener {
 
     Anim anim = new Anim();
-    LogoInterpolator li = new LogoInterpolator(0.15, 18);
+    LogoInterpolator li = new LogoInterpolator(0.2, 20);
 
     @ViewById(R.id.toolbar)
     protected Toolbar toolbar;
