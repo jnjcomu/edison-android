@@ -9,7 +9,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Region {
     @SerializedName("region") int regionID;
-    @SerializedName("name") int placeName;
+    @SerializedName("name") String placeName;
+
+    public Region(int regionID, String placeName) {
+        this.regionID = regionID;
+        this.placeName = placeName;
+    }
 
     public int getRegionID() {
         return regionID;
@@ -19,11 +24,11 @@ public class Region {
         this.regionID = regionID;
     }
 
-    public int getPlaceName() {
+    public String getPlaceName() {
         return placeName;
     }
 
-    public void setPlaceName(int placeName) {
+    public void setPlaceName(String placeName) {
         this.placeName = placeName;
     }
 }

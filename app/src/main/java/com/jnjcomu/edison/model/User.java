@@ -14,14 +14,11 @@ public class User {
     @SerializedName("grade")
     private int grade;
 
-    @SerializedName("class")
+    @SerializedName("clazz")
     private int clazz;
 
     @SerializedName("number")
     private int number;
-
-    @SerializedName("auth_key")
-    private String authKey;
 
     public String getName() {
         return name;
@@ -31,35 +28,27 @@ public class User {
         this.name = name;
     }
 
-    public Integer getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(Integer grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 
-    public Integer getClazz() {
+    public int getClazz() {
         return clazz;
     }
 
-    public void setClazz(Integer clazz) {
+    public void setClazz(int clazz) {
         this.clazz = clazz;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(int number) {
         this.number = number;
-    }
-
-    public String getAuthKey() {
-        return authKey;
-    }
-
-    public void setAuthKey(String authKey) {
-        this.authKey = authKey;
     }
 }

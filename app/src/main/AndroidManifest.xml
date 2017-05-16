@@ -22,16 +22,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/EdisonTheme">
-
         <activity
             android:name=".activity.MainActivity_"
             android:label="@string/app_name" />
-
         <activity
             android:name=".activity.SplashActivity_"
             android:theme="@style/EdisonTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -47,7 +46,6 @@
                 <action android:name="com.loplat.placeengine.event.scanwifi" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".broadcast.PlengiEventBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.jnjcomu.edison.cloud.response" />
@@ -55,5 +53,8 @@
         </receiver>
 
         <service android:name="com.loplat.placeengine.location.LocationMonitorService" />
+
+        <activity android:name=".LoginActivity"></activity>
     </application>
+
 </manifest>

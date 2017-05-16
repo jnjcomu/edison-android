@@ -6,6 +6,7 @@ import android.content.pm.Signature;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+import android.util.Log;
 
 import java.security.MessageDigest;
 
@@ -16,7 +17,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * @author kimwoojae <wj1187@naver.com>
+ * @author coderi13 <ruto1924@gmail.com>
  * @since 2017-04-05
+ *
+ * TODO 코드 완벽하게 이해하기
  */
 
 public class Encrypter {
@@ -36,7 +40,7 @@ public class Encrypter {
      * @return
      */
     @Nullable
-    private SecretKey fetchSignature() {
+    public SecretKey fetchSignature() {
         SecretKey secretKey = null;
 
         try {

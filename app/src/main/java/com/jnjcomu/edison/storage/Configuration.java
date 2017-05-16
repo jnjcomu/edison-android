@@ -25,7 +25,7 @@ public class Configuration {
     private static final String CONFIGURATION_JSON_NAME = "Edison.json";
 
     private JSONObject json;
-    private String clientKey;
+    private String loplatId, loplatPw, hostUrl;
 
     public Configuration(Context context) {
         InputStream inputStream = null;
@@ -45,9 +45,15 @@ public class Configuration {
             json = new JSONObject(readString);
 
             // get decrypted key
-            String clientKeyEncrypted = json.getString("client_key");
+            JSONObject loplatJson = json.getJSONObject("loplat");
 
-            clientKey = encrypt.decrypt(clientKeyEncrypted);
+            String encryptHostUrl = json.getString("host_url");
+            String encryptLoplatId = loplatJson.getString("id");
+            String encryptLoplatPw = loplatJson.getString("pw");
+
+            hostUrl = encrypt.decrypt(encryptHostUrl);
+            loplatId = encrypt.decrypt(encryptLoplatId);
+            loplatPw = encrypt.decrypt(encryptLoplatPw);
         } catch (Exception ignored) {
             Log.d(TAG, "Cant read json from assets");
         } finally {
@@ -60,7 +66,17 @@ public class Configuration {
     }
 
     @NonNull
-    public String getClientKey() {
-        return clientKey;
+    public String getLoplatId() {
+        return loplatId;
+    }
+
+    @NonNull
+    public String getLoplatPw() {
+        return loplatPw;
+    }
+
+    @NonNull
+    public String getHostUrl() {
+        return hostUrl;
     }
 }

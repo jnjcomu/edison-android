@@ -24,8 +24,6 @@ public class EdisonApplication extends Application {
 
         // NOTE : Please register when login into edison server
         /*
-        Configuration conf = new Configuration(this);
-
         cloudlistener = new LoplatCloudListener();
         plengi = Plengi.getInstance(this);
         plengi.setListener(cloudlistener);

@@ -9,6 +9,7 @@ import com.jnjcomu.edison.model.response.NoticeRegionResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -22,10 +23,10 @@ import retrofit2.http.PUT;
 
 public interface EdisonAPI {
     @POST("/login")
-    Call<LoginResponse> login();
+    Call<LoginResponse> login(@Field("id") String id, @Field("pw") String pw);
 
     @POST("/ticket/new")
-    Call<FetchTicketResponse> fetchTicket();
+    Call<FetchTicketResponse> fetchTicket(@Header("ticket") Ticket ticket);
 
     @GET("/ticket/test")
     Call<CheckTicketResponse> checkTicket(@Header("ticket") Ticket ticket);

@@ -3,6 +3,7 @@ package com.jnjcomu.edison.storage;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.jnjcomu.edison.model.Ticket;
 import com.jnjcomu.edison.model.User;
 
 /**
@@ -20,7 +21,8 @@ public class UserStorage {
     private static final String USER_GRADE_PREF = "user_grade";
     private static final String USER_CLASS_PREF = "user_class";
     private static final String USER_NUMBER_PREF = "user_number";
-    private static final String USER_TICKET_PREF = "user_ticket";
+    private static final String USER_TICKET_LT_PREF = "user_ticket_lt";
+    private static final String USER_TICKET_CD_PREF = "user_ticket_cd";
 
     private SharedPreferences mPref;
     private SharedPreferences.Editor mEditor;
@@ -29,7 +31,7 @@ public class UserStorage {
     private Integer userGrade;
     private Integer userClazz;
     private Integer userNumber;
-    private String userTicket;
+    private Ticket userTicket;
 
     public static UserStorage getInstance(Context context) {
         if(instance == null) instance = new UserStorage(context);
@@ -45,7 +47,12 @@ public class UserStorage {
         userGrade = mPref.getInt(USER_GRADE_PREF, 0);
         userClazz = mPref.getInt(USER_CLASS_PREF, 0);
         userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
-        userTicket = mPref.getString(USER_TICKET_PREF, "");
+
+        Ticket ticket = new Ticket();
+        ticket.setLimitDate(mPref.getString(USER_TICKET_LT_PREF, ""));
+        ticket.setTicketCode(mPref.getString(USER_TICKET_CD_PREF, ""));
+
+        userTicket = ticket;
     }
 
     public String getUserName() {
@@ -64,7 +71,7 @@ public class UserStorage {
         return userNumber;
     }
 
-    public String getUserTicket() {
+    public Ticket getUserTicket() {
         return userTicket;
     }
 
@@ -104,10 +111,11 @@ public class UserStorage {
         return this;
     }
 
-    public UserStorage saveUserTicket(String userTicket) {
+    public UserStorage saveUserTicket(Ticket userTicket) {
         this.userTicket = userTicket;
 
-        mEditor.putString(USER_TICKET_PREF, userTicket);
+        mEditor.putString(USER_TICKET_LT_PREF, userTicket.getLimitDate());
+        mEditor.putString(USER_TICKET_CD_PREF, userTicket.getTicketCode());
         mEditor.commit();
 
         return this;
@@ -121,7 +129,8 @@ public class UserStorage {
         this.userGrade = mPref.getInt(USER_GRADE_PREF, 0);
         this.userClazz = mPref.getInt(USER_CLASS_PREF, 0);
         this.userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
-        this.userTicket = mPref.getString(USER_TICKET_PREF, "");
+        this.userTicket.setLimitDate(mPref.getString(USER_TICKET_LT_PREF, ""));
+        this.userTicket.setTicketCode(mPref.getString(USER_TICKET_CD_PREF, ""));
     }
 
     public User toUser() {
@@ -131,7 +140,6 @@ public class UserStorage {
         user.setClazz(userClazz);
         user.setGrade(userGrade);
         user.setNumber(userNumber);
-        user.setAuthKey(userTicket);
 
         return user;
     }

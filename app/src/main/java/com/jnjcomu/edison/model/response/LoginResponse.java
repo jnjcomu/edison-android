@@ -1,6 +1,7 @@
 package com.jnjcomu.edison.model.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.jnjcomu.edison.model.Ticket;
 import com.jnjcomu.edison.model.User;
 
 /**
@@ -17,6 +18,9 @@ public class LoginResponse {
 
     @SerializedName("user_data")
     private User userData;
+
+    @SerializedName("ticket")
+    private Ticket ticket;
 
     public int getResponseCode() {
         return responseCode;
@@ -40,5 +44,13 @@ public class LoginResponse {
 
     public void setUserData(User userData) {
         this.userData = userData;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 }

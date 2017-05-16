@@ -45,6 +45,7 @@ public class LoplatCloudListener implements PlengiListener {
     private void sendBroadcast(PlengiResponse response) {
         Intent broadcastInfo = new Intent(PlengiEventBroadcastReceiver.RECEIVER_ID);
 
+        broadcastInfo.putExtra("place.id", response.place.loplatid);
         broadcastInfo.putExtra("place.name", response.place.name);
         broadcastInfo.putExtra("place.floor", response.place.floor);
 
