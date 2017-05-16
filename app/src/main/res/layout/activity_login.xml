@@ -11,10 +11,11 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="32dp"
-        android:alpha="0.7"
+        android:alpha="0.9"
         android:src="@drawable/logo_white" />
 
     <EditText
+        android:id="@+id/edt_id_field"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/colorBright"
@@ -30,6 +31,7 @@
         android:layout_height="1dp" />
 
     <EditText
+        android:id="@+id/edt_pw_field"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/colorBright"
@@ -41,6 +43,7 @@
         android:textSize="16sp" />
 
     <Button
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"

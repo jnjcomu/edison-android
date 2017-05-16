@@ -54,7 +54,7 @@
 
         <service android:name="com.loplat.placeengine.location.LocationMonitorService" />
 
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity_"></activity>
     </application>
 
 </manifest>
