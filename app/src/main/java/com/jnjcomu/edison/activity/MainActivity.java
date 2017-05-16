@@ -75,9 +75,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @Override
     public void onPlaceNear(PlengiResponse response) {
         String msg = "현재 " + response.place.name + " 주변 입니다.";
-        txtPlace.setText(msg);
-        anim.cancelAnim(logo);
-        anim.startAnim(this, logo, R.anim.logo_scale, li);
+        display(msg);
     }
 
     /**
@@ -89,6 +87,14 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @Override
     public void onPlaceIn(PlengiResponse response) {
         String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
+        display(msg);
+    }
+
+    /**
+     *
+     * @param msg String
+     */
+    private void display(String msg) {
         txtPlace.setText(msg);
         anim.cancelAnim(logo);
         anim.startAnim(this, logo, R.anim.logo_scale, li);
