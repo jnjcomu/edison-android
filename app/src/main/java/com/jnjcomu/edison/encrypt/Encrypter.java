@@ -33,7 +33,7 @@ public class Encrypter {
 
     /**
      *
-     * @return
+     * @return secretKey
      */
     @Nullable
     private SecretKey fetchSignature() {
@@ -57,22 +57,23 @@ public class Encrypter {
 
     /**
      *
-     * @param plainText
-     * @return
+     * @param plainText String
+     * @return encrypted
      */
     @NonNull
     public String encrypt(String plainText) {
         Cipher cipher;
         IvParameterSpec ivParameterSpec;
         byte[] encryptedData;
-
         String encrypted;
+        SecretKey secretKey;
 
         try {
             cipher = Cipher.getInstance(ENCRYPT_ALGORITHM);
+            secretKey = fetchSignature();
             ivParameterSpec = new IvParameterSpec(keyIV.getBytes());
 
-            cipher.init(Cipher.ENCRYPT_MODE, fetchSignature(), ivParameterSpec);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivParameterSpec);
 
             encryptedData = cipher.doFinal(plainText.getBytes(ENCODING));
             encrypted = Base64.encodeToString(encryptedData, Base64.DEFAULT);
@@ -85,22 +86,24 @@ public class Encrypter {
 
     /**
      *
-     * @param encrypted
-     * @return
+     * @param encrypted String
+     * @return decrypted
      */
     @NonNull
     public String decrypt(String encrypted) {
         Cipher cipher;
         IvParameterSpec ivParameterSpec;
         String decrypted;
+        SecretKey secretKey;
 
         try {
             byte[] data = Base64.decode(encrypted, Base64.DEFAULT);
 
             cipher = Cipher.getInstance(ENCRYPT_ALGORITHM);
+            secretKey = fetchSignature();
             ivParameterSpec = new IvParameterSpec(keyIV.getBytes());
 
-            cipher.init(Cipher.DECRYPT_MODE, fetchSignature(), ivParameterSpec);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
 
             decrypted = new String(cipher.doFinal(data), ENCODING);
         } catch (Exception ignored) {
