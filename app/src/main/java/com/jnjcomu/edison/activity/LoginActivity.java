@@ -5,9 +5,14 @@ import android.os.Bundle;
 
 import com.jnjcomu.edison.R;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
 
+    @Click()
+    protected void onLoginButtonClick() {
+
+    }
 }
