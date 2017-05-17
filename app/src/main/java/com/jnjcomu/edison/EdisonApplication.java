@@ -7,11 +7,14 @@ import com.jnjcomu.edison.cloud.LoplatCloudListener;
 import com.jnjcomu.edison.storage.Configuration;
 import com.loplat.placeengine.Plengi;
 
+import org.androidannotations.annotations.EApplication;
+
 /**
  * @author CodeRi13 <ruto1924@gmail.com>
  * @since 2017-04-12
  */
 
+@EApplication
 public class EdisonApplication extends Application {
     private static EdisonApplication instance;
 

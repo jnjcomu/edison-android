@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".EdisonApplication"
+        android:name=".EdisonApplication_"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
@@ -24,6 +24,7 @@
         android:theme="@style/EdisonTheme">
         <activity
             android:name=".activity.MainActivity_"
+            android:theme="@style/EdisonTheme.BlueBackground"
             android:label="@string/app_name" />
         <activity
             android:name=".activity.SplashActivity_"
