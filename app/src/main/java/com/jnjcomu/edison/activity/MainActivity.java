@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @CheckedChange
     protected void swtScanning(boolean isChecked) {
         if(isChecked) {
-            application.setEventListener(MainActivity.this);
+            application.getPlengi().start();
             anim.startAnim(this, logo, R.anim.logo_vibrate);
         } else {
-            application.destroyEventListener();
+            application.getPlengi().stop();
             anim.cancelAnim(logo);
         }
     }
