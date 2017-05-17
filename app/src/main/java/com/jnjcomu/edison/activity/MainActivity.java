@@ -3,10 +3,13 @@ package com.jnjcomu.edison.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
+import com.jnjcomu.edison.anim.Anim;
+import com.jnjcomu.edison.anim.LogoInterpolator;
 import com.jnjcomu.edison.callback.CloudEventListener;
 import com.loplat.placeengine.PlengiResponse;
 
@@ -20,6 +23,10 @@ import org.androidannotations.annotations.ViewById;
 public class MainActivity extends AppCompatActivity implements CloudEventListener {
 
     @ViewById
+    Anim anim = new Anim();
+    LogoInterpolator li = new LogoInterpolator(0.2, 20);
+
+    @ViewById
     protected Toolbar toolbar;
 
     @ViewById
@@ -27,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     @App
     EdisonApplication application;
+
+    @ViewById
+    protected ImageView logo;
 
     @Override
     protected void onDestroy() {
@@ -38,14 +48,17 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected void initActivity() {
         setSupportActionBar(toolbar);
         application.setEventListener(this);
+        anim.startAnim(this, logo, R.anim.logo_vibrate);
     }
 
     @CheckedChange
-    public void swtScanning(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-
+    protected void swtScanning(boolean isChecked) {
+        if(isChecked) {
+            application.setEventListener(MainActivity.this);
+            anim.startAnim(this, logo, R.anim.logo_vibrate);
         } else {
-
+            application.destroyEventListener();
+            anim.cancelAnim(logo);
         }
     }
 
@@ -68,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceNear(PlengiResponse response) {
-
+        String msg = "현재 " + response.place.name + " 주변 입니다.";
+        display(msg);
     }
 
     /**
@@ -79,6 +93,18 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceIn(PlengiResponse response) {
-        txtPlace.setText(response.place.name);
+        String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
+        display(msg);
     }
+
+    /**
+     *
+     * @param msg String
+     */
+    private void display(String msg) {
+        txtPlace.setText(msg);
+        anim.cancelAnim(logo);
+        anim.startAnim(this, logo, R.anim.logo_scale, li);
+    }
+
 }

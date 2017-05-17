@@ -1,4 +1,4 @@
-# Edison-Android
+# Edison Android Client
 > The awesome target tracking system
 
 ## List of used libraries:
