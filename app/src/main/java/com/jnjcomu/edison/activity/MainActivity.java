@@ -22,9 +22,8 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements CloudEventListener {
 
-    @ViewById
-    Anim anim = new Anim();
-    LogoInterpolator li = new LogoInterpolator(0.2, 20);
+    protected Anim anim = new Anim();
+    protected LogoInterpolator li = new LogoInterpolator(0.2, 20);
 
     @ViewById
     protected Toolbar toolbar;
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected TextView txtPlace;
 
     @App
-    EdisonApplication application;
+    protected EdisonApplication application;
 
     @ViewById
     protected ImageView logo;
