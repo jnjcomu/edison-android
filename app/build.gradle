@@ -34,11 +34,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
     compile files('libs/plengi.jar')
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile "com.android.support:appcompat-v7:$ASVersion"
+    compile "com.android.support:cardview-v7:$ASVersion"
     compile "com.android.support:design:$ASVersion"
     compile "com.android.support:support-annotations:$ASVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
