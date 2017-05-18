@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 3000);
+        mTimer.schedule(mTask, 30000);
     }
 
 }
