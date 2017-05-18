@@ -1,8 +1,5 @@
 package com.jnjcomu.edison.activity;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -50,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected void onDestroy() {
         super.onDestroy();
         application.destroyEventListener();
+        mTimer.cancel();
     }
 
     @AfterViews
