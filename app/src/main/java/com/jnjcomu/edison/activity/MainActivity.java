@@ -1,7 +1,6 @@
 package com.jnjcomu.edison.activity;
 
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
@@ -122,18 +121,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
             @Override
             public void run() {
                 //application.getPlengi().stop();
-                mHandler.post(() -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.AppCompatAlertDialogStyle);
-                    builder.setNegativeButton("취소", (dialog, which) ->  {
-                        finish();
-                    });
-                    builder.setPositiveButton("확인", (dialog, which) ->  {
-                        application.getPlengi().start();
-                    });
-                    builder.setTitle("시간초과");
-                    builder.setMessage("요청 시간이 초과되었습니다. 다시 스캔하시겠습니까?");
-                    builder.show();
-                });
+                mHandler.post(() -> display("요청시간이 초과되었습니다."));
             }
         };
 
