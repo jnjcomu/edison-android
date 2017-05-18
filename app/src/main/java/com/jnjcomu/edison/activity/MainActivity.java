@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         //application.getPlengi().start();
         txtPlace.setText("스캔중...");
         anim.startAnim(this, logo, R.anim.logo_vibrate);
+        timer();
     }
 
     /**
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 3000);
+        mTimer.schedule(mTask, 30000);
     }
 
 }
