@@ -1,4 +1,4 @@
-package com.jnjcomu.edison.anim;
+package com.jnjcomu.edison.ui;
 
 import android.content.Context;
 import android.view.animation.Animation;

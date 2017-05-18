@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:padding="16dp"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_margin="64dp"
-        android:layout_gravity="center"
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:alpha="0.9"
-        android:src="@drawable/logo_white" />
+    android:padding="16dp">
 
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="32dp" />
 
         <android.support.design.widget.TextInputLayout
             android:theme="@style/EditText"
@@ -31,7 +26,7 @@
             <EditText
                 android:id="@+id/edt_id_field"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 android:hint="Dimigoin ID"
                 android:inputType="text"
@@ -55,7 +50,7 @@
             <EditText
                 android:id="@+id/edt_pw_field"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:textColor="@color/colorWhite"
                 android:hint="Dimigoin Password"
                 android:inputType="textPassword"
@@ -66,13 +61,16 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
         <android.support.v7.widget.CardView
             android:clickable="true"
             android:focusable="true"
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="32dp"
             android:background="@color/colorWhite"
             android:foreground="?android:attr/selectableItemBackground">
 
@@ -88,4 +86,37 @@
 
     </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_above="@id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:alpha="0.9"
+            android:src="@drawable/logo_white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Edison"
+            android:textSize="24sp"
+            android:textColor="@color/colorWhite"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Copryright © 2017 JNJ Communications"
+        android:textColor="@color/colorWhite"/>
+
+</RelativeLayout>

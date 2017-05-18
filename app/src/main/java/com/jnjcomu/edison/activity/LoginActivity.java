@@ -85,4 +85,5 @@ public class LoginActivity extends AppCompatActivity implements Callback<LoginRe
     protected void sendResult(boolean finishLogin) {
         sendResult(finishLogin, "");
     }
+
 }

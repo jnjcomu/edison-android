@@ -2,14 +2,13 @@ package com.jnjcomu.edison.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
-import com.jnjcomu.edison.anim.Anim;
-import com.jnjcomu.edison.anim.LogoInterpolator;
+import com.jnjcomu.edison.ui.Anim;
+import com.jnjcomu.edison.ui.LogoInterpolator;
 import com.jnjcomu.edison.callback.CloudEventListener;
 import com.loplat.placeengine.PlengiResponse;
 
