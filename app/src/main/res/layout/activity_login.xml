@@ -27,12 +27,12 @@
                 android:id="@+id/edt_id_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
                 android:hint="Dimigoin ID"
-                android:inputType="text"
+                android:inputType="text|textNoSuggestions"
                 android:lines="1"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
+                android:textColor="@color/colorWhite"
                 android:textSize="21sp" />
 
         </android.support.design.widget.TextInputLayout>
@@ -51,12 +51,12 @@
                 android:id="@+id/edt_pw_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorWhite"
                 android:hint="Dimigoin Password"
                 android:inputType="textPassword"
                 android:lines="1"
                 android:maxLines="1"
                 android:paddingLeft="16dp"
+                android:textColor="@color/colorWhite"
                 android:textSize="21sp" />
 
         </android.support.design.widget.TextInputLayout>
@@ -87,10 +87,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_above="@id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_above="@+id/container"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/imageView"
