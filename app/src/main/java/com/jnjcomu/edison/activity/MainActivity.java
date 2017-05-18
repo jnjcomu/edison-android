@@ -2,7 +2,9 @@ package com.jnjcomu.edison.activity;
 
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.loplat.placeengine.PlengiResponse;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.CheckedChange;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     @ViewById
     protected ImageView logo;
+
+    @ViewById(R.id.btn_retry)
+    protected CardView retry;
 
     @Override
     protected void onDestroy() {
@@ -68,6 +74,14 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
             application.getPlengi().stop();
             anim.cancelAnim(logo);
         }
+    }
+
+    @Click
+    protected void btnRetry() {
+        retry.setVisibility(View.GONE);
+        //application.getPlengi().start();
+        txtPlace.setText("스캔중...");
+        anim.startAnim(this, logo, R.anim.logo_vibrate);
     }
 
     /**
@@ -121,12 +135,15 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
             @Override
             public void run() {
                 //application.getPlengi().stop();
-                mHandler.post(() -> display("요청시간이 초과되었습니다."));
+                mHandler.post(() -> {
+                    display("요청시간이 초과되었습니다.");
+                    retry.setVisibility(View.VISIBLE);
+                });
             }
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 30000);
+        mTimer.schedule(mTask, 3000);
     }
 
 }

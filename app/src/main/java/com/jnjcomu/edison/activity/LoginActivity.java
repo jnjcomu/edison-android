@@ -43,7 +43,9 @@ public class LoginActivity extends AppCompatActivity implements Callback<LoginRe
         String userId = edtIdField.getText().toString();
         String userPassword = edtPwField.getText().toString();
 
-        APIBuilder.getAPI().login(userId, userPassword).enqueue(this);
+        //APIBuilder.getAPI().login(userId, userPassword).enqueue(this);
+        startActivity(new Intent(this, MainActivity_.class));
+        finish();
     }
 
     @Override
