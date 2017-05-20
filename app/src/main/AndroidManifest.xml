@@ -40,6 +40,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".activity.LoginActivity_"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+
         <receiver
             android:name="com.loplat.placeengine.EventReceiver"
             android:enabled="true"
@@ -51,7 +54,8 @@
                 <action android:name="com.loplat.placeengine.event.scanwifi" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".broadcast.PlengiEventBroadcastReceiver">
+        <receiver
+            android:name=".broadcast.PlengiEventBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.jnjcomu.edison.cloud.response" />
             </intent-filter>
@@ -59,10 +63,6 @@
 
         <service android:name="com.loplat.placeengine.location.LocationMonitorService" />
 
-        <activity android:name=".activity.LoginActivity_"
-            android:windowSoftInputMode="adjustResize|stateHidden">
-
-        </activity>
     </application>
 
 </manifest>
