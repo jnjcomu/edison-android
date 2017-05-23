@@ -1,6 +1,7 @@
 package com.jnjcomu.edison.activity;
 
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -58,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @AfterViews
     protected void initActivity() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null)
+            actionBar.setTitle(null);
         application.setEventListener(this);
         //application.getPlengi().start();
         timer();
