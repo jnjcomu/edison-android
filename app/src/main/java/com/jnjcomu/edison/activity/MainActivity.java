@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     protected Anim anim = new Anim();
     protected LogoInterpolator li = new LogoInterpolator(0.2, 20);
-    TimerTask mTask;
-    Timer mTimer;
+    protected TimerTask mTask;
+    protected Timer mTimer;
 
     @ViewById
     protected Toolbar toolbar;

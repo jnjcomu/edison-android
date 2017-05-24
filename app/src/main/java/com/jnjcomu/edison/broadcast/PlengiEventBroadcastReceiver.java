@@ -7,7 +7,6 @@ import android.content.Intent;
 import com.jnjcomu.edison.api.APIBuilder;
 import com.jnjcomu.edison.model.Region;
 import com.jnjcomu.edison.model.Ticket;
-import com.jnjcomu.edison.model.response.NoticeRegionResponse;
 import com.jnjcomu.edison.storage.UserStorage;
 
 import retrofit2.Call;
@@ -33,18 +32,18 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
                         Integer.parseInt(intent.getStringExtra("place.id")),
                         intent.getStringExtra("place.name")
                 )
-        ).enqueue(new Callback<NoticeRegionResponse>() {
+        ).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<NoticeRegionResponse> call,
-                                   Response<NoticeRegionResponse> response) {}
+            public void onResponse(Call<Void> call,
+                                   Response<Void> response) {}
 
             @Override
-            public void onFailure(Call<NoticeRegionResponse> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 try {
                     Ticket newTicket = APIBuilder.getAPI()
                             .fetchTicket(userStorage.getUserTicket())
                             .execute()
-                            .body().getTicket();
+                            .body();
 
                     UserStorage.getInstance(context).saveUserTicket(newTicket);
 

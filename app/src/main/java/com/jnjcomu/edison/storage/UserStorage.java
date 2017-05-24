@@ -21,7 +21,6 @@ public class UserStorage {
     private static final String USER_GRADE_PREF = "user_grade";
     private static final String USER_CLASS_PREF = "user_class";
     private static final String USER_NUMBER_PREF = "user_number";
-    private static final String USER_TICKET_LT_PREF = "user_ticket_lt";
     private static final String USER_TICKET_CD_PREF = "user_ticket_cd";
 
     private SharedPreferences mPref;
@@ -49,7 +48,6 @@ public class UserStorage {
         userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
 
         Ticket ticket = new Ticket();
-        ticket.setLimitDate(mPref.getString(USER_TICKET_LT_PREF, ""));
         ticket.setTicketCode(mPref.getString(USER_TICKET_CD_PREF, ""));
 
         userTicket = ticket;
@@ -123,7 +121,7 @@ public class UserStorage {
     public UserStorage saveUserTicket(Ticket userTicket) {
         this.userTicket = userTicket;
 
-        mEditor.putString(USER_TICKET_LT_PREF, userTicket.getLimitDate())
+        mEditor
                 .putString(USER_TICKET_CD_PREF, userTicket.getTicketCode())
                 .commit();
 
@@ -138,7 +136,6 @@ public class UserStorage {
         userGrade = mPref.getInt(USER_GRADE_PREF, 0);
         userClazz = mPref.getInt(USER_CLASS_PREF, 0);
         userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
-        userTicket.setLimitDate(mPref.getString(USER_TICKET_LT_PREF, ""));
         userTicket.setTicketCode(mPref.getString(USER_TICKET_CD_PREF, ""));
     }
 
@@ -150,7 +147,6 @@ public class UserStorage {
         userGrade = 0;
         userClazz = 0;
         userNumber = 0;
-        userTicket.setLimitDate("");
         userTicket.setTicketCode("");
 
         mEditor.clear().commit();
