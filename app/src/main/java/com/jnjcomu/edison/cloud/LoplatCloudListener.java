@@ -35,7 +35,7 @@ public class LoplatCloudListener implements PlengiListener {
             }
         } catch (Exception ignored) {}
 
-        sendBroadcast(plengiResponse);
+        //sendBroadcast(plengiResponse);
     }
 
     public void setListener(CloudEventListener cloudEventListener) {

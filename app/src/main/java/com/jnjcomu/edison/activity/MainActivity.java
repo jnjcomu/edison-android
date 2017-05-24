@@ -14,6 +14,7 @@ import com.jnjcomu.edison.R;
 import com.jnjcomu.edison.ui.Anim;
 import com.jnjcomu.edison.ui.LogoInterpolator;
 import com.jnjcomu.edison.callback.CloudEventListener;
+import com.loplat.placeengine.Plengi;
 import com.loplat.placeengine.PlengiResponse;
 
 import org.androidannotations.annotations.AfterViews;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected LogoInterpolator li = new LogoInterpolator(0.2, 20);
     protected TimerTask mTask;
     protected Timer mTimer;
+
+    Plengi plengi;
 
     @ViewById
     protected Toolbar toolbar;
@@ -63,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         if(actionBar!=null)
             actionBar.setTitle(null);
         application.setEventListener(this);
-        //application.getPlengi().start();
+        plengi = application.getPlengi();
+        plengi.refreshPlace();
         timer();
         anim.startAnim(this, logo, R.anim.logo_vibrate);
     }
@@ -71,18 +75,21 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @CheckedChange
     protected void swtScanning(boolean isChecked) {
         if(isChecked) {
-            application.getPlengi().start();
+            plengi.start();
+            plengi.refreshPlace();
             anim.startAnim(this, logo, R.anim.logo_vibrate);
+            txtPlace.setText("스캔중...");
         } else {
-            application.getPlengi().stop();
+            plengi.stop();
             anim.cancelAnim(logo);
+            txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
         }
     }
 
     @Click
     protected void btnRetry() {
         retry.setVisibility(View.GONE);
-        //application.getPlengi().start();
+        plengi.refreshPlace();
         txtPlace.setText("스캔중...");
         anim.startAnim(this, logo, R.anim.logo_vibrate);
         timer();
@@ -96,8 +103,10 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceDefault(PlengiResponse response) {
-
-    }
+        mTimer.cancel();
+        String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
+        display(msg);
+}
 
     /**
      * EventListener
@@ -107,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceNear(PlengiResponse response) {
+        mTimer.cancel();
         String msg = "현재 " + response.place.name + " 주변 입니다.";
         display(msg);
     }
@@ -119,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceIn(PlengiResponse response) {
+        mTimer.cancel();
         String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
         display(msg);
     }
