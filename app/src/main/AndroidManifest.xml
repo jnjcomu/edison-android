@@ -55,6 +55,7 @@
             </intent-filter>
         </receiver>
         <receiver
+            android:exported="false"
             android:name=".broadcast.PlengiEventBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.jnjcomu.edison.cloud.response" />
