@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
             plengi.stop();
             anim.cancelAnim(logo);
             txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
+            retry.setVisibility(View.GONE);
             if(mTimer!=null)
                 mTimer.cancel();
         }
@@ -103,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     @Click
     protected void btnRetry() {
-        retry.setVisibility(View.GONE);
         scan();
     }
 
@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     private void scan() {
         timer();
+        retry.setVisibility(View.GONE);
         plengi.getCurrentPlaceInfo();
         txtPlace.setText("스캔중...");
         anim.startAnim(this, logo, R.anim.logo_vibrate);

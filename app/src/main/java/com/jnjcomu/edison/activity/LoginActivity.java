@@ -8,7 +8,6 @@ import android.widget.EditText;
 
 import com.jnjcomu.edison.R;
 import com.jnjcomu.edison.api.APIBuilder;
-import com.jnjcomu.edison.model.response.LoginResponse;
 import com.jnjcomu.edison.storage.UserStorage;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,7 +21,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends AppCompatActivity implements Callback<LoginResponse> {
+public class LoginActivity extends AppCompatActivity {
+    //implements Callback<LoginResponse>
 
     @ViewById(R.id.edt_id_field)
     protected EditText edtIdField;
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<LoginRe
         finish();
     }
 
-    @Override
+    /*@Override
     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
         if (response.code() == 200) {
             LoginResponse loginResult = response.body();
@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<LoginRe
     @Override
     public void onFailure(Call<LoginResponse> call, Throwable t) {
 
-    }
+    }*/
 
     @UiThread
     protected void sendResult(boolean finishLogin, String message) {
