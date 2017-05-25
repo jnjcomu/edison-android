@@ -6,6 +6,16 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+
+        <item name="android:actionBarStyle">@style/TranslucentActionBar</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="TranslucentActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="EdisonTheme.BlueBackground" parent="EdisonTheme">

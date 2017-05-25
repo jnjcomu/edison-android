@@ -1,7 +1,13 @@
 package com.jnjcomu.edison.activity;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected TimerTask mTask;
     protected Timer mTimer;
     protected Preference mPref;
+    protected ActionBarDrawerToggle drawerToggle;
 
     Plengi plengi;
 
@@ -58,6 +65,9 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @ViewById
     protected Switch swtScanning;
 
+    @ViewById(R.id.drawer_layout)
+    protected DrawerLayout mDrawer;
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -71,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null)
             actionBar.setTitle(null);
+        initDrawer();
 
         application.setEventListener(this);
         plengi = application.getPlengi();
@@ -155,14 +166,14 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     }
 
     private void scan() {
-        timer();
+        initTimer();
         retry.setVisibility(View.GONE);
         plengi.getCurrentPlaceInfo();
         txtPlace.setText("스캔중...");
         anim.startAnim(this, logo, R.anim.logo_vibrate);
     }
 
-    private void timer() {
+    private void initTimer() {
         final Handler mHandler = new Handler();
         mTask = new TimerTask() {
             @Override
@@ -177,6 +188,35 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
         mTimer = new Timer();
         mTimer.schedule(mTask, 30000);
+    }
+
+    private void initDrawer() {
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+        mDrawer.addDrawerListener(drawerToggle);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nvView);
+        navigationView.setNavigationItemSelectedListener(menuItem ->  {
+            mDrawer.closeDrawers();
+            switch (menuItem.getItemId()) {
+                case R.id.nav_settings:
+                    startActivity(new Intent(this, MainActivity_.class));
+                    return true;
+                default:
+                    return true;
+
+            }
+        });
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
 }
