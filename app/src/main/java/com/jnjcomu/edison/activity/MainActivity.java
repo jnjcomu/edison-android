@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected LogoInterpolator li = new LogoInterpolator(0.2, 20);
     protected TimerTask mTask;
     protected Timer mTimer;
-    protected Preference mPref = new Preference(this);
+    protected Preference mPref;
 
     Plengi plengi;
 
@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         application.setEventListener(this);
         plengi = application.getPlengi();
 
+        mPref = new Preference(this);
         if(mPref.getBoolean("activated", true)) {
             plengi.start();
             scan();
@@ -93,9 +94,10 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         } else {
             mPref.putBoolean("activated", false);
             plengi.stop();
-            mTimer.cancel();
             anim.cancelAnim(logo);
             txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
+            if(mTimer!=null)
+                mTimer.cancel();
         }
     }
 
