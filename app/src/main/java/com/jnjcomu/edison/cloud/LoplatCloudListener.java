@@ -31,11 +31,10 @@ public class LoplatCloudListener implements PlengiListener {
                         else if (plengiResponse.enterType == PlengiResponse.EnterType.NEARBY)
                             cloudEventListener.onPlaceNear(plengiResponse);
                     }
+                    sendBroadcast(plengiResponse);
                     break;
             }
         } catch (Exception ignored) {}
-
-        //sendBroadcast(plengiResponse);
     }
 
     public void setListener(CloudEventListener cloudEventListener) {

@@ -7,10 +7,12 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
+import com.jnjcomu.edison.storage.Preference;
 import com.jnjcomu.edison.ui.Anim;
 import com.jnjcomu.edison.ui.LogoInterpolator;
 import com.jnjcomu.edison.callback.CloudEventListener;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected LogoInterpolator li = new LogoInterpolator(0.2, 20);
     protected TimerTask mTask;
     protected Timer mTimer;
+    protected Preference mPref = new Preference(this);
 
     Plengi plengi;
 
@@ -52,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @ViewById(R.id.btn_retry)
     protected CardView retry;
 
+    @ViewById
+    protected Switch swtScanning;
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -65,22 +71,29 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null)
             actionBar.setTitle(null);
+
         application.setEventListener(this);
         plengi = application.getPlengi();
-        plengi.refreshPlace();
-        timer();
-        anim.startAnim(this, logo, R.anim.logo_vibrate);
+
+        if(mPref.getBoolean("activated", true)) {
+            plengi.start();
+            scan();
+        } else {
+            swtScanning.setChecked(false);
+            txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
+        }
     }
 
     @CheckedChange
     protected void swtScanning(boolean isChecked) {
         if(isChecked) {
+            mPref.putBoolean("activated", true);
             plengi.start();
-            plengi.refreshPlace();
-            anim.startAnim(this, logo, R.anim.logo_vibrate);
-            txtPlace.setText("스캔중...");
+            scan();
         } else {
+            mPref.putBoolean("activated", false);
             plengi.stop();
+            mTimer.cancel();
             anim.cancelAnim(logo);
             txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
         }
@@ -89,10 +102,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @Click
     protected void btnRetry() {
         retry.setVisibility(View.GONE);
-        plengi.refreshPlace();
-        txtPlace.setText("스캔중...");
-        anim.startAnim(this, logo, R.anim.logo_vibrate);
-        timer();
+        scan();
     }
 
     /**
@@ -103,10 +113,9 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceDefault(PlengiResponse response) {
-        mTimer.cancel();
         String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
         display(msg);
-}
+    }
 
     /**
      * EventListener
@@ -116,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceNear(PlengiResponse response) {
-        mTimer.cancel();
         String msg = "현재 " + response.place.name + " 주변 입니다.";
         display(msg);
     }
@@ -129,8 +137,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceIn(PlengiResponse response) {
-        mTimer.cancel();
-        String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
+        String msg = "현재 " + response.place.name + "에 입실하셨습니다.";
         display(msg);
     }
 
@@ -139,9 +146,17 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      * @param msg String
      */
     private void display(String msg) {
+        mTimer.cancel();
         txtPlace.setText(msg);
         anim.cancelAnim(logo);
         anim.startAnim(this, logo, R.anim.logo_scale, li);
+    }
+
+    private void scan() {
+        timer();
+        plengi.getCurrentPlaceInfo();
+        txtPlace.setText("스캔중...");
+        anim.startAnim(this, logo, R.anim.logo_vibrate);
     }
 
     private void timer() {
