@@ -208,18 +208,18 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
             if(p1 != PackageManager.PERMISSION_GRANTED || p2 != PackageManager.PERMISSION_GRANTED) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
                 builder.setCancelable(false);
-                builder.setPositiveButton("확인", (dialog, which) -> {
+                builder.setPositiveButton("확인", (dialog, which) ->
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                            1234);
-                });
+                            1234)
+                );
                 builder.setTitle("권한 필요");
                 builder.setMessage("위치 확인을 위한 권한을 허용해주세요.");
                 builder.show();
-            }
-        } else {
+            } else
+                granted();
+        } else
             granted();
-        }
     }
 
     @Override
