@@ -1,13 +1,19 @@
 package com.jnjcomu.edison.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -72,7 +78,8 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected void onDestroy() {
         super.onDestroy();
         application.destroyEventListener();
-        mTimer.cancel();
+        if(mTimer!=null)
+            mTimer.cancel();
     }
 
     @AfterViews
@@ -83,6 +90,10 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
             actionBar.setTitle(null);
         initDrawer();
 
+        checkPermmision();
+    }
+
+    protected void granted() {
         application.setEventListener(this);
         plengi = application.getPlengi();
 
@@ -168,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     private void scan() {
         initTimer();
         retry.setVisibility(View.GONE);
-        plengi.getCurrentPlaceInfo();
+        plengi.refreshPlace();
         txtPlace.setText("스캔중...");
         anim.startAnim(this, logo, R.anim.logo_vibrate);
     }
@@ -178,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         mTask = new TimerTask() {
             @Override
             public void run() {
-                //application.getPlengi().stop();
                 mHandler.post(() -> {
                     display("요청시간이 초과되었습니다.");
                     retry.setVisibility(View.VISIBLE);
@@ -188,6 +198,39 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
         mTimer = new Timer();
         mTimer.schedule(mTask, 30000);
+    }
+
+    private void checkPermmision() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PackageManager pm = this.getPackageManager();
+            int p1 = pm.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, this.getPackageName());
+            int p2 = pm.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, this.getPackageName());
+            if(p1 != PackageManager.PERMISSION_GRANTED || p2 != PackageManager.PERMISSION_GRANTED) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                builder.setCancelable(false);
+                builder.setPositiveButton("확인", (dialog, which) -> {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                            1234);
+                });
+                builder.setTitle("권한 필요");
+                builder.setMessage("위치 확인을 위한 권한을 허용해주세요.");
+                builder.show();
+            }
+        } else {
+            granted();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1234) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                granted();
+            else
+                checkPermmision();
+
+        }
     }
 
     private void initDrawer() {
