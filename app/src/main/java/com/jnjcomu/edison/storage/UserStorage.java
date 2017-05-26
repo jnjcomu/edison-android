@@ -17,20 +17,20 @@ public class UserStorage {
     private static final String STORAGE_NAME = "user_storage";
     private static final int SHARED_PREFERENCE_MODE = Context.MODE_PRIVATE;
 
-    private static final String USER_NAME_PREF = "user_name";
-    private static final String USER_GRADE_PREF = "user_grade";
-    private static final String USER_CLASS_PREF = "user_class";
-    private static final String USER_NUMBER_PREF = "user_number";
-    private static final String USER_TICKET_CD_PREF = "user_ticket_cd";
+    private static final String NAME_PREF = "name";
+    private static final String GRADE_PREF = "grade";
+    private static final String CLASS_PREF = "class";
+    private static final String NUMBER_PREF = "number";
+    private static final String TICKET_CD_PREF = "ticket_cd";
 
     private SharedPreferences mPref;
     private SharedPreferences.Editor mEditor;
 
-    private String userName;
-    private Integer userGrade;
-    private Integer userClazz;
-    private Integer userNumber;
-    private Ticket userTicket;
+    private String name;
+    private Integer grade;
+    private Integer clazz;
+    private Integer number;
+    private Ticket ticket;
 
     public static UserStorage getInstance(Context context) {
         if (instance == null) instance = new UserStorage(context);
@@ -42,35 +42,42 @@ public class UserStorage {
         mPref = context.getSharedPreferences(STORAGE_NAME, SHARED_PREFERENCE_MODE);
         mEditor = mPref.edit();
 
-        userName = mPref.getString(USER_NAME_PREF, "");
-        userGrade = mPref.getInt(USER_GRADE_PREF, 0);
-        userClazz = mPref.getInt(USER_CLASS_PREF, 0);
-        userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
-
-        Ticket ticket = new Ticket();
-        ticket.setTicketCode(mPref.getString(USER_TICKET_CD_PREF, ""));
-
-        userTicket = ticket;
+        name = mPref.getString(NAME_PREF, "");
+        grade = mPref.getInt(GRADE_PREF, 0);
+        clazz = mPref.getInt(CLASS_PREF, 0);
+        number = mPref.getInt(NUMBER_PREF, 0);
+        ticket = new Ticket(mPref.getString(TICKET_CD_PREF, ""));
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public Integer getUserGrade() {
-        return userGrade;
+    public Integer getGrade() {
+        return grade;
     }
 
-    public Integer getUserClazz() {
-        return userClazz;
+    public Integer getClazz() {
+        return clazz;
     }
 
-    public Integer getUserNumber() {
-        return userNumber;
+    public Integer getNumber() {
+        return number;
     }
 
-    public Ticket getUserTicket() {
-        return userTicket;
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public User getUser() {
+        User user = new User();
+
+        user.setName(name);
+        user.setClazz(clazz);
+        user.setGrade(grade);
+        user.setNumber(number);
+
+        return user;
     }
 
     public UserStorage saveUser(User user) {
@@ -83,46 +90,46 @@ public class UserStorage {
     }
 
     public UserStorage saveUserName(String userName) {
-        this.userName = userName;
+        this.name = userName;
 
-        mEditor.putString(USER_NAME_PREF, userName)
+        mEditor.putString(NAME_PREF, userName)
                 .commit();
 
         return this;
     }
 
     public UserStorage saveUserGrade(Integer userGrade) {
-        this.userGrade = userGrade;
+        this.grade = userGrade;
 
-        mEditor.putInt(USER_GRADE_PREF, userGrade)
+        mEditor.putInt(GRADE_PREF, userGrade)
                 .commit();
 
         return this;
     }
 
     public UserStorage saveUserClazz(Integer userClazz) {
-        this.userClazz = userClazz;
+        this.clazz = userClazz;
 
-        mEditor.putInt(USER_CLASS_PREF, userClazz)
+        mEditor.putInt(CLASS_PREF, userClazz)
                 .commit();
 
         return this;
     }
 
     public UserStorage saveUserNumber(Integer userNumber) {
-        this.userNumber = userNumber;
+        this.number = userNumber;
 
-        mEditor.putInt(USER_NUMBER_PREF, userNumber)
+        mEditor.putInt(NUMBER_PREF, userNumber)
                 .commit();
 
         return this;
     }
 
     public UserStorage saveUserTicket(Ticket userTicket) {
-        this.userTicket = userTicket;
+        this.ticket = userTicket;
 
         mEditor
-                .putString(USER_TICKET_CD_PREF, userTicket.getTicketCode())
+                .putString(TICKET_CD_PREF, userTicket.getTicketCode())
                 .commit();
 
         return this;
@@ -132,34 +139,23 @@ public class UserStorage {
      * NOTE : Please! this method need some time.
      */
     public void syncUserData() {
-        userName = mPref.getString(USER_NAME_PREF, "");
-        userGrade = mPref.getInt(USER_GRADE_PREF, 0);
-        userClazz = mPref.getInt(USER_CLASS_PREF, 0);
-        userNumber = mPref.getInt(USER_NUMBER_PREF, 0);
-        userTicket.setTicketCode(mPref.getString(USER_TICKET_CD_PREF, ""));
+        name = mPref.getString(NAME_PREF, "");
+        grade = mPref.getInt(GRADE_PREF, 0);
+        clazz = mPref.getInt(CLASS_PREF, 0);
+        number = mPref.getInt(NUMBER_PREF, 0);
+        ticket.setTicketCode(mPref.getString(TICKET_CD_PREF, ""));
     }
 
     /**
      * NOTE : WARNING! This method execute dangerous task. Please used careful this method.
      */
     public void resetUserStorage() {
-        userName = "";
-        userGrade = 0;
-        userClazz = 0;
-        userNumber = 0;
-        userTicket.setTicketCode("");
+        name = "";
+        grade = 0;
+        clazz = 0;
+        number = 0;
+        ticket.setTicketCode("");
 
         mEditor.clear().commit();
-    }
-
-    public User toUser() {
-        User user = new User();
-
-        user.setName(userName);
-        user.setClazz(userClazz);
-        user.setGrade(userGrade);
-        user.setNumber(userNumber);
-
-        return user;
     }
 }

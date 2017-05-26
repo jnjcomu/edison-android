@@ -24,7 +24,11 @@ public class UserFactory {
                 .getBody();
 
         int userID = claims.get("id", Integer.class);
+        int userSerial = claims.get("grade", Integer.class);
+        String userName = claims.get("name", String.class);
+        String userType = claims.get("userType", String.class);
 
-        return null;
+        // TODO Make serial to user's info
+        return new User(userName, 0, 0, 0);
     }
 }

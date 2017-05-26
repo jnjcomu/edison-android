@@ -3,6 +3,7 @@ package com.jnjcomu.edison.broadcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 
 import com.jnjcomu.edison.api.APIBuilder;
 import com.jnjcomu.edison.model.Region;
@@ -27,21 +28,20 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
         UserStorage userStorage = UserStorage.getInstance(context);
 
         APIBuilder.getAPI().noticeRegion(
-                userStorage.getUserTicket(),
+                userStorage.getTicket(),
                 new Region(
                         Integer.parseInt(intent.getStringExtra("place.id")),
                         intent.getStringExtra("place.name")
                 )
         ).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call,
-                                   Response<Void> response) {}
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {}
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 try {
                     Ticket newTicket = APIBuilder.getAPI()
-                            .fetchTicket(userStorage.getUserTicket())
+                            .fetchTicket(userStorage.getTicket())
                             .execute()
                             .body();
 

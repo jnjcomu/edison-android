@@ -16,6 +16,13 @@ public class User {
 
     private int number;
 
+    public User(String name, int grade, int clazz, int number) {
+        this.name = name;
+        this.grade = grade;
+        this.clazz = clazz;
+        this.number = number;
+    }
+
     public String getName() {
         return name;
     }
