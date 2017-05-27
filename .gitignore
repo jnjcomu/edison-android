@@ -5,6 +5,7 @@
 /.idea/libraries
 /.idea/dictionaries/
 .DS_Store
+.idea
 /build
 /captures
 .externalNativeBuild
