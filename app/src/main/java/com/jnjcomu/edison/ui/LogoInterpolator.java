@@ -8,6 +8,11 @@ import android.view.animation.Interpolator;
  */
 
 public class LogoInterpolator implements Interpolator {
+    public static final double DEFAULT_AMPLITUDE = 0.2;
+    public static final double DEFAULT_FREQUENCY = 20;
+
+    private static LogoInterpolator defaultLogoInterpolator;
+
     private double mAmplitude = 1;
     private double mFrequency = 10;
 
@@ -17,7 +22,6 @@ public class LogoInterpolator implements Interpolator {
     }
 
     public float getInterpolation(float time) {
-        return (float) (-1 * Math.pow(Math.E, -time/ mAmplitude) *
-                Math.cos(mFrequency * time) + 1);
+        return (float) (-1 * Math.pow(Math.E, -time / mAmplitude) * Math.cos(mFrequency * time) + 1);
     }
 }

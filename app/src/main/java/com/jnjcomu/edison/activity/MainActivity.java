@@ -1,132 +1,79 @@
 package com.jnjcomu.edison.activity;
 
 import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
-import com.jnjcomu.edison.storage.Preference;
-import com.jnjcomu.edison.ui.Anim;
-import com.jnjcomu.edison.ui.LogoInterpolator;
 import com.jnjcomu.edison.callback.CloudEventListener;
+import com.jnjcomu.edison.factory.InterpolatorFactory;
+import com.jnjcomu.edison.storage.AppSettingStorage;
+import com.jnjcomu.edison.ui.AnimationManager;
 import com.loplat.placeengine.Plengi;
 import com.loplat.placeengine.PlengiResponse;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.CheckedChange;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements CloudEventListener {
+public class MainActivity extends AppCompatActivity implements CloudEventListener, PermissionListener {
 
-    protected Anim anim = new Anim();
-    protected LogoInterpolator li = new LogoInterpolator(0.2, 20);
-    protected TimerTask mTask;
-    protected Timer mTimer;
-    protected Preference mPref;
-    protected ActionBarDrawerToggle drawerToggle;
+    protected AppSettingStorage settingStorage;
 
-    Plengi plengi;
-
-    @ViewById
-    protected Toolbar toolbar;
-
-    @ViewById
-    protected TextView txtPlace;
+    protected Plengi plengi;
 
     @App
     protected EdisonApplication application;
 
-    @ViewById
-    protected ImageView logo;
+    @Bean
+    protected AnimationManager animationManager;
 
-    @ViewById(R.id.btn_retry)
-    protected CardView retry;
+    @ViewById
+    protected TextView txtPlace;
+
+    @ViewById
+    protected ImageView imgLogo;
 
     @ViewById
     protected Switch swtScanning;
-
-    @ViewById(R.id.drawer_layout)
-    protected DrawerLayout mDrawer;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         application.destroyEventListener();
-        if(mTimer!=null)
-            mTimer.cancel();
     }
 
     @AfterViews
-    protected void initActivity() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null)
-            actionBar.setTitle(null);
-        initDrawer();
-
-        checkPermmision();
-    }
-
-    protected void granted() {
-        application.setEventListener(this);
-        plengi = application.getPlengi();
-
-        mPref = new Preference(this);
-        if(mPref.getBoolean("activated", true)) {
-            plengi.start();
-            scan();
-        } else {
-            swtScanning.setChecked(false);
-            txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
-        }
+    protected void initPermission() {
+        new TedPermission(this)
+                .setPermissionListener(this)
+                .setDeniedMessage("권한 허가가 되지 않으면 앱을 이용하실 수 없습니다.")
+                .setPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                .check();
     }
 
     @CheckedChange
     protected void swtScanning(boolean isChecked) {
-        if(isChecked) {
-            mPref.putBoolean("activated", true);
+        if (isChecked) {
+            settingStorage.activeScanning();
             plengi.start();
-            scan();
         } else {
-            mPref.putBoolean("activated", false);
+            settingStorage.inactiveScanning();
             plengi.stop();
-            anim.cancelAnim(logo);
-            txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
-            retry.setVisibility(View.GONE);
-            if(mTimer!=null)
-                mTimer.cancel();
         }
-    }
-
-    @Click
-    protected void btnRetry() {
-        scan();
     }
 
     /**
@@ -166,100 +113,34 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     }
 
     /**
-     *
      * @param msg String
      */
     private void display(String msg) {
-        mTimer.cancel();
         txtPlace.setText(msg);
-        anim.cancelAnim(logo);
-        anim.startAnim(this, logo, R.anim.logo_scale, li);
-    }
-
-    private void scan() {
-        initTimer();
-        retry.setVisibility(View.GONE);
-        plengi.refreshPlace();
-        txtPlace.setText("스캔중...");
-        anim.startAnim(this, logo, R.anim.logo_vibrate);
-    }
-
-    private void initTimer() {
-        final Handler mHandler = new Handler();
-        mTask = new TimerTask() {
-            @Override
-            public void run() {
-                mHandler.post(() -> {
-                    display("요청시간이 초과되었습니다.");
-                    retry.setVisibility(View.VISIBLE);
-                });
-            }
-        };
-
-        mTimer = new Timer();
-        mTimer.schedule(mTask, 30000);
-    }
-
-    private void checkPermmision() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            PackageManager pm = this.getPackageManager();
-            int p1 = pm.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, this.getPackageName());
-            int p2 = pm.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, this.getPackageName());
-            if(p1 != PackageManager.PERMISSION_GRANTED || p2 != PackageManager.PERMISSION_GRANTED) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-                builder.setCancelable(false);
-                builder.setPositiveButton("확인", (dialog, which) ->
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                            1234)
-                );
-                builder.setTitle("권한 필요");
-                builder.setMessage("위치 확인을 위한 권한을 허용해주세요.");
-                builder.show();
-            } else
-                granted();
-        } else
-            granted();
+        animationManager.restartAnim(
+                imgLogo,
+                R.anim.logo_scale,
+                InterpolatorFactory.getDefaultLogoInterpolator()
+        );
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1234) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
-                granted();
-            else
-                checkPermmision();
+    public void onPermissionGranted() {
+        application.setEventListener(this);
+        plengi = application.getPlengi();
 
+        boolean isActiveScanning = settingStorage.isActiveScanning();
+        swtScanning.setChecked(isActiveScanning);
+
+        if (isActiveScanning) {
+            plengi.start();
+        } else {
+            txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
         }
     }
 
-    private void initDrawer() {
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
-        mDrawer.addDrawerListener(drawerToggle);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nvView);
-        navigationView.setNavigationItemSelectedListener(menuItem ->  {
-            mDrawer.closeDrawers();
-            switch (menuItem.getItemId()) {
-                case R.id.nav_settings:
-                    startActivity(new Intent(this, MainActivity_.class));
-                    return true;
-                default:
-                    return true;
-
-            }
-        });
-    }
-
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
+    public void onPermissionDenied(ArrayList<String> arrayList) {
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
     }
-
 }
