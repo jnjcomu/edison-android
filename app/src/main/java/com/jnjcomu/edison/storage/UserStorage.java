@@ -15,6 +15,7 @@ public class UserStorage {
     private static UserStorage instance;
 
     private static final String STORAGE_NAME = "user_storage";
+    private static final int SHARED_PREFERENCE_MODE = Context.MODE_PRIVATE;
 
     private static final String NAME_PREF = "name";
     private static final String GRADE_PREF = "grade";
@@ -22,7 +23,8 @@ public class UserStorage {
     private static final String NUMBER_PREF = "number";
     private static final String TICKET_CD_PREF = "ticket_cd";
 
-    private Preference mPref;
+    private SharedPreferences mPref;
+    private SharedPreferences.Editor mEditor;
 
     private String name;
     private Integer grade;
@@ -37,7 +39,8 @@ public class UserStorage {
     }
 
     private UserStorage(Context context) {
-        mPref = new Preference(context, STORAGE_NAME);
+        mPref = context.getSharedPreferences(STORAGE_NAME, SHARED_PREFERENCE_MODE);
+        mEditor = mPref.edit();
 
         name = mPref.getString(NAME_PREF, "");
         grade = mPref.getInt(GRADE_PREF, 0);
@@ -67,7 +70,7 @@ public class UserStorage {
     }
 
     public User getUser() {
-        User user = new User(name, clazz, grade, number);
+        User user = new User();
 
         user.setName(name);
         user.setClazz(clazz);
@@ -89,7 +92,8 @@ public class UserStorage {
     public UserStorage saveUserName(String userName) {
         this.name = userName;
 
-        mPref.putString(NAME_PREF, userName);
+        mEditor.putString(NAME_PREF, userName)
+                .commit();
 
         return this;
     }
@@ -97,7 +101,8 @@ public class UserStorage {
     public UserStorage saveUserGrade(Integer userGrade) {
         this.grade = userGrade;
 
-        mPref.putInt(GRADE_PREF, userGrade);
+        mEditor.putInt(GRADE_PREF, userGrade)
+                .commit();
 
         return this;
     }
@@ -105,7 +110,8 @@ public class UserStorage {
     public UserStorage saveUserClazz(Integer userClazz) {
         this.clazz = userClazz;
 
-        mPref.putInt(CLASS_PREF, userClazz);
+        mEditor.putInt(CLASS_PREF, userClazz)
+                .commit();
 
         return this;
     }
@@ -113,7 +119,8 @@ public class UserStorage {
     public UserStorage saveUserNumber(Integer userNumber) {
         this.number = userNumber;
 
-        mPref.putInt(NUMBER_PREF, userNumber);
+        mEditor.putInt(NUMBER_PREF, userNumber)
+                .commit();
 
         return this;
     }
@@ -121,7 +128,9 @@ public class UserStorage {
     public UserStorage saveUserTicket(Ticket userTicket) {
         this.ticket = userTicket;
 
-        mPref.putString(TICKET_CD_PREF, userTicket.getTicketCode());
+        mEditor
+                .putString(TICKET_CD_PREF, userTicket.getTicketCode())
+                .commit();
 
         return this;
     }
@@ -147,6 +156,6 @@ public class UserStorage {
         number = 0;
         ticket.setTicketCode("");
 
-        mPref.clear();
+        mEditor.clear().commit();
     }
 }
