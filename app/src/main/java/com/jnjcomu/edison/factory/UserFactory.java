@@ -28,7 +28,9 @@ public class UserFactory {
         String userName = claims.get("name", String.class);
         String userType = claims.get("userType", String.class);
 
+
+
         // TODO Make serial to user's info
-        return new User(userName, 0, 0, 0);
+        return new User(userID, userName, 0, 0, 0);
     }
 }
