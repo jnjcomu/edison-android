@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         application.setEventListener(this);
         plengi = application.getPlengi();
 
+        settingStorage = AppSettingStorage.getInstance(this);
         boolean isActiveScanning = settingStorage.isActiveScanning();
         swtScanning.setChecked(isActiveScanning);
 
