@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
-import android.widget.ImageView;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;

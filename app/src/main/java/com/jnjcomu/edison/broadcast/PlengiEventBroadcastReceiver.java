@@ -38,7 +38,7 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {}
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 try {
                     Ticket newTicket = APIBuilder.getAPI()
                             .fetchTicket(userStorage.getTicket())

@@ -21,6 +21,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.CheckedChange;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected TextView txtPlace;
 
     @ViewById
+    protected TextView txtScan;
+
+    @ViewById
     protected ImageView imgLogo;
 
     @ViewById
@@ -63,6 +67,16 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
                         Manifest.permission.ACCESS_FINE_LOCATION,
                         Manifest.permission.ACCESS_COARSE_LOCATION)
                 .check();
+    }
+
+    @Click
+    protected void btnRefresh() {
+        plengi.refreshPlace();
+        txtPlace.setText("스캔중...");
+        animationManager.restartAnim(
+                imgLogo,
+                R.anim.logo_vibrate
+        );
     }
 
     @CheckedChange
@@ -129,14 +143,17 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         application.setEventListener(this);
         plengi = application.getPlengi();
 
+        btnRefresh();
+
         settingStorage = AppSettingStorage.getInstance(this);
         boolean isActiveScanning = settingStorage.isActiveScanning();
         swtScanning.setChecked(isActiveScanning);
 
         if (isActiveScanning) {
             plengi.start();
+            txtScan.setText("실시간 장소 인식 기능이 켜져있습니다.");
         } else {
-            txtPlace.setText("장소 인식 기능이 꺼져있습니다.");
+            txtScan.setText("실시간 장소 인식 기능이 꺼져있습니다.");
         }
     }
 
