@@ -84,9 +84,11 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         if (isChecked) {
             settingStorage.activeScanning();
             plengi.start();
+            txtScan.setText("실시간 장소 인식 기능이 켜져있습니다.");
         } else {
             settingStorage.inactiveScanning();
             plengi.stop();
+            txtScan.setText("실시간 장소 인식 기능이 꺼져있습니다.");
         }
     }
 
