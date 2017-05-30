@@ -10,6 +10,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * @author kimwoojae <wj1187@naver.com>
@@ -21,9 +22,9 @@ public interface EdisonAPI {
     Call<Ticket> login(@Field("id") String id, @Field("pw") String pw);
 
     @POST("/auth/renew")
-    Observable<Ticket> fetchTicket(@Header("ticket") Ticket ticket);
+    Observable<Ticket> fetchTicket(@Header("Authorization") Ticket ticket);
 
     @FormUrlEncoded
-    @POST("/place/notice")
-    Call<Void> noticeRegion(@Header("ticket") Ticket ticket, @Body Region region);
+    @POST("/place/{id}/enter")
+    Call<Void> enter(@Header("Authorization") Ticket ticket, @Path("id") String placeId);
 }
