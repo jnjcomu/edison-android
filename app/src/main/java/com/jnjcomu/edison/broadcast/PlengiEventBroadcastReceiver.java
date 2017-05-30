@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.jnjcomu.edison.api.APIBuilder;
-import com.jnjcomu.edison.model.Region;
 import com.jnjcomu.edison.storage.UserStorage;
 
 import retrofit2.Call;
@@ -26,20 +25,13 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
     private void noticeRegion(Context context, Intent intent, boolean retry) {
         UserStorage userStorage = UserStorage.getInstance(context);
 
-        APIBuilder.getAPI().noticeRegion(
+        APIBuilder.getAPI().enter(
                 userStorage.getTicket(),
-                new Region(
-                        Integer.parseInt(intent.getStringExtra("place.id")),
-                        intent.getStringExtra("place.name")
-                )
+                intent.getStringExtra("place.id")
         ).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                try {
+                if (!response.isSuccessful()) {
                     APIBuilder.getAPI()
                             .fetchTicket(userStorage.getTicket())
                             .subscribe(ticket -> {
@@ -47,8 +39,11 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
                             });
 
                     if (retry) noticeRegion(context, intent, false);
-                } catch (Exception ignored) {
                 }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
             }
         });
     }
