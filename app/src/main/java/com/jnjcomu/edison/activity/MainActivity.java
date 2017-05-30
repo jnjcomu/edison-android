@@ -1,8 +1,10 @@
 package com.jnjcomu.edison.activity;
 
 import android.Manifest;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected TextView txtPlace;
 
     @ViewById
-    protected TextView txtScan;
+    protected RelativeLayout rlRoot;
 
     @ViewById
     protected ImageView imgLogo;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     protected void onDestroy() {
         super.onDestroy();
         application.destroyEventListener();
+        settingStorage.saveActive(swtScanning.isChecked());
     }
 
     @AfterViews
@@ -72,23 +75,20 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @Click
     protected void btnRefresh() {
         plengi.refreshPlace();
-        txtPlace.setText("스캔중...");
-        animationManager.restartAnim(
-                imgLogo,
-                R.anim.logo_vibrate
-        );
+        swtScanning.setChecked(true);
     }
 
     @CheckedChange
     protected void swtScanning(boolean isChecked) {
         if (isChecked) {
-            settingStorage.activeScanning();
+            animationManager.startAnim(
+                    imgLogo,
+                    R.anim.logo_vibrate
+            );
             plengi.start();
-            txtScan.setText("실시간 장소 인식 기능이 켜져있습니다.");
         } else {
-            settingStorage.inactiveScanning();
+            animationManager.cancelAnim(imgLogo);
             plengi.stop();
-            txtScan.setText("실시간 장소 인식 기능이 꺼져있습니다.");
         }
     }
 
@@ -135,8 +135,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         txtPlace.setText(msg);
         animationManager.restartAnim(
                 imgLogo,
-                R.anim.logo_scale,
-                InterpolatorFactory.getDefaultLogoInterpolator()
+                R.anim.logo_vibrate
         );
     }
 
@@ -145,17 +144,13 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         application.setEventListener(this);
         plengi = application.getPlengi();
 
-        btnRefresh();
-
         settingStorage = AppSettingStorage.getInstance(this);
+
         boolean isActiveScanning = settingStorage.isActiveScanning();
         swtScanning.setChecked(isActiveScanning);
 
         if (isActiveScanning) {
             plengi.start();
-            txtScan.setText("실시간 장소 인식 기능이 켜져있습니다.");
-        } else {
-            txtScan.setText("실시간 장소 인식 기능이 꺼져있습니다.");
         }
     }
 
