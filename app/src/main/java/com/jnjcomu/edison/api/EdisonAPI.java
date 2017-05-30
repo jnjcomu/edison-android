@@ -3,11 +3,11 @@ package com.jnjcomu.edison.api;
 import com.jnjcomu.edison.model.Region;
 import com.jnjcomu.edison.model.Ticket;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -21,7 +21,7 @@ public interface EdisonAPI {
     Call<Ticket> login(@Field("id") String id, @Field("pw") String pw);
 
     @POST("/auth/renew")
-    Call<Ticket> fetchTicket(@Header("ticket") Ticket ticket);
+    Observable<Ticket> fetchTicket(@Header("ticket") Ticket ticket);
 
     @FormUrlEncoded
     @POST("/place/notice")

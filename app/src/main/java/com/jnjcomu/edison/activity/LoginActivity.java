@@ -8,7 +8,7 @@ import android.widget.EditText;
 
 import com.jnjcomu.edison.R;
 import com.jnjcomu.edison.api.APIBuilder;
-import com.jnjcomu.edison.storage.UserStorage;
+import com.jnjcomu.edison.model.Ticket;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -22,7 +22,6 @@ import retrofit2.Response;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends AppCompatActivity {
-    //implements Callback<LoginResponse>
 
     @ViewById(R.id.edt_id_field)
     protected EditText edtIdField;
@@ -43,30 +42,9 @@ public class LoginActivity extends AppCompatActivity {
         String userId = edtIdField.getText().toString();
         String userPassword = edtPwField.getText().toString();
 
-        //APIBuilder.getAPI().login(userId, userPassword).enqueue(this);
         startActivity(new Intent(this, MainActivity_.class));
         finish();
     }
-
-    /*@Override
-    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-        if (response.code() == 200) {
-            LoginResponse loginResult = response.body();
-
-            UserStorage.getInstance(this)
-                    .saveUser(loginResult.getUserData())
-                    .saveUserTicket(loginResult.getTicket());
-
-            sendResult(true);
-        } else {
-            sendResult(false, response.body().getMessage());
-        }
-    }
-
-    @Override
-    public void onFailure(Call<LoginResponse> call, Throwable t) {
-
-    }*/
 
     @UiThread
     protected void sendResult(boolean finishLogin, String message) {
@@ -87,5 +65,4 @@ public class LoginActivity extends AppCompatActivity {
     protected void sendResult(boolean finishLogin) {
         sendResult(finishLogin, "");
     }
-
 }

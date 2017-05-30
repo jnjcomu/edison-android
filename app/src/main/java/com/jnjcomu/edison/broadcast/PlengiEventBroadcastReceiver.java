@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 
 import com.jnjcomu.edison.api.APIBuilder;
 import com.jnjcomu.edison.model.Region;
-import com.jnjcomu.edison.model.Ticket;
 import com.jnjcomu.edison.storage.UserStorage;
 
 import retrofit2.Call;
@@ -35,20 +34,21 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
                 )
         ).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {}
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+            }
 
             @Override
             public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                 try {
-                    Ticket newTicket = APIBuilder.getAPI()
+                    APIBuilder.getAPI()
                             .fetchTicket(userStorage.getTicket())
-                            .execute()
-                            .body();
+                            .subscribe(ticket -> {
+                                UserStorage.getInstance(context).saveUserTicket(ticket);
+                            });
 
-                    UserStorage.getInstance(context).saveUserTicket(newTicket);
-
-                    if(retry) noticeRegion(context, intent, false);
-                } catch (Exception ignored) {}
+                    if (retry) noticeRegion(context, intent, false);
+                } catch (Exception ignored) {
+                }
             }
         });
     }
