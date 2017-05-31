@@ -1,9 +1,7 @@
 package com.jnjcomu.edison.activity;
 
 import android.Manifest;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -14,7 +12,6 @@ import com.gun0912.tedpermission.TedPermission;
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
 import com.jnjcomu.edison.callback.CloudEventListener;
-import com.jnjcomu.edison.factory.InterpolatorFactory;
 import com.jnjcomu.edison.storage.AppSettingStorage;
 import com.jnjcomu.edison.ui.AnimationManager;
 import com.loplat.placeengine.Plengi;
@@ -102,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceDefault(PlengiResponse response) {
-        Log.d("Default", response.place.name);
         String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
         display(msg);
     }
@@ -115,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceNear(PlengiResponse response) {
-        Log.d("Near", response.place.name);
         String msg = "현재 " + response.place.name + " 주변 입니다.";
         display(msg);
     }
@@ -128,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceIn(PlengiResponse response) {
-        Log.d("In", response.place.name);
         String msg = "현재 " + response.place.name + "에 입실하셨습니다.";
         display(msg);
     }
