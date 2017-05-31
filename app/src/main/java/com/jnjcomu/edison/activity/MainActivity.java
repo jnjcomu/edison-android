@@ -133,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     private void display(String msg) {
         txtPlace.setText(msg);
-        animationManager.cancelAnim(imgLogo);
-        animationManager.startAnim(
+        animationManager.restartAnim(
                 imgLogo,
                 R.anim.logo_scale,
                 InterpolatorFactory.getDefaultLogoInterpolator()

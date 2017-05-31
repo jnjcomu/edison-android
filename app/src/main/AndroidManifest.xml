@@ -42,6 +42,7 @@
         </activity>
         <activity android:name=".activity.LoginActivity_"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
+
         <activity android:name=".activity.SettingsActivity_" />
 
         <receiver

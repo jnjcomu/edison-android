@@ -9,7 +9,7 @@ import android.view.animation.Interpolator;
 
 public class LogoInterpolator implements Interpolator {
     public static final double DEFAULT_AMPLITUDE = 0.2;
-    public static final double DEFAULT_FREQUENCY = 20;
+    public static final double DEFAULT_FREQUENCY = 18;
 
     private static LogoInterpolator defaultLogoInterpolator;
 
