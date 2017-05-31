@@ -3,6 +3,7 @@ package com.jnjcomu.edison.activity;
 import android.Manifest;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
                     R.anim.logo_vibrate
             );
             plengi.start();
+            plengi.refreshPlace();
         } else {
             animationManager.cancelAnim(imgLogo);
             plengi.stop();
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceDefault(PlengiResponse response) {
+        Log.d("Default", response.place.name);
         String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
         display(msg);
     }
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceNear(PlengiResponse response) {
+        Log.d("Near", response.place.name);
         String msg = "현재 " + response.place.name + " 주변 입니다.";
         display(msg);
     }
@@ -124,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceIn(PlengiResponse response) {
+        Log.d("In", response.place.name);
         String msg = "현재 " + response.place.name + "에 입실하셨습니다.";
         display(msg);
     }
@@ -151,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
         if (isActiveScanning) {
             plengi.start();
+            plengi.refreshPlace();
         }
     }
 
