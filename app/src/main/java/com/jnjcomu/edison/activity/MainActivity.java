@@ -12,6 +12,7 @@ import com.gun0912.tedpermission.TedPermission;
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
 import com.jnjcomu.edison.callback.CloudEventListener;
+import com.jnjcomu.edison.factory.InterpolatorFactory;
 import com.jnjcomu.edison.storage.AppSettingStorage;
 import com.jnjcomu.edison.ui.AnimationManager;
 import com.loplat.placeengine.Plengi;
@@ -132,9 +133,11 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     private void display(String msg) {
         txtPlace.setText(msg);
-        animationManager.restartAnim(
+        animationManager.cancelAnim(imgLogo);
+        animationManager.startAnim(
                 imgLogo,
-                R.anim.logo_scale
+                R.anim.logo_scale,
+                InterpolatorFactory.getDefaultLogoInterpolator()
         );
     }
 
