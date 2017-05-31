@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
         txtPlace.setText(msg);
         animationManager.restartAnim(
                 imgLogo,
-                R.anim.logo_vibrate
+                R.anim.logo_scale
         );
     }
 

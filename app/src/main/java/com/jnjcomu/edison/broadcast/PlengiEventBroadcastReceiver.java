@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.jnjcomu.edison.api.APIBuilder;
 import com.jnjcomu.edison.storage.UserStorage;
@@ -18,6 +19,7 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (!intent.getAction().equals(RECEIVER_ID)) return;
+        Toast.makeText(context, intent.getStringExtra("place.id"), Toast.LENGTH_SHORT).show();
 
         noticeRegion(context, intent, true);
     }

@@ -46,7 +46,7 @@ public class AnimationManager {
     public void cancelAnim(View v) {
         Animation anim = v.getAnimation();
         if (anim != null) {
-            v.getAnimation().cancel();
+            anim.cancel();
         }
     }
 }
