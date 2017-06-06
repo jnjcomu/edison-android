@@ -22,7 +22,8 @@
 
         <activity
             android:name=".activity.MainActivity_"
-            android:theme="@style/EdisonTheme.BlueBackground" />
+            android:theme="@style/EdisonTheme.BlueBackground"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SplashActivity_"
             android:theme="@style/EdisonTheme.Splash">

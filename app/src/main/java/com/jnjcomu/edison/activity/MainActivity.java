@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     @Click
     protected void btnRefresh() {
-        plengi.refreshPlace();
-        swtScanning.setChecked(true);
+        txtPlace.setText("스캔중...");
+        swtScanning(true);
     }
 
     @CheckedChange
@@ -100,8 +100,13 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceDefault(PlengiResponse response) {
-        String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
-        display(msg);
+        if(response.place==null) {
+            String msg = "등록되지 않은 장소입니다.";
+            display(msg);
+        } else {
+            String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
+            display(msg);
+        }
     }
 
     /**
@@ -130,14 +135,18 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
 
     /**
      * @param msg String
+     *
+     * TODO 이거 버그 해결좀;;
+     * animationManager를 위에 놓으면 animation만 작동후 setText 작동 안함, setText를 위에 놓으면 setText만 작동후 animation 작동 안함
+     * ㄹㅇ 개빡침 어노테이션이 문제인건지 안드로이드가 문제인건지 모르겠음 ㅇㅇ
      */
-    private void display(String msg) {
-        txtPlace.setText(msg);
+    public void display(String msg) {
         animationManager.restartAnim(
                 imgLogo,
                 R.anim.logo_scale,
                 InterpolatorFactory.getDefaultLogoInterpolator()
         );
+        txtPlace.setText(msg);
     }
 
     @Override
