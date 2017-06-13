@@ -15,10 +15,19 @@ import org.androidannotations.annotations.RootContext;
  * @since 2017-05-12
  */
 
-@EBean
 public class AnimationManager {
-    @RootContext
-    Context context;
+    private static AnimationManager instance = null;
+    private Context context;
+
+    public static AnimationManager getInstance(Context context) {
+        if(instance == null) instance = new AnimationManager(context);
+
+        return instance;
+    }
+
+    private AnimationManager(Context context) {
+        this.context = context;
+    }
 
     public void startAnim(View view, @AnimRes int animRes) {
         Animation anim = AnimationUtils.loadAnimation(context, animRes);

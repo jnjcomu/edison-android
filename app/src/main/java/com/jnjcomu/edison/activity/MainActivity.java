@@ -30,28 +30,15 @@ import java.util.ArrayList;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends AppCompatActivity implements CloudEventListener, PermissionListener {
+    @App protected EdisonApplication application;
+
+    @ViewById protected TextView txtPlace;
+    @ViewById protected RelativeLayout rlRoot;
+    @ViewById protected ImageView imgLogo;
+    @ViewById protected Switch swtScanning;
 
     protected AppSettingStorage settingStorage;
-
     protected Plengi plengi;
-
-    @App
-    protected EdisonApplication application;
-
-    @Bean
-    protected AnimationManager animationManager;
-
-    @ViewById
-    protected TextView txtPlace;
-
-    @ViewById
-    protected RelativeLayout rlRoot;
-
-    @ViewById
-    protected ImageView imgLogo;
-
-    @ViewById
-    protected Switch swtScanning;
 
     @Override
     protected void onDestroy() {
@@ -80,14 +67,14 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
     @CheckedChange
     protected void swtScanning(boolean isChecked) {
         if (isChecked) {
-            animationManager.startAnim(
+            AnimationManager.getInstance(this).startAnim(
                     imgLogo,
                     R.anim.logo_vibrate
             );
             plengi.start();
             plengi.refreshPlace();
         } else {
-            animationManager.cancelAnim(imgLogo);
+            AnimationManager.getInstance(this).cancelAnim(imgLogo);
             plengi.stop();
         }
     }
@@ -139,13 +126,16 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      * TODO 이거 버그 해결좀;;
      * animationManager를 위에 놓으면 animation만 작동후 setText 작동 안함, setText를 위에 놓으면 setText만 작동후 animation 작동 안함
      * ㄹㅇ 개빡침 어노테이션이 문제인건지 안드로이드가 문제인건지 모르겠음 ㅇㅇ
+     *
+     * ㄴ ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ 어노테이션 뺴봤으니까 테스트좀
      */
     public void display(String msg) {
-        animationManager.restartAnim(
+        AnimationManager.getInstance(this).restartAnim(
                 imgLogo,
                 R.anim.logo_scale,
                 InterpolatorFactory.getDefaultLogoInterpolator()
         );
+
         txtPlace.setText(msg);
     }
 
