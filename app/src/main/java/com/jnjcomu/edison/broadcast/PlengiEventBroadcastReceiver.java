@@ -3,11 +3,10 @@ package com.jnjcomu.edison.broadcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.jnjcomu.edison.api.APIBuilder;
-import com.jnjcomu.edison.model.Region;
-import com.jnjcomu.edison.model.Ticket;
-import com.jnjcomu.edison.model.response.NoticeRegionResponse;
 import com.jnjcomu.edison.storage.UserStorage;
 
 import retrofit2.Call;
@@ -20,6 +19,7 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (!intent.getAction().equals(RECEIVER_ID)) return;
+        Toast.makeText(context, intent.getStringExtra("place.id"), Toast.LENGTH_SHORT).show();
 
         noticeRegion(context, intent, true);
     }
@@ -27,29 +27,25 @@ public class PlengiEventBroadcastReceiver extends BroadcastReceiver {
     private void noticeRegion(Context context, Intent intent, boolean retry) {
         UserStorage userStorage = UserStorage.getInstance(context);
 
-        APIBuilder.getAPI().noticeRegion(
-                userStorage.getUserTicket(),
-                new Region(
-                        Integer.parseInt(intent.getStringExtra("place.id")),
-                        intent.getStringExtra("place.name")
-                )
-        ).enqueue(new Callback<NoticeRegionResponse>() {
+        APIBuilder.getAPI().enter(
+                userStorage.getTicket(),
+                intent.getStringExtra("place.id")
+        ).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<NoticeRegionResponse> call,
-                                   Response<NoticeRegionResponse> response) {}
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (!response.isSuccessful()) {
+                    APIBuilder.getAPI()
+                            .fetchTicket(userStorage.getTicket())
+                            .subscribe(ticket -> {
+                                UserStorage.getInstance(context).saveUserTicket(ticket);
+                            });
+
+                    if (retry) noticeRegion(context, intent, false);
+                }
+            }
 
             @Override
-            public void onFailure(Call<NoticeRegionResponse> call, Throwable t) {
-                try {
-                    Ticket newTicket = APIBuilder.getAPI()
-                            .fetchTicket(userStorage.getUserTicket())
-                            .execute()
-                            .body().getTicket();
-
-                    UserStorage.getInstance(context).saveUserTicket(newTicket);
-
-                    if(retry) noticeRegion(context, intent, false);
-                } catch (Exception ignored) {}
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
             }
         });
     }

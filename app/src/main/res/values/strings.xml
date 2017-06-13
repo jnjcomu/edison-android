@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Edison</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
+    <!--Strings for SettingsAcivity Preference-->
+    <string name="scan">scan</string>
+    <string name="logout">logout</string>
+    <string name="license">license</string>
+    <string name="privacy">privacy</string>
+    <string name="version">version</string>
 </resources>

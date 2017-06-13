@@ -8,18 +8,11 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Ticket {
-    @SerializedName("limit_time")
-    private String limitDate;
-
-    @SerializedName("ticket_code")
+    @SerializedName("token")
     private String ticketCode;
 
-    public String getLimitDate() {
-        return limitDate;
-    }
-
-    public void setLimitDate(String limitDate) {
-        this.limitDate = limitDate;
+    public Ticket(String ticketCode) {
+        this.ticketCode = ticketCode;
     }
 
     public String getTicketCode() {

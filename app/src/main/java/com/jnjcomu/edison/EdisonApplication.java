@@ -26,14 +26,15 @@ public class EdisonApplication extends Application {
         super.onCreate();
 
         // NOTE : Please register when login into edison server
-        /*
+
         cloudlistener = new LoplatCloudListener();
         plengi = Plengi.getInstance(this);
         plengi.setListener(cloudlistener);
 
+        Configuration conf = new Configuration(this);
+
         // Please change the "12345" be named user unique code to unique.
-        // plengi.init(conf.getClientKey(), conf.getClientKey(), "12345");
-        */
+        plengi.init(conf.getLoplatId(), conf.getLoplatPw(), "12345");
 
         instance = this;
     }

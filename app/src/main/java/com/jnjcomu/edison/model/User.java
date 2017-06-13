@@ -8,17 +8,30 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class User {
-    @SerializedName("name")
+    private int id;
     private String name;
-
-    @SerializedName("grade")
     private int grade;
-
-    @SerializedName("clazz")
     private int clazz;
-
-    @SerializedName("number")
     private int number;
+
+    public User() {
+    }
+
+    public User(int id, String name, int grade, int clazz, int number) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.clazz = clazz;
+        this.number = number;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

@@ -1,91 +1,82 @@
 package com.jnjcomu.edison.activity;
 
-import android.os.Handler;
-import android.support.v7.app.ActionBar;
+import android.Manifest;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.jnjcomu.edison.EdisonApplication;
 import com.jnjcomu.edison.R;
-import com.jnjcomu.edison.ui.Anim;
-import com.jnjcomu.edison.ui.LogoInterpolator;
 import com.jnjcomu.edison.callback.CloudEventListener;
+import com.jnjcomu.edison.factory.InterpolatorFactory;
+import com.jnjcomu.edison.storage.AppSettingStorage;
+import com.jnjcomu.edison.ui.AnimationManager;
+import com.loplat.placeengine.Plengi;
 import com.loplat.placeengine.PlengiResponse;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends AppCompatActivity implements CloudEventListener {
+public class MainActivity extends AppCompatActivity implements CloudEventListener, PermissionListener {
+    @App protected EdisonApplication application;
 
-    protected Anim anim = new Anim();
-    protected LogoInterpolator li = new LogoInterpolator(0.2, 20);
-    TimerTask mTask;
-    Timer mTimer;
+    @ViewById protected TextView txtPlace;
+    @ViewById protected RelativeLayout rlRoot;
+    @ViewById protected ImageView imgLogo;
+    @ViewById protected Switch swtScanning;
 
-    @ViewById
-    protected Toolbar toolbar;
-
-    @ViewById
-    protected TextView txtPlace;
-
-    @App
-    protected EdisonApplication application;
-
-    @ViewById
-    protected ImageView logo;
-
-    @ViewById(R.id.btn_retry)
-    protected CardView retry;
+    protected AppSettingStorage settingStorage;
+    protected Plengi plengi;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         application.destroyEventListener();
-        mTimer.cancel();
+        settingStorage.saveActive(swtScanning.isChecked());
     }
 
     @AfterViews
-    protected void initActivity() {
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null)
-            actionBar.setTitle(null);
-        application.setEventListener(this);
-        //application.getPlengi().start();
-        timer();
-        anim.startAnim(this, logo, R.anim.logo_vibrate);
+    protected void initPermission() {
+        new TedPermission(this)
+                .setPermissionListener(this)
+                .setDeniedMessage("권한 허가가 되지 않으면 앱을 이용하실 수 없습니다.")
+                .setPermissions(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                .check();
+    }
+
+    @Click
+    protected void btnRefresh() {
+        txtPlace.setText("스캔중...");
+        swtScanning(true);
     }
 
     @CheckedChange
     protected void swtScanning(boolean isChecked) {
-        if(isChecked) {
-            application.getPlengi().start();
-            anim.startAnim(this, logo, R.anim.logo_vibrate);
+        if (isChecked) {
+            AnimationManager.getInstance(this).startAnim(
+                    imgLogo,
+                    R.anim.logo_vibrate
+            );
+            plengi.start();
+            plengi.refreshPlace();
         } else {
-            application.getPlengi().stop();
-            anim.cancelAnim(logo);
+            AnimationManager.getInstance(this).cancelAnim(imgLogo);
+            plengi.stop();
         }
-    }
-
-    @Click
-    protected void btnRetry() {
-        retry.setVisibility(View.GONE);
-        //application.getPlengi().start();
-        txtPlace.setText("스캔중...");
-        anim.startAnim(this, logo, R.anim.logo_vibrate);
-        timer();
     }
 
     /**
@@ -96,7 +87,13 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceDefault(PlengiResponse response) {
-
+        if(response.place==null) {
+            String msg = "등록되지 않은 장소입니다.";
+            display(msg);
+        } else {
+            String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
+            display(msg);
+        }
     }
 
     /**
@@ -119,35 +116,47 @@ public class MainActivity extends AppCompatActivity implements CloudEventListene
      */
     @Override
     public void onPlaceIn(PlengiResponse response) {
-        String msg = "현재 계신 장소는 " + response.place.name + "입니다.";
+        String msg = "현재 " + response.place.name + "에 입실하셨습니다.";
         display(msg);
     }
 
     /**
-     *
      * @param msg String
+     *
+     * TODO 이거 버그 해결좀;;
+     * animationManager를 위에 놓으면 animation만 작동후 setText 작동 안함, setText를 위에 놓으면 setText만 작동후 animation 작동 안함
+     * ㄹㅇ 개빡침 어노테이션이 문제인건지 안드로이드가 문제인건지 모르겠음 ㅇㅇ
+     *
+     * ㄴ ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ 어노테이션 뺴봤으니까 테스트좀
      */
-    private void display(String msg) {
+    public void display(String msg) {
+        AnimationManager.getInstance(this).restartAnim(
+                imgLogo,
+                R.anim.logo_scale,
+                InterpolatorFactory.getDefaultLogoInterpolator()
+        );
+
         txtPlace.setText(msg);
-        anim.cancelAnim(logo);
-        anim.startAnim(this, logo, R.anim.logo_scale, li);
     }
 
-    private void timer() {
-        final Handler mHandler = new Handler();
-        mTask = new TimerTask() {
-            @Override
-            public void run() {
-                //application.getPlengi().stop();
-                mHandler.post(() -> {
-                    display("요청시간이 초과되었습니다.");
-                    retry.setVisibility(View.VISIBLE);
-                });
-            }
-        };
+    @Override
+    public void onPermissionGranted() {
+        application.setEventListener(this);
+        plengi = application.getPlengi();
 
-        mTimer = new Timer();
-        mTimer.schedule(mTask, 30000);
+        settingStorage = AppSettingStorage.getInstance(this);
+
+        boolean isActiveScanning = settingStorage.isActiveScanning();
+        swtScanning.setChecked(isActiveScanning);
+
+        if (isActiveScanning) {
+            plengi.start();
+            plengi.refreshPlace();
+        }
     }
 
+    @Override
+    public void onPermissionDenied(ArrayList<String> arrayList) {
+
+    }
 }
