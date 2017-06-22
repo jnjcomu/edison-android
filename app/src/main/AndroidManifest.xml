@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
-        android:name=".EdisonApplication_"
+        android:name=".EdisonApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@mipmap/ic_launcher"
@@ -21,11 +21,11 @@
         android:theme="@style/EdisonTheme">
 
         <activity
-            android:name=".activity.MainActivity_"
+            android:name=".activity.MainActivity"
             android:theme="@style/EdisonTheme.BlueBackground"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.SplashActivity_"
+            android:name=".activity.SplashActivity"
             android:theme="@style/EdisonTheme.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,10 +41,8 @@
                     android:host="dimigo.in" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity_"
+        <activity android:name=".activity.LoginActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"/>
-
-        <activity android:name=".activity.SettingsActivity_" />
 
         <receiver
             android:name="com.loplat.placeengine.EventReceiver"
