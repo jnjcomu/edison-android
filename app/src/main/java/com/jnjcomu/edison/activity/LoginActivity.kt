@@ -41,10 +41,7 @@ class LoginActivity : AppCompatActivity(), Callback<Ticket> {
     }
 
     protected fun sendResult(finishLogin: Boolean, message: String) {
-        /**
-         * TODO
-         * 코틀린에서 UI Thread 사용법을 모르겠음
-        */
+        //TODO 코틀린에서 UI Thread 사용법을 모르겠음
         statusDialog!!.dismiss()
 
         if (finishLogin) {

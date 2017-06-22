@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 
 import com.jnjcomu.edison.R
@@ -13,9 +14,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
 
     internal var imgLogo: ImageView = img_logo
-
-    //TODO 이거 해결
-    internal var dynamicLogo: Animation = R.anim.dynamic_logo
+    internal var dynamicLogo: Animation = AnimationUtils.loadAnimation(this, R.anim.dynamic_logo)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
