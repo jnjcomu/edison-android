@@ -12,7 +12,8 @@ class AppSettingStorage(context: Context) {
     private val mPref: SharedPreferences
     private val mEditor: SharedPreferences.Editor
 
-    private var isActiveScanning: Boolean = false
+    var isActiveScanning: Boolean = false
+        private set
 
     init {
         mPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)

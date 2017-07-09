@@ -4,10 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-
-import com.jnjcomu.edison.api.APIBuilder
-import com.jnjcomu.edison.storage.UserStorage
-
+import com.jnjcomu.edison.api.EdisonAPI
+import com.jnjcomu.edison.storage.userStorage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,23 +20,23 @@ class PlengiEventBroadcastReceiver : BroadcastReceiver() {
     }
 
     private fun noticeRegion(context: Context, intent: Intent, retry: Boolean) {
-        val userStorage = UserStorage.getInstance(context)
-
-        APIBuilder.api.enter(
-                userStorage.ticket!!,
+        EdisonAPI.enter(
+                context.userStorage.ticket!!,
                 intent.getStringExtra("place.id")
+
         ).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (!response.isSuccessful) {
-                    APIBuilder.api
-                            .fetchTicket(userStorage.ticket!!)
-                            .subscribe({ ticket -> UserStorage.getInstance(context).saveUserTicket(ticket) })
+                    EdisonAPI
+                            .fetchTicket(context.userStorage.ticket!!)
+                            .subscribe({ ticket -> context.userStorage.saveUserTicket(ticket) })
 
                     if (retry) noticeRegion(context, intent, false)
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {}
+
         })
     }
 

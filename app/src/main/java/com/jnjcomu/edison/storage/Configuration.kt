@@ -18,24 +18,27 @@ import java.io.InputStream
  * @since 2017-04-13
  */
 class Configuration(context: Context) {
-    private var json: JSONObject? = null
-    private var loplatId: String? = null
-    private var loplatPw: String? = null
-    private var hostUrl: String? = null
+    var json: JSONObject? = null
+        private set
+
+    var loplatId: String? = null
+        private set
+
+    var loplatPw: String? = null
+        private set
+
+    var hostUrl: String? = null
+        private set
 
     init {
-        var inputStream: InputStream? = null
         val encrypt = Encrypter(context)
 
-        try {
-            // read edison.json file
-            inputStream = context.assets.open(CONFIGURATION_JSON_NAME)
-
-            val size = inputStream!!.available()
+        context.assets.open(CONFIGURATION_JSON_NAME).use {
+            val size = it.available()
             val buffer = ByteArray(size)
 
-            inputStream.read(buffer)
-            val readString = String(buffer, ENCODING)
+            it.read(buffer)
+            val readString = String(buffer)
 
             // get json object
             json = JSONObject(readString)
@@ -50,15 +53,6 @@ class Configuration(context: Context) {
             hostUrl = encrypt.decrypt(encryptHostUrl)
             loplatId = encrypt.decrypt(encryptLoplatId)
             loplatPw = encrypt.decrypt(encryptLoplatPw)
-        } catch (ignored: Exception) {
-            Log.d(TAG, "Cant read json from assets")
-        } finally {
-            try {
-                inputStream!!.close()
-            } catch (ignored: Exception) {
-                Log.d(TAG, "Fail to stop work")
-            }
-
         }
     }
 

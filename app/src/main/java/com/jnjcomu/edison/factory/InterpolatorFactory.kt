@@ -1,7 +1,5 @@
 package com.jnjcomu.edison.factory
 
-import android.view.animation.Interpolator
-
 import com.jnjcomu.edison.ui.LogoInterpolator
 
 /**
@@ -10,9 +8,8 @@ import com.jnjcomu.edison.ui.LogoInterpolator
  */
 
 object InterpolatorFactory {
-    val defaultLogoInterpolator: Interpolator
-        get() = LogoInterpolator(
-                LogoInterpolator.DEFAULT_AMPLITUDE,
-                LogoInterpolator.DEFAULT_FREQUENCY
-        )
+    fun makeLogoInterpolator() = LogoInterpolator(
+            LogoInterpolator.DEFAULT_AMPLITUDE,
+            LogoInterpolator.DEFAULT_FREQUENCY
+    )
 }

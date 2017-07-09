@@ -92,7 +92,7 @@ class Encrypter(private val context: Context) {
 
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec)
 
-            decrypted = String(cipher.doFinal(data), ENCODING)
+            decrypted = String(cipher.doFinal(data))
         } catch (ignored: Exception) {
             decrypted = ""
         }

@@ -5,21 +5,20 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.jnjcomu.edison.EdisonApplication
 import com.jnjcomu.edison.R
+import com.jnjcomu.edison.api.plengi
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
 import com.jnjcomu.edison.storage.appStorage
 import com.jnjcomu.edison.ui.cancelAnim
 import com.jnjcomu.edison.ui.restartAnim
 import com.jnjcomu.edison.ui.startAnim
-import com.loplat.placeengine.Plengi
 import com.loplat.placeengine.PlengiResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener {
-    private var plengi: Plengi? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,28 +35,29 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
     override fun onDestroy() {
         super.onDestroy()
 
-        application.destroyEventListener()
-
-        appStorage().saveActive(swt_scanning.isChecked)
+        EdisonApplication.instance?.destroyEventListener()
+        appStorage.saveActive(swt_scanning.isChecked)
     }
 
     fun initUi() {
-        swt_scanning.setOnCheckedChangeListener { btn, isChecked ->
+        EdisonApplication.instance?.registerEventListener(this)
+
+        swt_scanning.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 img_logo.startAnim(this, R.anim.logo_vibrate)
 
-                plengi!!.start()
-                plengi!!.refreshPlace()
+                plengi.start()
+                plengi.refreshPlace()
             } else {
+                plengi.stop()
                 img_logo.cancelAnim()
-
-                plengi!!.stop()
             }
         }
 
         btn_refresh.setOnClickListener {
             txt_place.text = "스캔중..."
             swt_scanning.isChecked = true
+            plengi.refreshPlace()
         }
     }
 
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
     fun displayPlace(place: String) {
         img_logo.restartAnim(
                 this, R.anim.logo_scale,
-                InterpolatorFactory.defaultLogoInterpolator
+                InterpolatorFactory.makeLogoInterpolator()
         )
 
         txt_place.text = place
@@ -117,15 +117,12 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
 
     override fun onPermissionGranted() {
         initUi()
-        application.setEventListener(this)
-        plengi = application.plengi!!
 
-        val isActiveScanning = settingStorage!!.isActiveScanning
-        swtScanning.isChecked = isActiveScanning
+        swt_scanning.isChecked = appStorage.isActiveScanning
 
-        if (isActiveScanning) {
-            plengi!!.start()
-            plengi!!.refreshPlace()
+        if (swt_scanning.isChecked) {
+            plengi.start()
+            plengi.refreshPlace()
         }
     }
 
