@@ -5,24 +5,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
-import android.widget.EditText
-
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.factory.UserFactory
 import com.jnjcomu.edison.model.Ticket
 import com.jnjcomu.edison.storage.UserStorage
 import kotlinx.android.synthetic.main.activity_login.*
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity(), Callback<Ticket> {
-
-    private var btnLogin: CardView = btn_login
-    private var edtIdField: EditText = edt_id_field
-    private var edtPwField: EditText = edt_pw_field
 
     // TODO ㅇㄴ ProgressDialog deprecate 된거 실화?
     private var statusDialog: ProgressDialog? = null
@@ -33,9 +25,9 @@ class LoginActivity : AppCompatActivity(), Callback<Ticket> {
         statusDialog = ProgressDialog(this)
         statusDialog!!.setMessage("잠시만 기다려 주세요...")
 
-        btnLogin.setOnClickListener{
-            val userId = edtIdField.text.toString()
-            val userPassword = edtPwField.text.toString()
+        btn_login.setOnClickListener {
+            val userId = edt_id_field.text.toString()
+            val userPassword = edt_pw_field.text.toString()
 
             sendResult(true)
         }

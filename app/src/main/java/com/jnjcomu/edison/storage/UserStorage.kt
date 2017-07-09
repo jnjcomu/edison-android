@@ -7,24 +7,26 @@ import com.jnjcomu.edison.model.Ticket
 import com.jnjcomu.edison.model.User
 
 /**
- * @author CodeRi <ruto1924></ruto1924>@gmail.com>
- * *
+ * @author CodeRi <ruto1924@gmail.com>
  * @since 2017-05-07
  */
 
-class UserStorage private constructor(context: Context) {
-
+class UserStorage(context: Context) {
     private val mPref: SharedPreferences
     private val mEditor: SharedPreferences.Editor
 
     var name: String? = null
         private set
+
     var grade: Int? = null
         private set
+
     var clazz: Int? = null
         private set
+
     var number: Int? = null
         private set
+
     var ticket: Ticket? = null
         private set
 
@@ -41,18 +43,11 @@ class UserStorage private constructor(context: Context) {
 
     val user: User
         get() {
-            val user = User()
-
-            user.name = name
-            user.clazz = clazz!!
-            user.grade = grade!!
-            user.number = number!!
-
-            return user
+            return User(0, name!!, grade!!, clazz!!, number!!)
         }
 
     fun saveUser(user: User): UserStorage {
-        saveUserName(user.name!!)
+        saveUserName(user.name)
         saveUserGrade(user.grade)
         saveUserClazz(user.clazz)
         saveUserNumber(user.number)
@@ -125,14 +120,13 @@ class UserStorage private constructor(context: Context) {
         grade = 0
         clazz = 0
         number = 0
+
         ticket!!.ticketCode = ""
 
         mEditor.clear().commit()
     }
 
     companion object {
-        private var instance: UserStorage? = null
-
         private val STORAGE_NAME = "user_storage"
         private val SHARED_PREFERENCE_MODE = Context.MODE_PRIVATE
 
@@ -141,11 +135,8 @@ class UserStorage private constructor(context: Context) {
         private val CLASS_PREF = "class"
         private val NUMBER_PREF = "number"
         private val TICKET_CD_PREF = "ticket_cd"
-
-        fun getInstance(context: Context): UserStorage {
-            if (instance == null) instance = UserStorage(context)
-
-            return instance!!
-        }
     }
 }
+
+val Context.userStorage
+    get() = UserStorage(this)

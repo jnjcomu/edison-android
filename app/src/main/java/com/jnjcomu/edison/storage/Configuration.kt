@@ -11,23 +11,17 @@ import java.io.InputStream
 
 /**
  * Configuration Class
-
+ *
  * 키스토어에 의해 암호화된 키를 해독하는 클레스.
-
-
- * @author CodeRi13 <ruto1924></ruto1924>@gmail.com>
- * *
+ *
+ * @author CodeRi13 <ruto1924@gmail.com>
  * @since 2017-04-13
  */
 class Configuration(context: Context) {
-
     private var json: JSONObject? = null
-    var loplatId: String? = null
-        private set
-    var loplatPw: String? = null
-        private set
-    var hostUrl: String? = null
-        private set
+    private var loplatId: String? = null
+    private var loplatPw: String? = null
+    private var hostUrl: String? = null
 
     init {
         var inputStream: InputStream? = null
@@ -74,3 +68,6 @@ class Configuration(context: Context) {
         private val CONFIGURATION_JSON_NAME = "Edison.json"
     }
 }
+
+val Context.configurator: Configuration
+    get() = Configuration(this)

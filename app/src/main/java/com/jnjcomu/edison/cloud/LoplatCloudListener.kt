@@ -9,16 +9,20 @@ import com.loplat.placeengine.PlengiListener
 import com.loplat.placeengine.PlengiResponse
 
 /**
- * @author CodeRi13 <ruto1924></ruto1924>@gmail.com>
- * *
+ * @author CodeRi13 <ruto1924@gmail.com>
+ *
  * @since 2017-04-12
  */
 
 class LoplatCloudListener : PlengiListener {
     private var cloudEventListener: CloudEventListener? = null
+        set(cloudEventListener) {
+
+        }
 
     override fun listen(plengiResponse: PlengiResponse) {
         if (cloudEventListener == null) return  // Null check for cloudEventListener
+
         try {
             when (plengiResponse.type) {
                 PlengiResponse.ResponseType.PLACE -> cloudEventListener!!.onPlaceDefault(plengiResponse)
@@ -37,22 +41,21 @@ class LoplatCloudListener : PlengiListener {
 
     }
 
-    fun setListener(cloudEventListener: CloudEventListener) {
+    fun setListener(cloudEventListener: CloudEventListener?) {
         this.cloudEventListener = cloudEventListener
     }
 
     private fun sendBroadcast(response: PlengiResponse) {
         val broadcastInfo = Intent(PlengiEventBroadcastReceiver.RECEIVER_ID)
+                .putExtra("place.id", response.place.loplatid)
+                .putExtra("place.name", response.place.name)
+                .putExtra("place.floor", response.place.floor)
 
-        broadcastInfo.putExtra("place.id", response.place.loplatid)
-        broadcastInfo.putExtra("place.name", response.place.name)
-        broadcastInfo.putExtra("place.floor", response.place.floor)
+                .putExtra("response.result", response.result)
+                .putExtra("response.enterType", response.enterType)
+                .putExtra("response.type", response.type)
+                .putExtra("response.placeEvent", response.placeEvent)
 
-        broadcastInfo.putExtra("response.result", response.result)
-        broadcastInfo.putExtra("response.enterType", response.enterType)
-        broadcastInfo.putExtra("response.type", response.type)
-        broadcastInfo.putExtra("response.placeEvent", response.placeEvent)
-
-        EdisonApplication.instance!!.sendBroadcast(broadcastInfo)
+        EdisonApplication.instance?.sendBroadcast(broadcastInfo)
     }
 }

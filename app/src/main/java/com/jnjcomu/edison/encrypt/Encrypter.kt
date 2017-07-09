@@ -2,33 +2,27 @@ package com.jnjcomu.edison.encrypt
 
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.pm.Signature
 import android.util.Base64
-import android.util.Log
-
 import java.security.MessageDigest
-
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 /**
- * @author kimwoojae <wj1187></wj1187>@naver.com>
- * *
- * @author coderi13 <ruto1924></ruto1924>@gmail.com>
- * *
+ * @author kimwoojae <wj1187@naver.com>
+ * @author coderi13 <ruto1924@gmail.com>
+ *
  * @since 2017-04-05
- * *
- * * TODO 코드 완벽하게 이해하기
- * * TODO String 에러 고치기
+ *
+ * TODO 코드 완벽하게 이해하기
+ * TODO String 에러 고치기
  */
 
 class Encrypter(private val context: Context) {
     private var keyIV: String? = null
 
     /**
-
      * @return secretKey
      */
     fun fetchSignature(): SecretKey? {
@@ -51,9 +45,8 @@ class Encrypter(private val context: Context) {
     }
 
     /**
-
      * @param plainText String
-     * *
+     *
      * @return encrypted
      */
     fun encrypt(plainText: String): String {
@@ -80,9 +73,8 @@ class Encrypter(private val context: Context) {
     }
 
     /**
-
      * @param encrypted String
-     * *
+     *
      * @return decrypted
      */
     fun decrypt(encrypted: String): String {

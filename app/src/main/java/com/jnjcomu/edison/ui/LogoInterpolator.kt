@@ -3,8 +3,7 @@ package com.jnjcomu.edison.ui
 import android.view.animation.Interpolator
 
 /**
- * @author kimwoojae <wj1187></wj1187>@naver.com>
- * *
+ * @author kimwoojae <wj1187@naver.com>
  * @since 2017-05-12
  */
 
