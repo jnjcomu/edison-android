@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
 
-    internal var imgLogo: ImageView = img_logo
-    internal var dynamicLogo: Animation = AnimationUtils.loadAnimation(this, R.anim.dynamic_logo)
+    private var imgLogo: ImageView = img_logo
+    private var dynamicLogo: Animation = AnimationUtils.loadAnimation(this, R.anim.dynamic_logo)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

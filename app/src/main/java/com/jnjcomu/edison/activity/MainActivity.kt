@@ -21,14 +21,14 @@ import java.util.ArrayList
 
 class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener {
 
-    protected var application: EdisonApplication = EdisonApplication()
+    private var application: EdisonApplication = EdisonApplication()
 
-    protected var txtPlace: TextView = txt_place
-    protected var imgLogo: ImageView = img_logo
-    protected var swtScanning: Switch = swt_scanning
+    private var txtPlace: TextView = txt_place
+    private var imgLogo: ImageView = img_logo
+    private var swtScanning: Switch = swt_scanning
 
-    protected var settingStorage: AppSettingStorage? = null
-    protected var plengi: Plengi? = null
+    private var settingStorage: AppSettingStorage? = null
+    private var plengi: Plengi? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

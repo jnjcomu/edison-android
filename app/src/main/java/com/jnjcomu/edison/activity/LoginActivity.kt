@@ -20,11 +20,12 @@ import retrofit2.Response
 
 class LoginActivity : AppCompatActivity(), Callback<Ticket> {
 
-    protected var btnLogin: CardView = btn_login
-    protected var edtIdField: EditText = edt_id_field
-    protected var edtPwField: EditText = edt_pw_field
+    private var btnLogin: CardView = btn_login
+    private var edtIdField: EditText = edt_id_field
+    private var edtPwField: EditText = edt_pw_field
 
-    protected var statusDialog: ProgressDialog? = null
+    // TODO ㅇㄴ ProgressDialog deprecate 된거 실화?
+    private var statusDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class LoginActivity : AppCompatActivity(), Callback<Ticket> {
         }
     }
 
-    protected fun sendResult(finishLogin: Boolean, message: String) {
+    private fun sendResult(finishLogin: Boolean, message: String) {
         //TODO 코틀린에서 UI Thread 사용법을 모르겠음
         statusDialog!!.dismiss()
 
@@ -56,7 +57,7 @@ class LoginActivity : AppCompatActivity(), Callback<Ticket> {
         }
     }
 
-    protected fun sendResult(finishLogin: Boolean) {
+    private fun sendResult(finishLogin: Boolean) {
         sendResult(finishLogin, "")
     }
 
