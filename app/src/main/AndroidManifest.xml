@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".EdisonApplication"
@@ -22,8 +22,9 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/EdisonTheme.BlueBackground"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/EdisonTheme.BlueBackground" />
+
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/EdisonTheme.Splash">
@@ -34,15 +35,19 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
-                    android:scheme="http"
-                    android:host="dimigo.in" />
+                    android:host="dimigo.in"
+                    android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <receiver
             android:name="com.loplat.placeengine.EventReceiver"
@@ -56,8 +61,8 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:exported="false"
-            android:name=".broadcast.PlengiEventBroadcastReceiver">
+            android:name=".broadcast.PlengiEventBroadcastReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.jnjcomu.edison.cloud.response" />
             </intent-filter>
