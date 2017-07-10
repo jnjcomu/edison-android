@@ -1,5 +1,6 @@
 package com.jnjcomu.edison.cloud
 
+import android.content.Context
 import android.content.Intent
 
 import com.jnjcomu.edison.EdisonApplication
@@ -13,7 +14,7 @@ import com.loplat.placeengine.PlengiResponse
  * @since 2017-04-12
  */
 
-class LoplatCloudListener : PlengiListener {
+class LoplatCloudListener(val context: Context) : PlengiListener {
     private var cloudEventListener: CloudEventListener? = null
 
     override fun listen(plengiResponse: PlengiResponse) {
@@ -51,6 +52,6 @@ class LoplatCloudListener : PlengiListener {
                 .putExtra("response.type", response.type)
                 .putExtra("response.placeEvent", response.placeEvent)
 
-        EdisonApplication.instance?.sendBroadcast(broadcastInfo)
+        context.sendBroadcast(broadcastInfo)
     }
 }

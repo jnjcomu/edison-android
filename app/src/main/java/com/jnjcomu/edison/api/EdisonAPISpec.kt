@@ -12,7 +12,7 @@ import retrofit2.http.*
 
 interface EdisonAPISpec {
     @POST("/auth")
-    fun login(@Field("id") id: String, @Field("pw") pw: String): Call<Ticket>
+    fun login(@Field("id") id: String, @Field("pw") pw: String): Observable<Ticket>
 
     @POST("/auth/renew")
     fun fetchTicket(@Header("Authorization") ticket: Ticket): Observable<Ticket>

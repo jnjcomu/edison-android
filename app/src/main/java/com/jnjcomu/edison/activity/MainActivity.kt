@@ -7,10 +7,11 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.jnjcomu.edison.EdisonApplication
 import com.jnjcomu.edison.R
-import com.jnjcomu.edison.api.plengi
+import com.jnjcomu.edison.addition.appStorage
+import com.jnjcomu.edison.addition.inApplication
+import com.jnjcomu.edison.addition.plengi
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
-import com.jnjcomu.edison.storage.appStorage
 import com.jnjcomu.edison.ui.cancelAnim
 import com.jnjcomu.edison.ui.restartAnim
 import com.jnjcomu.edison.ui.startAnim
@@ -35,12 +36,12 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
     override fun onDestroy() {
         super.onDestroy()
 
-        EdisonApplication.instance?.destroyEventListener()
+        inApplication.destroyEventListener()
         appStorage.saveActive(swt_scanning.isChecked)
     }
 
     fun initUi() {
-        EdisonApplication.instance?.registerEventListener(this)
+        inApplication.registerEventListener(this)
 
         swt_scanning.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
