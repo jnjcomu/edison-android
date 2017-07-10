@@ -2,8 +2,6 @@ package com.jnjcomu.edison.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.jnjcomu.edison.component.LoginActivityComponent
-import org.jetbrains.anko.setContentView
 
 /*
  * NOTE
@@ -14,7 +12,5 @@ import org.jetbrains.anko.setContentView
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        LoginActivityComponent().setContentView(this)
     }
 }
