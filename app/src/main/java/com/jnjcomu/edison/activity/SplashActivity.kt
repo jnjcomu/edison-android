@@ -10,7 +10,10 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.startActivity
 
 class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
-    private var dynamicLogo: Animation = AnimationUtils.loadAnimation(this, R.anim.dynamic_logo)
+    private val dynamicLogo: Animation by lazy {
+        AnimationUtils.loadAnimation(this, R.anim.dynamic_logo)
+    }
+
     private val readyAnimation: Animation
         get() {
             dynamicLogo.setAnimationListener(this)

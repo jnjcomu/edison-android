@@ -1,4 +1,4 @@
-package com.jnjcomu.edison.ui
+package com.jnjcomu.edison.addition
 
 import android.content.Context
 import android.support.annotation.AnimRes
