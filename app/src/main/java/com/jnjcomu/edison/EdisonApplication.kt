@@ -1,10 +1,10 @@
 package com.jnjcomu.edison
 
 import android.app.Application
-import com.jnjcomu.edison.api.plengi
+import com.jnjcomu.edison.addition.configurator
+import com.jnjcomu.edison.addition.plengi
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.cloud.LoplatCloudListener
-import com.jnjcomu.edison.storage.configurator
 
 /**
  * @author CodeRi13 <ruto1924@gmail.com>
@@ -12,22 +12,18 @@ import com.jnjcomu.edison.storage.configurator
  */
 
 class EdisonApplication : Application() {
-    private var cloudListener = LoplatCloudListener()
+    private var cloudListener = LoplatCloudListener(this)
 
     override fun onCreate() {
         super.onCreate()
 
         plengi.listener = cloudListener
 
-        // NOTE : Please register when login into edison server
-        // Please change the "12345" be named user unique code to unique.
-        plengi.init(
-                configurator.loplatId,
-                configurator.loplatPw,
-                "12345"
-        )
-
-        instance = this
+        /*
+         * NOTE : Please register when login into edison server
+         * TODO : "uniqueUserId" should be a individual code
+         */
+        plengi.init(configurator.loplatId, configurator.loplatPw, "12345")
     }
 
     fun registerEventListener(cloudEventListener: CloudEventListener) {
@@ -36,10 +32,5 @@ class EdisonApplication : Application() {
 
     fun destroyEventListener() {
         cloudListener.setListener(null)
-    }
-
-    companion object {
-        var instance: EdisonApplication? = null
-            private set
     }
 }

@@ -1,5 +1,6 @@
 package com.jnjcomu.edison.cloud
 
+import android.content.Context
 import android.content.Intent
 
 import com.jnjcomu.edison.EdisonApplication
@@ -10,35 +11,30 @@ import com.loplat.placeengine.PlengiResponse
 
 /**
  * @author CodeRi13 <ruto1924@gmail.com>
- *
  * @since 2017-04-12
  */
 
-class LoplatCloudListener : PlengiListener {
+class LoplatCloudListener(val context: Context) : PlengiListener {
     private var cloudEventListener: CloudEventListener? = null
-        set(cloudEventListener) {
-
-        }
 
     override fun listen(plengiResponse: PlengiResponse) {
-        if (cloudEventListener == null) return  // Null check for cloudEventListener
-
-        try {
-            when (plengiResponse.type) {
-                PlengiResponse.ResponseType.PLACE -> cloudEventListener!!.onPlaceDefault(plengiResponse)
-                PlengiResponse.ResponseType.PLACE_EVENT -> {
-                    if (plengiResponse.placeEvent == PlengiResponse.PlaceEvent.ENTER) {
-                        if (plengiResponse.enterType == PlengiResponse.EnterType.ENTER)
-                            cloudEventListener!!.onPlaceIn(plengiResponse)
-                        else if (plengiResponse.enterType == PlengiResponse.EnterType.NEARBY)
-                            cloudEventListener!!.onPlaceNear(plengiResponse)
+        cloudEventListener?.let {
+            try {
+                when (plengiResponse.type) {
+                    PlengiResponse.ResponseType.PLACE -> it.onPlaceDefault(plengiResponse)
+                    PlengiResponse.ResponseType.PLACE_EVENT -> {
+                        if (plengiResponse.placeEvent == PlengiResponse.PlaceEvent.ENTER) {
+                            if (plengiResponse.enterType == PlengiResponse.EnterType.ENTER)
+                                it.onPlaceIn(plengiResponse)
+                            else if (plengiResponse.enterType == PlengiResponse.EnterType.NEARBY)
+                                it.onPlaceNear(plengiResponse)
+                        }
+                        sendBroadcast(plengiResponse)
                     }
-                    sendBroadcast(plengiResponse)
                 }
+            } catch (ignored: Exception) {
             }
-        } catch (ignored: Exception) {
         }
-
     }
 
     fun setListener(cloudEventListener: CloudEventListener?) {
@@ -56,6 +52,6 @@ class LoplatCloudListener : PlengiListener {
                 .putExtra("response.type", response.type)
                 .putExtra("response.placeEvent", response.placeEvent)
 
-        EdisonApplication.instance?.sendBroadcast(broadcastInfo)
+        context.sendBroadcast(broadcastInfo)
     }
 }
