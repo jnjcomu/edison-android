@@ -54,6 +54,6 @@ class Configuration(context: Context) {
     companion object {
         private val TAG = "Configuration"
         private val ENCODING = "UTF-8"
-        private val CONFIGURATION_JSON_NAME = "Edison.json"
+        private val CONFIGURATION_JSON_NAME = "edison.json"
     }
 }
