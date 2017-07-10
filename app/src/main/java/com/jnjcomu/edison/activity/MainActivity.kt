@@ -3,36 +3,26 @@ package com.jnjcomu.edison.activity
 import android.Manifest
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.*
-
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.jnjcomu.edison.EdisonApplication
 import com.jnjcomu.edison.R
+import com.jnjcomu.edison.api.plengi
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
-import com.jnjcomu.edison.storage.AppSettingStorage
-import com.jnjcomu.edison.ui.AnimationManager
-import com.loplat.placeengine.Plengi
+import com.jnjcomu.edison.storage.appStorage
+import com.jnjcomu.edison.ui.cancelAnim
+import com.jnjcomu.edison.ui.restartAnim
+import com.jnjcomu.edison.ui.startAnim
 import com.loplat.placeengine.PlengiResponse
 import kotlinx.android.synthetic.main.activity_main.*
-
-import java.util.ArrayList
+import java.util.*
 
 class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener {
-
-    protected var application: EdisonApplication = EdisonApplication()
-
-    protected var txtPlace: TextView = txt_place
-    protected var imgLogo: ImageView = img_logo
-    protected var swtScanning: Switch = swt_scanning
-
-    protected var settingStorage: AppSettingStorage? = null
-    protected var plengi: Plengi? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         TedPermission(this)
                 .setPermissionListener(this)
                 .setDeniedMessage("권한 허가가 되지 않으면 앱을 이용하실 수 없습니다.")
@@ -44,70 +34,68 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
 
     override fun onDestroy() {
         super.onDestroy()
-        application.destroyEventListener()
-        settingStorage!!.saveActive(swtScanning.isChecked)
+
+        EdisonApplication.instance?.destroyEventListener()
+        appStorage.saveActive(swt_scanning.isChecked)
     }
 
     fun initUi() {
-        swtScanning.setOnCheckedChangeListener {btn, isChecked ->
+        EdisonApplication.instance?.registerEventListener(this)
+
+        swt_scanning.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                AnimationManager.getInstance(this).startAnim(
-                        imgLogo,
-                        R.anim.logo_vibrate
-                )
-                plengi!!.start()
-                plengi!!.refreshPlace()
+                img_logo.startAnim(this, R.anim.logo_vibrate)
+
+                plengi.start()
+                plengi.refreshPlace()
             } else {
-                AnimationManager.getInstance(this).cancelAnim(imgLogo)
-                plengi!!.stop()
+                plengi.stop()
+                img_logo.cancelAnim()
             }
         }
+
         btn_refresh.setOnClickListener {
-            txtPlace.text = "스캔중..."
+            txt_place.text = "스캔중..."
             swt_scanning.isChecked = true
+            plengi.refreshPlace()
         }
     }
 
     /**
      * EventListener
-
+     *
      * @param response PlengiResponse
-     * *
+     *
      * @see CloudEventListener
      */
-    override fun onPlaceDefault(response: PlengiResponse) {
-        if (response.place == null) {
-            val msg = "등록되지 않은 장소입니다."
-            display(msg)
-        } else {
-            val msg = "현재 계신 장소는 " + response.place.name + "입니다."
-            display(msg)
-        }
-    }
+    override fun onPlaceDefault(response: PlengiResponse) =
+            displayPlace(
+                    if (response.place != null) {
+                        "등록되지 않은 장소입니다."
+                    } else {
+                        "현재 계신 장소는 ${response.place.name} 입니다."
+                    }
+            )
 
     /**
      * EventListener
-
+     *
      * @param response PlengiResponse
-     * *
+     *
      * @see CloudEventListener
      */
-    override fun onPlaceNear(response: PlengiResponse) {
-        val msg = "현재 " + response.place.name + " 주변 입니다."
-        display(msg)
-    }
+    override fun onPlaceNear(response: PlengiResponse) =
+            displayPlace("현재 ${response.place.name} 주변에 있습니다.")
 
     /**
      * EventListener
-
+     *
      * @param response PlengiResponse
-     * *
+     *
      * @see CloudEventListener
      */
-    override fun onPlaceIn(response: PlengiResponse) {
-        val msg = "현재 " + response.place.name + "에 입실하셨습니다."
-        display(msg)
-    }
+    override fun onPlaceIn(response: PlengiResponse) =
+            displayPlace("현재 ${response.place.name} 안에 있습니다.")
 
     /**
      * @param msg String
@@ -118,29 +106,23 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
      * *
      * * ㄴ ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ 어노테이션 뺴봤으니까 테스트좀
      */
-    fun display(msg: String) {
-        AnimationManager.getInstance(this).restartAnim(
-                imgLogo,
-                R.anim.logo_scale,
-                InterpolatorFactory.defaultLogoInterpolator
+    fun displayPlace(place: String) {
+        img_logo.restartAnim(
+                this, R.anim.logo_scale,
+                InterpolatorFactory.makeLogoInterpolator()
         )
 
-        txtPlace.text = msg
+        txt_place.text = place
     }
 
     override fun onPermissionGranted() {
         initUi()
-        application.setEventListener(this)
-        plengi = application.plengi!!
 
-        settingStorage = AppSettingStorage.getInstance(this)
+        swt_scanning.isChecked = appStorage.isActiveScanning
 
-        val isActiveScanning = settingStorage!!.isActiveScanning
-        swtScanning.isChecked = isActiveScanning
-
-        if (isActiveScanning) {
-            plengi!!.start()
-            plengi!!.refreshPlace()
+        if (swt_scanning.isChecked) {
+            plengi.start()
+            plengi.refreshPlace()
         }
     }
 

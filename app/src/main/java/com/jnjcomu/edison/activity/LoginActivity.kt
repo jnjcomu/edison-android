@@ -1,51 +1,47 @@
 package com.jnjcomu.edison.activity
 
-import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
-import android.widget.EditText
-
+import android.view.View
 import com.jnjcomu.edison.R
+import com.jnjcomu.edison.api.EdisonAPI
 import com.jnjcomu.edison.factory.UserFactory
 import com.jnjcomu.edison.model.Ticket
-import com.jnjcomu.edison.storage.UserStorage
+import com.jnjcomu.edison.storage.userStorage
 import kotlinx.android.synthetic.main.activity_login.*
-
+import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/*
+ * NOTE
+ * ProgressDialog 가 Progress 작업은 엑티비티 뷰 안에서 이루어
+ * 져야 한다는 Google Material Design Guideline 에 따라 지원 중단됨.
+ */
 class LoginActivity : AppCompatActivity(), Callback<Ticket> {
-
-    protected var btnLogin: CardView = btn_login
-    protected var edtIdField: EditText = edt_id_field
-    protected var edtPwField: EditText = edt_pw_field
-
-    protected var statusDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        statusDialog = ProgressDialog(this)
-        statusDialog!!.setMessage("잠시만 기다려 주세요...")
 
-        btnLogin.setOnClickListener{
-            val userId = edtIdField.text.toString()
-            val userPassword = edtPwField.text.toString()
+        btn_login.setOnClickListener {
+            val userId = edt_id_field.text.toString()
+            val userPassword = edt_pw_field.text.toString()
+
+            // TODO Add login logic
+            // EdisonAPI.login(userId, userPassword).enqueue(this)
 
             sendResult(true)
         }
     }
 
-    protected fun sendResult(finishLogin: Boolean, message: String) {
-        //TODO 코틀린에서 UI Thread 사용법을 모르겠음
-        statusDialog!!.dismiss()
+    private fun sendResult(finishLogin: Boolean, message: String) {
+        progress_bar.visibility = View.GONE
 
         if (finishLogin) {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity<MainActivity>()
             finish()
         }
 
@@ -56,7 +52,7 @@ class LoginActivity : AppCompatActivity(), Callback<Ticket> {
         }
     }
 
-    protected fun sendResult(finishLogin: Boolean) {
+    private fun sendResult(finishLogin: Boolean) {
         sendResult(finishLogin, "")
     }
 
@@ -65,7 +61,7 @@ class LoginActivity : AppCompatActivity(), Callback<Ticket> {
             val ticket = response.body()
             val user = UserFactory.extractUser(ticket!!)
 
-            UserStorage.getInstance(this)
+            userStorage
                     .saveUser(user)
                     .saveUserTicket(ticket)
 
