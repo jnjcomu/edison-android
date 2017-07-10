@@ -14,7 +14,7 @@ object APIScheme {
     val SERVER_ENDPOINT = "$SERVER_ENDPOINT_PROTOCOL://$SERVER_ENDPOINT_URL:$SERVER_ENDPOINT_PORT"
 }
 
-val EdisonAPI = Retrofit.Builder()
+val EdisonAPI: EdisonAPISpec = Retrofit.Builder()
         .baseUrl(APIScheme.SERVER_ENDPOINT)
         .build()
         .create(EdisonAPISpec::class.java)

@@ -17,8 +17,8 @@ import retrofit2.Response
 
 /*
  * NOTE
- * ProgressDialog 가 Progress 작업은 엑티비티 뷰 안에서 이루어
- * 져야 한다는 Google Material Design Guideline 에 따라 지원 중단됨.
+ * ProgressDialog 가 Progress Viewing 은 Activity View 안에서 이루어
+ * 져야 한다는 Google Material Design Guideline 에 따라 Deprecated 됨.
  */
 class LoginActivity : AppCompatActivity(), Callback<Ticket> {
 
