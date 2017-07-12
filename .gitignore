@@ -1,14 +1,12 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 /.idea/dictionaries/
 .DS_Store
 .idea
 /build
 /captures
 .externalNativeBuild
-/app/src/main/assets/edison.json
+/app/src/main/assets/Edison.json
 /app/app-release.apk
 /app/app-debug.apk

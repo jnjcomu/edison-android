@@ -50,8 +50,6 @@ dependencies {
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.16'
     compile 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.16'
 
-    compile 'com.androidadvance.surveylib:surveylib:0.0.1'
-
     compile 'gun0912.ted:tedpermission:1.0.3'
 
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
