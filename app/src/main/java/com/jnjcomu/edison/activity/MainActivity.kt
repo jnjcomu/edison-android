@@ -11,9 +11,9 @@ import com.jnjcomu.edison.addition.inApplication
 import com.jnjcomu.edison.addition.plengi
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
-import com.jnjcomu.edison.ui.cancelAnim
-import com.jnjcomu.edison.ui.restartAnim
-import com.jnjcomu.edison.ui.startAnim
+import com.jnjcomu.edison.addition.cancelAnim
+import com.jnjcomu.edison.addition.restartAnim
+import com.jnjcomu.edison.addition.startAnim
 import com.loplat.placeengine.PlengiResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
