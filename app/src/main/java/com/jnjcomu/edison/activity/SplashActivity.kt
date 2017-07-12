@@ -10,18 +10,19 @@ import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.startActivity
 
 class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
-    private var dynamicLogo: Animation = AnimationUtils.loadAnimation(this, R.anim.dynamic_logo)
+    private var dynamicLogo: Animation? = null
     private val readyAnimation: Animation
         get() {
-            dynamicLogo.setAnimationListener(this)
+            dynamicLogo!!.setAnimationListener(this)
 
-            return dynamicLogo
+            return dynamicLogo!!
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        dynamicLogo = AnimationUtils.loadAnimation(this, R.anim.dynamic_logo)
         val handler = Handler()
         handler.postDelayed({ img_logo.startAnimation(readyAnimation) }, 1000)
     }
@@ -41,7 +42,7 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation) {
-        startActivity<LoginActivity>()
+        startActivity<MainActivity>()
 
         finish()
     }
