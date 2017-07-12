@@ -1,13 +1,8 @@
 package com.jnjcomu.edison.storage
 
 import android.content.Context
-import android.util.Log
-
 import com.jnjcomu.edison.encrypt.Encrypter
-
 import org.json.JSONObject
-
-import java.io.InputStream
 
 /**
  * Configuration Class
@@ -62,6 +57,3 @@ class Configuration(context: Context) {
         private val CONFIGURATION_JSON_NAME = "Edison.json"
     }
 }
-
-val Context.configurator: Configuration
-    get() = Configuration(this)

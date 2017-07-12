@@ -1,10 +1,11 @@
-package com.jnjcomu.edison.ui
+package com.jnjcomu.edison.addition
 
 import android.content.Context
 import android.support.annotation.AnimRes
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
+import android.widget.TextView
 
 /**
  * @author kimwoojae <wj1187@naver.com>

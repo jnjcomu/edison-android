@@ -40,6 +40,3 @@ class AppSettingStorage(context: Context) {
         private val ACTIVITED_PREF = "activited"
     }
 }
-
-val Context.appStorage: AppSettingStorage
-    get() = AppSettingStorage(this)

@@ -137,6 +137,3 @@ class UserStorage(context: Context) {
         private val TICKET_CD_PREF = "ticket_cd"
     }
 }
-
-val Context.userStorage
-    get() = UserStorage(this)

@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import com.jnjcomu.edison.EdisonApplication
 import com.jnjcomu.edison.R
-import com.jnjcomu.edison.api.plengi
+import com.jnjcomu.edison.addition.appStorage
+import com.jnjcomu.edison.addition.inApplication
+import com.jnjcomu.edison.addition.plengi
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
-import com.jnjcomu.edison.storage.appStorage
-import com.jnjcomu.edison.ui.cancelAnim
-import com.jnjcomu.edison.ui.restartAnim
-import com.jnjcomu.edison.ui.startAnim
+import com.jnjcomu.edison.addition.cancelAnim
+import com.jnjcomu.edison.addition.restartAnim
+import com.jnjcomu.edison.addition.startAnim
 import com.loplat.placeengine.PlengiResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -35,12 +35,12 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
     override fun onDestroy() {
         super.onDestroy()
 
-        EdisonApplication.instance?.destroyEventListener()
+        inApplication.destroyEventListener()
         appStorage.saveActive(swt_scanning.isChecked)
     }
 
     fun initUi() {
-        EdisonApplication.instance?.registerEventListener(this)
+        inApplication.registerEventListener(this)
 
         swt_scanning.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
         }
 
         btn_refresh.setOnClickListener {
+            img_logo.startAnim(this, R.anim.logo_vibrate)
             txt_place.text = "스캔중..."
             swt_scanning.isChecked = true
             plengi.refreshPlace()
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
      */
     override fun onPlaceDefault(response: PlengiResponse) =
             displayPlace(
-                    if (response.place != null) {
+                    if (response.place == null) {
                         "등록되지 않은 장소입니다."
                     } else {
                         "현재 계신 장소는 ${response.place.name} 입니다."
@@ -99,19 +100,14 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
 
     /**
      * @param msg String
-     * *
-     * * TODO 이거 버그 해결좀;;
-     * * animationManager를 위에 놓으면 animation만 작동후 setText 작동 안함, setText를 위에 놓으면 setText만 작동후 animation 작동 안함
-     * * ㄹㅇ 개빡침 어노테이션이 문제인건지 안드로이드가 문제인건지 모르겠음 ㅇㅇ
-     * *
-     * * ㄴ ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ 어노테이션 뺴봤으니까 테스트좀
+     * TODO 이거 ㄹㅇ 해결 안됨;;
+     *
      */
     fun displayPlace(place: String) {
         img_logo.restartAnim(
                 this, R.anim.logo_scale,
                 InterpolatorFactory.makeLogoInterpolator()
         )
-
         txt_place.text = place
     }
 
@@ -129,4 +125,5 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
     override fun onPermissionDenied(arrayList: ArrayList<String>) {
 
     }
+
 }

@@ -1,4 +1,4 @@
-package com.jnjcomu.edison.api
+package com.jnjcomu.edison.addition
 
 import android.content.Context
 import com.loplat.placeengine.Plengi
