@@ -3,7 +3,6 @@ package com.jnjcomu.edison.cloud
 import android.content.Context
 import android.content.Intent
 
-import com.jnjcomu.edison.EdisonApplication
 import com.jnjcomu.edison.broadcast.PlengiEventBroadcastReceiver
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.loplat.placeengine.PlengiListener

@@ -5,7 +5,6 @@ import android.support.annotation.AnimRes
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
-import android.widget.TextView
 
 /**
  * @author kimwoojae <wj1187@naver.com>

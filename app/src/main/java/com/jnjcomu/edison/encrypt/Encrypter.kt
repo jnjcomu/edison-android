@@ -14,9 +14,6 @@ import javax.crypto.spec.SecretKeySpec
  * @author coderi13 <ruto1924@gmail.com>
  *
  * @since 2017-04-05
- *
- * TODO 코드 완벽하게 이해하기
- * TODO String 에러 고치기
  */
 
 class Encrypter(private val context: Context) {
