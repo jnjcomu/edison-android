@@ -1,19 +1,20 @@
 package com.jnjcomu.edison.activity
 
 import android.Manifest
+import android.app.AlarmManager
+import android.app.AlertDialog
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.jnjcomu.edison.R
-import com.jnjcomu.edison.addition.appStorage
-import com.jnjcomu.edison.addition.inApplication
-import com.jnjcomu.edison.addition.plengi
+import com.jnjcomu.edison.addition.*
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
-import com.jnjcomu.edison.addition.cancelAnim
-import com.jnjcomu.edison.addition.restartAnim
-import com.jnjcomu.edison.addition.startAnim
+import com.jnjcomu.edison.broadcast.EdisonReceiver
 import com.loplat.placeengine.PlengiResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -70,13 +71,13 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
      * @see CloudEventListener
      */
     override fun onPlaceDefault(response: PlengiResponse) =
-            displayPlace(
-                    if (response.place == null) {
-                        "등록되지 않은 장소입니다."
-                    } else {
-                        "현재 계신 장소는 ${response.place.name} 입니다."
-                    }
-            )
+        displayPlace(
+                if (response.place == null) {
+                    "등록되지 않은 장소입니다."
+                } else {
+                    "현재 계신 장소는 ${response.place.name} 입니다."
+                }
+        )
 
     /**
      * EventListener
@@ -104,15 +105,25 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
      *
      */
     fun displayPlace(place: String) {
+        txt_place.text = place
         img_logo.restartAnim(
                 this, R.anim.logo_scale,
                 InterpolatorFactory.makeLogoInterpolator()
         )
-        txt_place.text = place
     }
 
     override fun onPermissionGranted() {
         initUi()
+
+        if(appStorage.isFirstRun)
+            firstRun()
+
+        if(!netChecker.isActive()) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("안내")
+            builder.setMessage("Edison 서비스의 정상 동작을 위해 Wi-Fi를 활성화시켜주세요.")
+            finish()
+        }
 
         swt_scanning.isChecked = appStorage.isActiveScanning
 
@@ -124,6 +135,24 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
 
     override fun onPermissionDenied(arrayList: ArrayList<String>) {
 
+    }
+
+    fun firstRun() {
+        val alarmIntent = Intent(this, EdisonReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0)
+
+        val manager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        val calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(System.currentTimeMillis())
+        calendar.set(Calendar.HOUR_OF_DAY, 19)
+        calendar.set(Calendar.MINUTE, 50)
+        calendar.set(Calendar.SECOND, 0)
+
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent)
+
+        appStorage.saveFirstrun(false)
     }
 
 }

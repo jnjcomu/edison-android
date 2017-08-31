@@ -1,6 +1,7 @@
 package com.jnjcomu.edison.addition
 
 import android.content.Context
+import com.jnjcomu.edison.network.NetChecker
 import com.jnjcomu.edison.storage.AppSettingStorage
 import com.jnjcomu.edison.storage.Configuration
 import com.jnjcomu.edison.storage.UserStorage
@@ -18,3 +19,6 @@ val Context.configurator: Configuration
 
 val Context.userStorage
     get() = UserStorage(this)
+
+val Context.netChecker
+    get() = NetChecker(this)

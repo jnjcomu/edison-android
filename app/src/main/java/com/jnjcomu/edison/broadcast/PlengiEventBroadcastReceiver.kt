@@ -3,9 +3,9 @@ package com.jnjcomu.edison.broadcast
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import com.jnjcomu.edison.addition.EdisonAPI
 import com.jnjcomu.edison.addition.userStorage
+import com.loplat.placeengine.PlengiResponse
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,7 +16,12 @@ class PlengiEventBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != RECEIVER_ID) return
 
-        context.toast(intent.getStringExtra("place.id"))
+        val enterType = intent.getIntExtra("response.enterType", 0)
+        if (enterType == PlengiResponse.EnterType.ENTER)
+            context.toast("${intent.getStringExtra("place.name")}에 입실했습니다.")
+        else if (enterType == PlengiResponse.EnterType.NEARBY)
+            context.toast("${intent.getStringExtra("place.name")} 주변에 있습니다.")
+
         noticeRegion(context, intent, true)
     }
 

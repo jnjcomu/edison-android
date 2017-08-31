@@ -20,4 +20,7 @@ interface EdisonAPISpec {
     @FormUrlEncoded
     @POST("/place/{id}/enter")
     fun enter(@Header("Authorization") ticket: Ticket, @Path("id") placeId: String): Call<Void>
+
+    @GET(" ")
+    fun checkin(@Query("data") data: String): Call<Void>
 }
