@@ -1,13 +1,21 @@
 package com.jnjcomu.edison.activity
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.jnjcomu.edison.R
+import com.jnjcomu.edison.addition.netChecker
+import com.jnjcomu.edison.api.API
+import com.jnjcomu.edison.model.Session
 import kotlinx.android.synthetic.main.activity_splash.*
 import org.jetbrains.anko.startActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
     private val dynamicLogo: Animation by lazy {
@@ -44,9 +52,34 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation) {
-        startActivity<LoginActivity>()
+        if(!netChecker.isConnected()) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("안내")
+            builder.setMessage("네트워크 연결을 확인해주세요.")
+            builder.setCancelable(false)
+            builder.setPositiveButton("확인", DialogInterface.OnClickListener { _, _ ->
+                finish()
+            })
+            builder.show()
+        } else {
+            val call = API.getApi(this).checkLogin()
 
-        finish()
+            call.enqueue(object : Callback<Session> {
+                override fun onResponse(call: Call<Session>?, response: Response<Session>?) {
+                    if (response!!.body()!!.login.equals("true")) {
+                        startActivity<MainActivity>()
+                        finish()
+                    } else {
+                        startActivity<LoginActivity>()
+                        finish()
+                    }
+                }
+
+                override fun onFailure(call: Call<Session>?, t: Throwable?) {
+
+                }
+            })
+        }
     }
 
     override fun onAnimationRepeat(animation: Animation) {

@@ -2,9 +2,11 @@ package com.jnjcomu.edison.activity
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.jnjcomu.edison.R
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        TedPermission(this)
+        TedPermission.with(this)
                 .setPermissionListener(this)
                 .setDeniedMessage("권한 허가가 되지 않으면 앱을 이용하실 수 없습니다.")
                 .setPermissions(
@@ -34,22 +36,19 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
     override fun onDestroy() {
         super.onDestroy()
 
+        plengi.stop()
         inApplication.destroyEventListener()
-        appStorage.saveActive(swt_scanning.isChecked)
     }
 
     fun initUi() {
-        inApplication.registerEventListener(this)
+        img_logo.startAnim(this, R.anim.logo_vibrate)
 
         swt_scanning.setOnCheckedChangeListener { _, isChecked ->
+            appStorage.saveActive(swt_scanning.isChecked)
             if (isChecked) {
-                img_logo.startAnim(this, R.anim.logo_vibrate)
-
-                plengi.start()
-                plengi.refreshPlace()
+                Toast.makeText(this, "위치 전송 기능이 활성화되었습니다.", Toast.LENGTH_SHORT).show()
             } else {
-                plengi.stop()
-                img_logo.cancelAnim()
+                Toast.makeText(this, "위치 전송 기능이 비활성화되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -120,15 +119,18 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
             val builder = AlertDialog.Builder(this)
             builder.setTitle("안내")
             builder.setMessage("Edison 서비스의 정상 동작을 위해 Wi-Fi를 활성화시켜주세요.")
-            finish()
+            builder.setCancelable(false)
+            builder.setPositiveButton("확인", DialogInterface.OnClickListener { _, _ ->
+                finish()
+            })
+            builder.show()
         }
 
         swt_scanning.isChecked = appStorage.isActiveScanning
 
-        if (swt_scanning.isChecked) {
-            plengi.start()
-            plengi.refreshPlace()
-        }
+        inApplication.registerEventListener(this)
+        plengi.start()
+        plengi.refreshPlace()
     }
 
     override fun onPermissionDenied(arrayList: ArrayList<String>) {

@@ -7,17 +7,15 @@ import android.content.Context
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.jnjcomu.edison.R
-import com.jnjcomu.edison.activity.MainActivity
 import com.jnjcomu.edison.activity.SplashActivity
-import com.jnjcomu.edison.addition.EdisonAPI
 import com.jnjcomu.edison.api.API
 import com.jnjcomu.edison.callback.ApiListener
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.model.SearchNum
-import com.jnjcomu.edison.model.Session
+import com.jnjcomu.edison.network.NetChecker
+import com.jnjcomu.edison.storage.AppSettingStorage
 import com.loplat.placeengine.Plengi
 import com.loplat.placeengine.PlengiResponse
-import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,8 +31,15 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
 
     override fun onReceive(context: Context, intent: Intent) {
         this.context = context
-        API.setListener(this)
-        Plengi.getInstance(context).refreshPlace()
+
+        if(AppSettingStorage(context).isActiveScanning) {
+            if(!NetChecker(context).isConnected()) {
+                noti("네트워크에 연결되지 않아 위치 전송에 실패했습니다.")
+            } else {
+                API.setListener(this)
+                Plengi.getInstance(context).refreshPlace()
+            }
+        }
     }
 
     override fun onPlaceDefault(response: PlengiResponse) {
@@ -42,7 +47,7 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
 
         call.enqueue(object : Callback<SearchNum> {
             override fun onResponse(call: Call<SearchNum>?, repo: Response<SearchNum>?) {
-                API.checkIn(context!!, repo!!.body()!!.num!!, response.place.name)
+                API.checkIn(context!!, repo!!.body()!!.num!! + 1, response.place.name)
             }
 
             override fun onFailure(call: Call<SearchNum>?, t: Throwable?) {
@@ -58,19 +63,23 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
     }
 
     override fun onResponse(response: Response<Void>?) {
+        noti("위치 정보가 전송되었습니다.")
+    }
+
+    override fun onFailure() {
+
+    }
+
+    fun noti(msg: String) {
         val builder = NotificationCompat.Builder(context)
-            .setContentTitle("Edison")
-            .setContentText("현재 위치를 전송했습니다.")
-            .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Edison")
+                .setContentText(msg)
+                .setSmallIcon(R.mipmap.ic_launcher)
         val notifyIntent = Intent(context, SplashActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pendingIntent)
         val notificationCompat = builder.build()
         val managerCompat = NotificationManagerCompat.from(context)
         managerCompat.notify(777, notificationCompat)
-    }
-
-    override fun onFailure() {
-
     }
 }

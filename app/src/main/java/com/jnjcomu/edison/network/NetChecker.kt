@@ -2,7 +2,6 @@ package com.jnjcomu.edison.network
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 
 /**
@@ -12,17 +11,26 @@ import android.net.wifi.WifiManager
 
 class NetChecker(context: Context) {
 
-    //private var activeNetwork: NetworkInfo? = null
+    var cm: ConnectivityManager? = null
 
     var isWifiOn: Boolean = false
 
     init {
         val wm = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         isWifiOn = wm.isWifiEnabled
+
+        cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
     fun isActive(): Boolean {
         return isWifiOn
+    }
+
+    fun isConnected(): Boolean {
+        val connection = cm!!.activeNetworkInfo
+        if(connection!=null && connection.isConnectedOrConnecting)
+            return true
+        return false
     }
 
 }
