@@ -37,8 +37,8 @@ object API : Callback<Void> {
         call.enqueue(this)
     }
 
-    fun checkIn(context: Context, place: String) {
-        val call = getApi(context).checkin(place)
+    fun checkIn(context: Context, num: Int, place: String) {
+        val call = getApi(context).checkin(num, place)
 
         call.enqueue(this)
     }

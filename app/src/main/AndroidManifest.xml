@@ -41,7 +41,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="dimigo.in"
+                    android:host="edison.dimigo.hs.kr"
                     android:scheme="http" />
             </intent-filter>
         </activity>

@@ -1,5 +1,6 @@
 package com.jnjcomu.edison.api
 
+import com.jnjcomu.edison.model.SearchNum
 import com.jnjcomu.edison.model.Session
 import com.jnjcomu.edison.model.Ticket
 import io.reactivex.Observable
@@ -25,10 +26,10 @@ interface EdisonAPISpec {
 
     //신버전
     @GET("/edison/searchNo")
-    fun searchNo(): Call<Void>
+    fun searchNo(): Call<SearchNum>
 
-    @GET("/edison/inputLocation/1")
-    fun checkin(@Query("data") data: String): Call<Void>
+    @GET("/edison/inputLocation/{num}")
+    fun checkin(@Path("num") num: Int, @Query("location") data: String): Call<Void>
 
     @GET("/login/do")
     fun login(@Query("id") id: String, @Query("password") pw: String): Call<Void>
