@@ -1,10 +1,7 @@
 package com.jnjcomu.edison.activity
 
 import android.Manifest
-import android.app.AlarmManager
 import android.app.AlertDialog
-import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +9,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.addition.*
+import com.jnjcomu.edison.broadcast.BootBroadcastReceiver
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
 import com.jnjcomu.edison.broadcast.EdisonReceiver
@@ -138,19 +136,7 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
     }
 
     fun firstRun() {
-        val alarmIntent = Intent(this, EdisonReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0)
-
-        val manager = this.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        val calendar = Calendar.getInstance()
-        calendar.setTimeInMillis(System.currentTimeMillis())
-        calendar.set(Calendar.HOUR_OF_DAY, 19)
-        calendar.set(Calendar.MINUTE, 50)
-        calendar.set(Calendar.SECOND, 0)
-
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent)
+        sendBroadcast(Intent(this, BootBroadcastReceiver::class.java))
 
         appStorage.saveFirstrun(false)
     }

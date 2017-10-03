@@ -9,6 +9,8 @@ import android.support.v4.app.NotificationManagerCompat
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.activity.SplashActivity
 import com.jnjcomu.edison.addition.EdisonAPI
+import com.jnjcomu.edison.api.API
+import com.jnjcomu.edison.callback.ApiListener
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.loplat.placeengine.Plengi
 import com.loplat.placeengine.PlengiResponse
@@ -21,38 +23,40 @@ import retrofit2.Response
  * @since 2017-08-30
  */
 
-class EdisonReceiver : BroadcastReceiver(), CloudEventListener {
+class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
 
     var context: Context? = null
 
     override fun onReceive(context: Context, intent: Intent) {
+        this.context = context
+        API.setListener(this)
         Plengi.getInstance(context).refreshPlace()
     }
 
     override fun onPlaceDefault(response: PlengiResponse) {
-        EdisonAPI.checkin(response.place.name).enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                val builder = NotificationCompat.Builder(context)
-                builder.setContentTitle("Edison")
-                builder.setContentText("위치 정보를 전송했습니다.")
-                builder.setSmallIcon(R.mipmap.ic_launcher)
-                val notifyIntent = Intent(context, SplashActivity::class.java)
-                val pendingIntent = PendingIntent.getActivity(context, 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-                builder.setContentIntent(pendingIntent)
-                val notificationCompat = builder.build()
-                val managerCompat = NotificationManagerCompat.from(context)
-                managerCompat.notify(777, notificationCompat)
-            }
-
-            override fun onFailure(call: Call<Void>, t: Throwable) {
-            }
-
-        })
+        API.checkIn(context!!, response.place.name)
     }
 
     override fun onPlaceIn(response: PlengiResponse) {
     }
 
     override fun onPlaceNear(response: PlengiResponse) {
+    }
+
+    override fun onResponse(response: Response<Void>?) {
+        val builder = NotificationCompat.Builder(context)
+            .setContentTitle("Edison")
+            .setContentText("현재 위치를 전송했습니다.")
+            .setSmallIcon(R.mipmap.ic_launcher)
+        val notifyIntent = Intent(context, SplashActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        builder.setContentIntent(pendingIntent)
+        val notificationCompat = builder.build()
+        val managerCompat = NotificationManagerCompat.from(context)
+        managerCompat.notify(777, notificationCompat)
+    }
+
+    override fun onFailure() {
+
     }
 }

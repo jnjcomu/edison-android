@@ -18,15 +18,26 @@ class BootBroadcastReceiver : BroadcastReceiver() {
             val alarmIntent = Intent(context, EdisonReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0)
 
-            val manager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val manager1 = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-            val calendar = Calendar.getInstance()
-            calendar.setTimeInMillis(System.currentTimeMillis())
-            calendar.set(Calendar.HOUR_OF_DAY, 19)
-            calendar.set(Calendar.MINUTE, 50)
-            calendar.set(Calendar.SECOND, 0)
+            val calendar1 = Calendar.getInstance()
+            calendar1.setTimeInMillis(System.currentTimeMillis())
+            calendar1.set(Calendar.HOUR_OF_DAY, 19)
+            calendar1.set(Calendar.MINUTE, 50)
+            calendar1.set(Calendar.SECOND, 0)
 
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+            manager1.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent)
+
+            val manager2 = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            val calendar2 = Calendar.getInstance()
+            calendar2.setTimeInMillis(System.currentTimeMillis())
+            calendar2.set(Calendar.HOUR_OF_DAY, 21)
+            calendar2.set(Calendar.MINUTE, 40)
+            calendar2.set(Calendar.SECOND, 0)
+
+            manager2.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, pendingIntent)
         }
     }

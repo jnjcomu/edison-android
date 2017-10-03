@@ -44,7 +44,7 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation) {
-        startActivity<MainActivity>()
+        startActivity<LoginActivity>()
 
         finish()
     }

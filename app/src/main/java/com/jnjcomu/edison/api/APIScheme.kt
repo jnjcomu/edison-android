@@ -8,6 +8,6 @@ package com.jnjcomu.edison.api
 object APIScheme {
     val SERVER_ENDPOINT_PROTOCOL = "http"
     val SERVER_ENDPOINT_PORT = "80"
-    val SERVER_ENDPOINT_URL = "dev.jnj.club"
+    val SERVER_ENDPOINT_URL = "edison.dimigo.hs.kr"
     val SERVER_ENDPOINT = "$SERVER_ENDPOINT_PROTOCOL://$SERVER_ENDPOINT_URL:$SERVER_ENDPOINT_PORT"
 }
