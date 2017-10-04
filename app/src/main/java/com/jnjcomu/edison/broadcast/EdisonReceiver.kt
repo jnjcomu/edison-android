@@ -12,7 +12,7 @@ import com.jnjcomu.edison.api.API
 import com.jnjcomu.edison.callback.ApiListener
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.model.SearchNum
-import com.jnjcomu.edison.network.NetChecker
+import com.jnjcomu.edison.network.NetManager
 import com.jnjcomu.edison.storage.AppSettingStorage
 import com.loplat.placeengine.Plengi
 import com.loplat.placeengine.PlengiResponse
@@ -32,10 +32,14 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
     override fun onReceive(context: Context, intent: Intent) {
         this.context = context
 
+        val nm = NetManager(context)
+
         if(AppSettingStorage(context).isActiveScanning) {
-            if(!NetChecker(context).isConnected()) {
+            if(!nm.isConnected()) {
                 noti("네트워크에 연결되지 않아 위치 전송에 실패했습니다.")
             } else {
+                if(!nm.isActive())
+                    nm.activeWifi()
                 API.setListener(this)
                 Plengi.getInstance(context).refreshPlace()
             }

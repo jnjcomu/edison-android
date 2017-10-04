@@ -61,13 +61,6 @@
                 <action android:name="com.loplat.placeengine.event.scanwifi" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".broadcast.PlengiEventBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.jnjcomu.edison.cloud.response" />
-            </intent-filter>
-        </receiver>
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

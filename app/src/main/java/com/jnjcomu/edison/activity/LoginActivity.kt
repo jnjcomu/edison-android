@@ -1,5 +1,6 @@
 package com.jnjcomu.edison.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -7,7 +8,6 @@ import com.jnjcomu.edison.R
 import com.jnjcomu.edison.api.API
 import com.jnjcomu.edison.callback.ApiListener
 import kotlinx.android.synthetic.main.activity_login.*
-import org.jetbrains.anko.startActivity
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener, ApiListener {
@@ -23,7 +23,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, ApiListener {
     }
 
     override fun onResponse(response: Response<Void>?) {
-        startActivity<MainActivity>()
+        startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 

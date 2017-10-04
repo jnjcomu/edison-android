@@ -1,8 +1,6 @@
 package com.jnjcomu.edison.activity
 
 import android.Manifest
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -14,12 +12,12 @@ import com.jnjcomu.edison.addition.*
 import com.jnjcomu.edison.broadcast.BootBroadcastReceiver
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
-import com.jnjcomu.edison.broadcast.EdisonReceiver
 import com.loplat.placeengine.PlengiResponse
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
 class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -115,15 +113,8 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
         if(appStorage.isFirstRun)
             firstRun()
 
-        if(!netChecker.isActive()) {
-            val builder = AlertDialog.Builder(this)
-            builder.setTitle("안내")
-            builder.setMessage("Edison 서비스의 정상 동작을 위해 Wi-Fi를 활성화시켜주세요.")
-            builder.setCancelable(false)
-            builder.setPositiveButton("확인", DialogInterface.OnClickListener { _, _ ->
-                finish()
-            })
-            builder.show()
+        if(!netManager.isActive()) {
+            netManager.activeWifi()
         }
 
         swt_scanning.isChecked = appStorage.isActiveScanning

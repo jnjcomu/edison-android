@@ -36,14 +36,6 @@ class AppSettingStorage(context: Context) {
         mEditor.putBoolean(FIRSTRUN_PREF, isActive).commit()
     }
 
-    fun activeScanning() {
-        saveActive(true)
-    }
-
-    fun inactiveScanning() {
-        saveActive(false)
-    }
-
     companion object {
         private val PREF_NAME = "app_setting"
         private val ACTIVITED_PREF = "activited"

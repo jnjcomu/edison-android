@@ -2,17 +2,17 @@ package com.jnjcomu.edison.activity
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.jnjcomu.edison.R
-import com.jnjcomu.edison.addition.netChecker
+import com.jnjcomu.edison.addition.netManager
 import com.jnjcomu.edison.api.API
 import com.jnjcomu.edison.model.Session
 import kotlinx.android.synthetic.main.activity_splash.*
-import org.jetbrains.anko.startActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,7 +52,7 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
     }
 
     override fun onAnimationEnd(animation: Animation) {
-        if(!netChecker.isConnected()) {
+        if(!netManager.isConnected()) {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("안내")
             builder.setMessage("네트워크 연결을 확인해주세요.")
@@ -67,10 +67,10 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
             call.enqueue(object : Callback<Session> {
                 override fun onResponse(call: Call<Session>?, response: Response<Session>?) {
                     if (response!!.body()!!.login.equals("true")) {
-                        startActivity<MainActivity>()
+                        startActivity(Intent(applicationContext, MainActivity::class.java))
                         finish()
                     } else {
-                        startActivity<LoginActivity>()
+                        startActivity(Intent(applicationContext, LoginActivity::class.java))
                         finish()
                     }
                 }

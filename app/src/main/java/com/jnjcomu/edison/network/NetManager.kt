@@ -9,15 +9,16 @@ import android.net.wifi.WifiManager
  * @since 2017-08-31
  */
 
-class NetChecker(context: Context) {
+class NetManager(context: Context) {
 
     var cm: ConnectivityManager? = null
+    var wm: WifiManager? = null
 
     var isWifiOn: Boolean = false
 
     init {
-        val wm = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        isWifiOn = wm.isWifiEnabled
+        wm = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        isWifiOn = wm!!.isWifiEnabled
 
         cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
@@ -31,6 +32,14 @@ class NetChecker(context: Context) {
         if(connection!=null && connection.isConnectedOrConnecting)
             return true
         return false
+    }
+
+    fun activeWifi() {
+        wm!!.setWifiEnabled(true)
+    }
+
+    fun deactiveWifi() {
+        wm!!.setWifiEnabled(false)
     }
 
 }
