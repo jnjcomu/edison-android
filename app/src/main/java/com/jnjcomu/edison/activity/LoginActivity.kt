@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.jnjcomu.edison.R
+import com.jnjcomu.edison.addition.appStorage
 import com.jnjcomu.edison.api.API
+import com.jnjcomu.edison.broadcast.BootBroadcastReceiver
 import com.jnjcomu.edison.callback.ApiListener
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Response
@@ -23,10 +25,22 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener, ApiListener {
     }
 
     override fun onResponse(response: Response<Void>?) {
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
+        if(appStorage.isFirstRun)
+            firstRun()
+        else {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     override fun onFailure() {
+    }
+
+    fun firstRun() {
+        sendBroadcast(Intent(this, BootBroadcastReceiver::class.java))
+        startActivity(Intent(this, IntroActivity::class.java))
+        finish()
+
+        appStorage.saveFirstrun(false)
     }
 }

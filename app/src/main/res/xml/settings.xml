@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="앱 설정">
+        <SwitchPreference
+            android:key="autoscan"
+            android:title="위치정보 전송 기능" />
+        <Preference
+            android:key="profile"
+            android:title="계정 정보" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="약관 및 정책">
+        <Preference
+            android:key="terms"
+            android:title="서비스 이용약관" />
+        <Preference
+            android:key="location"
+            android:title="위치기반서비스 이용약관" />
+        <Preference
+            android:key="privacy"
+            android:title="개인정보 취급방침" />
+        <Preference
+            android:key="openSource"
+            android:title="오픈소스 정보" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="고객 지원">
+        <Preference
+            android:key="tip"
+            android:title="도움말" />
+        <Preference
+            android:title="문의 하기">
+            <intent
+                android:action="android.intent.action.SENDTO"
+                android:data="mailto:wj1187@gmail.com" />
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="앱 정보">
+        <Preference
+            android:key="appVersion"
+            android:summary="v0.0"
+            android:title="버전 정보" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

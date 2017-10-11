@@ -1,7 +1,6 @@
 package com.jnjcomu.edison.activity
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -57,7 +56,7 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
             builder.setTitle("안내")
             builder.setMessage("네트워크 연결을 확인해주세요.")
             builder.setCancelable(false)
-            builder.setPositiveButton("확인", DialogInterface.OnClickListener { _, _ ->
+            builder.setPositiveButton("확인", { _, _ ->
                 finish()
             })
             builder.show()
@@ -66,12 +65,16 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
 
             call.enqueue(object : Callback<Session> {
                 override fun onResponse(call: Call<Session>?, response: Response<Session>?) {
-                    if (response!!.body()!!.login.equals("true")) {
-                        startActivity(Intent(applicationContext, MainActivity::class.java))
-                        finish()
-                    } else {
+                    try {
+                        if (response?.body()?.login.equals("true")) {
+                            startActivity(Intent(applicationContext, MainActivity::class.java))
+                            finish()
+                        } else {
+                            startActivity(Intent(applicationContext, LoginActivity::class.java))
+                            finish()
+                        }
+                    } catch (e: NullPointerException) {
                         startActivity(Intent(applicationContext, LoginActivity::class.java))
-                        finish()
                     }
                 }
 

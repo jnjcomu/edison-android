@@ -47,17 +47,21 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
     }
 
     override fun onPlaceDefault(response: PlengiResponse) {
-        val call = API.getApi(context!!).searchNo()
+        if(response.place.name == null) {
+            noti("등록되지 않은 장소에 있어 위치 전송에 실패했습니다.")
+        } else {
+            val call = API.getApi(context!!).searchNo()
 
-        call.enqueue(object : Callback<SearchNum> {
-            override fun onResponse(call: Call<SearchNum>?, repo: Response<SearchNum>?) {
-                API.checkIn(context!!, repo!!.body()!!.num!! + 1, response.place.name)
-            }
+            call.enqueue(object : Callback<SearchNum> {
+                override fun onResponse(call: Call<SearchNum>?, repo: Response<SearchNum>?) {
+                    API.checkIn(context!!, repo!!.body()!!.num!! + 1, response.place.name)
+                }
 
-            override fun onFailure(call: Call<SearchNum>?, t: Throwable?) {
+                override fun onFailure(call: Call<SearchNum>?, t: Throwable?) {
 
-            }
-        })
+                }
+            })
+        }
     }
 
     override fun onPlaceIn(response: PlengiResponse) {
@@ -78,7 +82,7 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
         val builder = NotificationCompat.Builder(context)
                 .setContentTitle("Edison")
                 .setContentText(msg)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.logo_white)
         val notifyIntent = Intent(context, SplashActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         builder.setContentIntent(pendingIntent)

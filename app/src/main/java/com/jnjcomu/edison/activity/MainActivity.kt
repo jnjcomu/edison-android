@@ -9,7 +9,6 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.addition.*
-import com.jnjcomu.edison.broadcast.BootBroadcastReceiver
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
 import com.loplat.placeengine.PlengiResponse
@@ -31,6 +30,11 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
                 .check()
     }
 
+    override fun onResume() {
+        super.onResume()
+        swt_scanning.isChecked = appStorage.isActiveScanning
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
         inApplication.destroyEventListener()
     }
 
-    fun initUi() {
+    private fun initUi() {
         img_logo.startAnim(this, R.anim.logo_vibrate)
 
         swt_scanning.setOnCheckedChangeListener { _, isChecked ->
@@ -55,6 +59,10 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
             txt_place.text = "스캔중..."
             swt_scanning.isChecked = true
             plengi.refreshPlace()
+        }
+
+        btn_settings.setOnClickListener {
+            startActivity(Intent(applicationContext, SettingsActivity::class.java))
         }
     }
 
@@ -99,9 +107,9 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
      * TODO 이거 ㄹㅇ 해결 안됨;;
      *
      */
-    fun displayPlace(place: String) {
-        txt_place.text = place
-        img_logo.restartAnim(
+    private fun displayPlace(msg: String) {
+        txt_place.text = msg
+        img_logo.startAnim(
                 this, R.anim.logo_scale,
                 InterpolatorFactory.makeLogoInterpolator()
         )
@@ -109,9 +117,6 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
 
     override fun onPermissionGranted() {
         initUi()
-
-        if(appStorage.isFirstRun)
-            firstRun()
 
         if(!netManager.isActive()) {
             netManager.activeWifi()
@@ -126,12 +131,6 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
 
     override fun onPermissionDenied(arrayList: ArrayList<String>) {
 
-    }
-
-    fun firstRun() {
-        sendBroadcast(Intent(this, BootBroadcastReceiver::class.java))
-
-        appStorage.saveFirstrun(false)
     }
 
 }
