@@ -18,12 +18,16 @@ class AppSettingStorage(context: Context) {
     var isFirstRun: Boolean = false
         private set
 
+    var userName: String = "username"
+        private set
+
     init {
         mPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         mEditor = mPref.edit()
 
         isActiveScanning = mPref.getBoolean(ACTIVITED_PREF, false)
         isFirstRun = mPref.getBoolean(FIRSTRUN_PREF, true)
+        userName = mPref.getString(USER_NAME, "nothing")
     }
 
     fun saveActive(isActive: Boolean) {
@@ -36,9 +40,19 @@ class AppSettingStorage(context: Context) {
         mEditor.putBoolean(FIRSTRUN_PREF, isActive).commit()
     }
 
+    fun saveUserName(name: String) {
+        this.userName = name
+        mEditor.putString(USER_NAME, name).commit()
+    }
+
+    fun clear() {
+        mEditor.clear()
+    }
+
     companion object {
         private val PREF_NAME = "app_setting"
         private val ACTIVITED_PREF = "activited"
         private val FIRSTRUN_PREF = "firstrun"
+        private val USER_NAME = "username"
     }
 }

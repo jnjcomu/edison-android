@@ -1,9 +1,9 @@
 package com.jnjcomu.edison.broadcast
 
 import android.app.PendingIntent
-import android.content.Intent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.jnjcomu.edison.R
@@ -58,7 +58,6 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
                 }
 
                 override fun onFailure(call: Call<SearchNum>?, t: Throwable?) {
-
                 }
             })
         }
@@ -75,19 +74,18 @@ class EdisonReceiver : BroadcastReceiver(), CloudEventListener, ApiListener {
     }
 
     override fun onFailure() {
-
+        noti("위치 전송에 실패했습니다.")
     }
 
-    fun noti(msg: String) {
+    private fun noti(msg: String) {
         val builder = NotificationCompat.Builder(context)
                 .setContentTitle("Edison")
                 .setContentText(msg)
                 .setSmallIcon(R.drawable.logo_white)
         val notifyIntent = Intent(context, SplashActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(context, 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, 0)
         builder.setContentIntent(pendingIntent)
-        val notificationCompat = builder.build()
         val managerCompat = NotificationManagerCompat.from(context)
-        managerCompat.notify(777, notificationCompat)
+        managerCompat.notify(777, builder.build())
     }
 }

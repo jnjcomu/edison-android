@@ -14,6 +14,7 @@
 
     <style name="EdisonTheme.BlueBackground" parent="EdisonTheme">
         <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorWhite</item>
     </style>
 
     <style name="EdisonTheme.Splash" parent="EdisonTheme">

@@ -31,12 +31,6 @@ object API : Callback<Void> {
         this.apiListener = authListener
     }
 
-    fun login(context: Context, id: String, pw: String) {
-        val call = getApi(context).login(id, pw)
-
-        call.enqueue(this)
-    }
-
     fun checkIn(context: Context, num: Int, place: String) {
         val call = getApi(context).checkin(num, place)
 

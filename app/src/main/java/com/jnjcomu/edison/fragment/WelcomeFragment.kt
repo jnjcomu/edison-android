@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.addition.startAnim
 import com.jnjcomu.edison.factory.InterpolatorFactory
-import kotlinx.android.synthetic.main.fragment_welcome.*
 
 /**
  * @author kimwoojae <wj1187@naver.com>

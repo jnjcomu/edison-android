@@ -7,7 +7,7 @@
             android:title="위치정보 전송 기능" />
         <Preference
             android:key="profile"
-            android:title="계정 정보" />
+            android:title="로그아웃" />
     </PreferenceCategory>
     <PreferenceCategory android:title="약관 및 정책">
         <Preference

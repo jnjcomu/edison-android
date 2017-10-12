@@ -6,9 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.PreferenceFragment
+import android.preference.SwitchPreference
 import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.storage.AppSettingStorage
+import com.jnjcomu.edison.storage.CookieStorage
 
 /**
  * @author kimwoojae <wj1187@naver.com>
@@ -33,6 +36,13 @@ class SettingsActivity : AppCompatActivity() {
             addPreferencesFromResource(R.xml.settings)
 
             appStorage = AppSettingStorage(activity)
+
+            val switch = findPreference("autoscan") as SwitchPreference
+            switch.isChecked = appStorage!!.isActiveScanning
+
+            val profile = findPreference("profile")
+            val name = appStorage!!.userName
+            profile.summary = "현재 사용자 : " + name
 
             val clicks = arrayOf("profile", "terms", "location", "privacy", "openSource", "tip", "appVersion")
 
@@ -66,6 +76,11 @@ class SettingsActivity : AppCompatActivity() {
             val getKey = preference.key
             when (getKey) {
                 "profile" -> {
+                    CookieStorage(activity).clear()
+                    appStorage!!.clear()
+                    val intent = Intent(activity, LoginActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                 }
                 "terms" -> {
                 }
@@ -74,8 +89,13 @@ class SettingsActivity : AppCompatActivity() {
                 "privacy" -> {
                 }
                 "openSource" -> {
+                    val intent = Intent(activity, WebviewActivity::class.java)
+                    intent.putExtra("title", "오픈소스 정보")
+                    intent.putExtra("doc", "file:///android_asset/license.html")
+                    startActivity(intent)
                 }
                 "tip" -> {
+                    Toast.makeText(activity, "준비중입니다.", Toast.LENGTH_SHORT).show()
                 }
                 "appVersion" -> {
                     val update = Intent(Intent.ACTION_VIEW)

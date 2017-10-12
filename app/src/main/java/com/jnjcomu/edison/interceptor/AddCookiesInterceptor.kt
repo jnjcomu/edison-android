@@ -2,13 +2,9 @@ package com.jnjcomu.edison.interceptor
 
 import android.content.Context
 import com.jnjcomu.edison.storage.CookieStorage
-
-import java.io.IOException
-import java.util.HashSet
-
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
+import java.io.IOException
 
 /**
  * @author kimwoojae <wj1187></wj1187>@naver.com>

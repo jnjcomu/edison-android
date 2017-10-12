@@ -3,7 +3,7 @@ package com.jnjcomu.edison.ui
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import java.util.ArrayList
+import java.util.*
 
 /**
  * @author kimwoojae <wj1187@naver.com>

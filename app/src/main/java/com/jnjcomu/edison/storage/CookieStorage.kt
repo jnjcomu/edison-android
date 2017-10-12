@@ -26,6 +26,10 @@ class CookieStorage(context: Context) {
         mEditor.putStringSet("cookie", cookie).commit()
     }
 
+    fun clear() {
+        mEditor.clear()
+    }
+
     companion object {
         private val PREF_NAME = "cookie"
     }

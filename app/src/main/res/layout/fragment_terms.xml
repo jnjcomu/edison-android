@@ -24,22 +24,11 @@
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="300dp">
 
-            <ScrollView
-                android:background="@color/colorWhite"
-                android:layout_margin="1dp"
+            <WebView
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
-
-                <TextView
-                    android:layout_margin="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/colorBlack"
-                    tools:text="샬라샬라" />
-
-            </ScrollView>
+                android:layout_height="match_parent"/>
 
         </FrameLayout>
 

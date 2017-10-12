@@ -20,7 +20,6 @@
         android:roundIcon="@drawable/logo_colored"
         android:supportsRtl="true"
         android:theme="@style/EdisonTheme">
-
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
@@ -46,9 +45,11 @@
         </activity>
         <activity
             android:name=".activity.LoginActivity"
+            android:theme="@style/EdisonTheme.BlueBackground"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".activity.IntroActivity"
-            android:noHistory="true"/>
+        <activity
+            android:name=".activity.IntroActivity"
+            android:noHistory="true" />
         <activity android:name=".activity.SettingsActivity" />
 
         <receiver
@@ -71,6 +72,7 @@
 
         <service android:name="com.loplat.placeengine.location.LocationMonitorService" />
 
+        <activity android:name=".activity.WebviewActivity"></activity>
     </application>
 
 </manifest>
