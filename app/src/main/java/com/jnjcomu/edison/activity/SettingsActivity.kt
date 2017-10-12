@@ -44,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
             val name = appStorage!!.userName
             profile.summary = "현재 사용자 : " + name
 
-            val clicks = arrayOf("profile", "terms", "location", "privacy", "openSource", "tip", "appVersion")
+            val clicks = arrayOf("profile", "terms", "location", "privacy", "openSource", "tip", "appVersion", "dev")
 
             for(p in clicks)
                 setOnPreferenceClick(findPreference(p))
@@ -101,6 +101,9 @@ class SettingsActivity : AppCompatActivity() {
                     val update = Intent(Intent.ACTION_VIEW)
                     update.data = Uri.parse("https://play.google.com/store/apps/details?id=com.jnjcomu.edison")
                     startActivity(update)
+                }
+                "dev" -> {
+                    Toast.makeText(activity, "우재 기요미", Toast.LENGTH_SHORT).show()
                 }
             }
             true

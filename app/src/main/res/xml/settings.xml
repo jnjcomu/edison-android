@@ -9,6 +9,7 @@
             android:key="profile"
             android:title="로그아웃" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="약관 및 정책">
         <Preference
             android:key="terms"
@@ -40,6 +41,10 @@
             android:key="appVersion"
             android:summary="v0.0"
             android:title="버전 정보" />
+        <Preference
+            android:key="dev"
+            android:title="개발자 정보"
+            android:summary="JNJ Communications - 15기 최찬환, 16기 김우재"/>
     </PreferenceCategory>
 
 </PreferenceScreen>
