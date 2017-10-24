@@ -25,6 +25,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_margin="15dp"
+            android:fontFamily="@font/noto_sans"
             android:text="  Skip"
             android:textColor="@color/colorPrimary"/>
 
@@ -38,6 +39,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="15dp"
+            android:fontFamily="@font/noto_sans"
             android:text="Next >>"
             android:textColor="@color/colorPrimary"/>
 

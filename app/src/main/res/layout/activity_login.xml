@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:padding="16dp"
+    android:padding="25dp"
     tools:context="com.jnjcomu.edison.activity.LoginActivity">
 
     <LinearLayout
@@ -25,6 +25,7 @@
                 android:id="@+id/edt_id_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
                 android:hint="Dimigoin ID"
                 android:inputType="text|textNoSuggestions"
                 android:lines="1"
@@ -49,6 +50,7 @@
                 android:id="@+id/edt_pw_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
                 android:hint="Dimigoin Password"
                 android:inputType="textPassword"
                 android:lines="1"
@@ -73,7 +75,6 @@
                 android:onClick="onClick"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="@color/colorWhite"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?android:attr/selectableItemBackground">
@@ -82,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/noto_sans"
                     android:text="로그인"
                     android:textColor="@color/colorPrimary"
                     android:textSize="20sp" />
@@ -114,6 +116,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:fontFamily="@font/noto_sans"
         android:text="Copryright © 2017 JNJ Communications"
         android:textColor="@color/colorWhite" />
 

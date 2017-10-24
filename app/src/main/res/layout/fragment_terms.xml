@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/noto_sans"
             android:textColor="@color/colorBlack"
             android:text="Edison 서비스를 시작하려면 이용약관에 동의해주세요."/>
 
@@ -45,6 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
                 android:text="약관에 동의합니다."
                 android:textColor="@color/colorBlack"/>
 
@@ -68,6 +70,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_margin="15dp"
+            android:fontFamily="@font/noto_sans"
             android:text="Edison 시작하기"
             android:textColor="@color/colorWhite"/>
 

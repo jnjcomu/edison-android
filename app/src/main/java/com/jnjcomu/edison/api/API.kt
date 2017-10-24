@@ -27,6 +27,10 @@ object API : Callback<Void> {
         apiListener?.onFailure()
     }
 
+    fun setListener(listener: ApiListener) {
+        apiListener = listener
+    }
+
     fun getApi(context: Context): EdisonAPISpec {
         val client = OkHttpClient.Builder()
                 .addInterceptor(AddCookiesInterceptor(context))

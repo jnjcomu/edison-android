@@ -13,7 +13,7 @@ import retrofit2.http.Query
 interface EdisonAPISpec {
 
     @GET("/edison/inputLocation")
-    fun checkin(@Query("location") data: String): Call<Void>
+    fun checkIn(@Query("location") data: String): Call<Void>
 
     @GET("/login/do")
     fun login(@Query("id") id: String, @Query("password") pw: String): Call<Session>

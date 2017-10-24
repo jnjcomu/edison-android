@@ -70,6 +70,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans"
             android:text="잠시만 기다려주세요..."
             android:textColor="@color/colorBlack"/>
 
@@ -83,6 +84,7 @@
         android:layout_marginBottom="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/noto_sans"
         android:textColor="@color/colorGray"
         android:text="현재 계신 곳이 휴머실이 아닌가요?"/>
 

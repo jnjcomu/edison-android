@@ -9,11 +9,6 @@
 
     <style name="EdisonTheme.Splash" parent="EdisonTheme"></style>
 
-    <style name="Button.White.Reveal" parent="Base.TextAppearance.AppCompat.Button">
-        <item name="android:background">#FFFFFF</item>
-        <item name="android:foreground">?android:attr/selectableItemBackground</item>
-    </style>
-
     <style name="EditText" parent="TextAppearance.AppCompat">
         <item name="colorAccent">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
@@ -27,12 +22,6 @@
     </style>
 
     <style name="Switch" parent="Base.Widget.AppCompat.CompoundButton.Switch">
-        <item name="colorAccent">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:textColorPrimary">@color/colorBlack</item>
-        <item name="android:background">#fafafa</item>
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 

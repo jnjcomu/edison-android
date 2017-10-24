@@ -46,69 +46,12 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
         swt_scanning.isChecked = appStorage.isActiveScanning
     }
 
-    override fun onPlaceDefault(response: PlengiResponse) {
-        Toast.makeText(this, "로고를 터치해 체크인을 완료하세요!", Toast.LENGTH_LONG).show()
-        displayPlace(
-                if (response.place == null) {
-                    "장소 인식에 실패했습니다."
-                } else {
-                    "${response.place}에 계시군요!"
-                }
-        )
-        if (response.place != null)
-            img_logo.setOnClickListener({
-                checkIn(response.place.name)
-                img_logo.startAnim(this, R.anim.logo_vibrate)
-                tv_incorrect.visibility = View.GONE
-            })
-
-        val msg = "현재 계신 곳이 ${response.place.name}이 아닌가요?"
-        tv_incorrect.text = msg
-        tv_incorrect.visibility = View.VISIBLE
-        tv_incorrect.setOnClickListener({
-            AlertDialog.Builder(this)
-                    .setTitle("")
-                    .setItems(rooms, {_, index ->
-                        checkIn(rooms[index])
-                        img_logo.startAnim(this, R.anim.logo_vibrate)
-                        tv_incorrect.visibility = View.GONE
-                    })
-                    .create().show()
-        })
-    }
-
-    override fun onPlaceIn(response: PlengiResponse) {
-    }
-
-    override fun onPlaceNear(response: PlengiResponse) {
-    }
-
-    private fun displayPlace(msg: String) {
-        tv_place.text = msg
-        img_logo.startAnim(
-                this, R.anim.logo_scale,
-                InterpolatorFactory.makeLogoInterpolator()
-        )
-    }
-
-    private fun checkIn(place: String) {
-        val call = API.getApi(this)
-        call.checkin(place).enqueue(object : Callback<Void>{
-            override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
-                displayPlace("체크인을 완료했습니다!")
-            }
-
-            override fun onFailure(call: Call<Void>?, t: Throwable?) {
-
-            }
-        })
-    }
-
     override fun onPermissionGranted() {
         val nm = NetManager(this)
 
         if(!nm.isActive())
             nm.activeWifi()
+
         Plengi.getInstance(this).refreshPlace()
 
         img_logo.startAnim(this, R.anim.logo_vibrate)
@@ -137,6 +80,64 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
     }
 
     override fun onPermissionDenied(arrayList: ArrayList<String>) {
+    }
 
+    override fun onPlaceDefault(response: PlengiResponse) {
+        displayPlace(
+                if (response.place == null) {
+                    "장소 인식에 실패했습니다."
+                } else {
+                    "${response.place}에 계시군요!"
+                }
+        )
+        if (response.place != null) {
+            Toast.makeText(this, "로고를 터치해 체크인을 완료하세요!", Toast.LENGTH_LONG).show()
+            img_logo.setOnClickListener({
+                checkIn(response.place.name)
+                img_logo.startAnim(this, R.anim.logo_vibrate)
+                tv_incorrect.visibility = View.GONE
+            })
+        }
+
+        val msg = "현재 계신 곳이 ${response.place.name}이 아닌가요?"
+        tv_incorrect.text = msg
+        tv_incorrect.visibility = View.VISIBLE
+        tv_incorrect.setOnClickListener({
+            AlertDialog.Builder(this)
+                    .setTitle("")
+                    .setItems(rooms, { _, index ->
+                        checkIn(rooms[index])
+                        img_logo.startAnim(this, R.anim.logo_vibrate)
+                        tv_incorrect.visibility = View.GONE
+                    })
+                    .create().show()
+        })
+    }
+
+    override fun onPlaceIn(response: PlengiResponse) {
+    }
+
+    override fun onPlaceNear(response: PlengiResponse) {
+    }
+
+    private fun displayPlace(msg: String) {
+        tv_place.text = msg
+        img_logo.startAnim(
+                this, R.anim.logo_scale,
+                InterpolatorFactory.makeLogoInterpolator()
+        )
+    }
+
+    private fun checkIn(place: String) {
+        val call = API.getApi(this)
+        call.checkIn(place).enqueue(object : Callback<Void>{
+            override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
+                displayPlace("체크인을 완료했습니다!")
+            }
+
+            override fun onFailure(call: Call<Void>?, t: Throwable?) {
+                displayPlace("체크인에 실패했습니다. 잠시후 다시 시도해주세요.")
+            }
+        })
     }
 }

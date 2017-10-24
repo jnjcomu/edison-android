@@ -35,11 +35,11 @@ class NetManager(context: Context) {
     }
 
     fun activeWifi() {
-        wm!!.setWifiEnabled(true)
+        wm!!.isWifiEnabled = true
     }
 
     fun deactiveWifi() {
-        wm!!.setWifiEnabled(false)
+        wm!!.isWifiEnabled = false
     }
 
 }
