@@ -21,10 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/EdisonTheme">
         <activity
-            android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/EdisonTheme.BlueBackground" />
-        <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/EdisonTheme.Splash">
             <intent-filter>

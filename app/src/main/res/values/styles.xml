@@ -27,7 +27,7 @@
     </style>
 
     <style name="Switch" parent="Base.Widget.AppCompat.CompoundButton.Switch">
-        <item name="colorAccent">@android:color/white</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">

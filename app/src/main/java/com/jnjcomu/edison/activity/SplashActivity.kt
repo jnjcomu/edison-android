@@ -67,7 +67,7 @@ class SplashActivity : AppCompatActivity(), Animation.AnimationListener {
                 override fun onResponse(call: Call<Session>?, response: Response<Session>?) {
                     try {
                         if (response?.body()?.login.equals("true")) {
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
+                            startActivity(Intent(applicationContext, CheckInActivity::class.java))
                             finish()
                         } else {
                             startActivity(Intent(applicationContext, LoginActivity::class.java))

@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.jnjcomu.edison.R
-import com.jnjcomu.edison.activity.MainActivity
+import com.jnjcomu.edison.activity.CheckInActivity
 
 /**
  * @author kimwoojae <wj1187@naver.com>
@@ -23,7 +23,7 @@ class TermsFragment : Fragment() {
 
         view!!.findViewById<View>(R.id.start).setOnClickListener{
             if(view.findViewById<AppCompatCheckBox>(R.id.agree).isChecked) {
-                startActivity(Intent(activity, MainActivity::class.java))
+                startActivity(Intent(activity, CheckInActivity::class.java))
             } else {
                 Toast.makeText(activity,"약관에 모두 동의해야 Edison 서비스를 이용하실 수 있습니다.", Toast.LENGTH_SHORT).show()
             }

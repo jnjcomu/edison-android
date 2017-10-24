@@ -4,7 +4,7 @@
     <PreferenceCategory android:title="앱 설정">
         <SwitchPreference
             android:key="autoscan"
-            android:title="위치정보 전송 기능" />
+            android:title="체크인 알림" />
         <Preference
             android:key="profile"
             android:title="로그아웃" />

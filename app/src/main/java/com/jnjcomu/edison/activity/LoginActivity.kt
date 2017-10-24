@@ -36,7 +36,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         if(appStorage.isFirstRun)
                             firstRun()
                         else {
-                            startActivity(Intent(applicationContext, MainActivity::class.java))
+                            startActivity(Intent(applicationContext, CheckInActivity::class.java))
                             finish()
                         }
                     } else {
