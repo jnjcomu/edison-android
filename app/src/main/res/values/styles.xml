@@ -9,6 +9,10 @@
 
     <style name="EdisonTheme.Splash" parent="EdisonTheme"></style>
 
+    <style name="Switch" parent="Base.Widget.AppCompat.CompoundButton.Switch">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="EditText" parent="TextAppearance.AppCompat">
         <item name="colorAccent">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>

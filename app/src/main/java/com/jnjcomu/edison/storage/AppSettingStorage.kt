@@ -5,14 +5,14 @@ import android.content.SharedPreferences
 
 /**
  * @author kimwoojae <wj1187@naver.com>
- * @since 2017-05-25
+ * @since 2017-10-23
  */
 
 class AppSettingStorage(context: Context) {
     private val mPref: SharedPreferences
     private val mEditor: SharedPreferences.Editor
 
-    var isActiveScanning: Boolean = false
+    var isActiveNoti: Boolean = false
         private set
 
     var isFirstRun: Boolean = false
@@ -25,14 +25,14 @@ class AppSettingStorage(context: Context) {
         mPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         mEditor = mPref.edit()
 
-        isActiveScanning = mPref.getBoolean(ACTIVITED_PREF, false)
+        isActiveNoti = mPref.getBoolean(NOTI_PREF, false)
         isFirstRun = mPref.getBoolean(FIRSTRUN_PREF, true)
         userName = mPref.getString(USER_NAME, "nothing")
     }
 
     fun saveActive(isActive: Boolean) {
-        this.isActiveScanning = isActive
-        mEditor.putBoolean(ACTIVITED_PREF, isActive).commit()
+        this.isActiveNoti = isActive
+        mEditor.putBoolean(NOTI_PREF, isActive).commit()
     }
 
     fun saveFirstrun(isActive: Boolean) {
@@ -51,7 +51,7 @@ class AppSettingStorage(context: Context) {
 
     companion object {
         private val PREF_NAME = "app_setting"
-        private val ACTIVITED_PREF = "activited"
+        private val NOTI_PREF = "noti"
         private val FIRSTRUN_PREF = "firstrun"
         private val USER_NAME = "username"
     }

@@ -1,8 +1,8 @@
 package com.jnjcomu.edison.api
 
 /**
- * @author CodeRi13 <ruto1924@gmail.com>
- * @since 2017-04-14
+ * @author kimwoojae <wj1187@naver.com>
+ * @since 2017-10-23
  */
 
 object APIScheme {

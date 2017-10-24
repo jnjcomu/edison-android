@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 /**
  * @author kimwoojae <wj1187@naver.com>
- * @since 2017-04-12
+ * @since 2017-10-23
  */
 
 interface EdisonAPISpec {

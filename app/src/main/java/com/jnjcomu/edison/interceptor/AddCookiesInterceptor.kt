@@ -7,8 +7,8 @@ import okhttp3.Response
 import java.io.IOException
 
 /**
- * @author kimwoojae <wj1187></wj1187>@naver.com>
- * @since 2017-09-29
+ * @author kimwoojae <wj1187@naver.com>
+ * @since 2017-10-23
  */
 
 class AddCookiesInterceptor(context: Context) : Interceptor {

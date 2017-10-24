@@ -8,8 +8,8 @@ import java.io.IOException
 import java.util.*
 
 /**
- * @author kimwoojae <wj1187></wj1187>@naver.com>
- * @since 2017-09-29
+ * @author kimwoojae <wj1187>@naver.com>
+ * @since 2017-10-23
  */
 
 class ReceivedCookiesInterceptor(context: Context) : Interceptor {

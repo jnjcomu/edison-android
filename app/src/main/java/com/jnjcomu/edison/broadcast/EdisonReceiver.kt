@@ -22,7 +22,7 @@ class EdisonReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         this.context = context
 
-        if(AppSettingStorage(context).isActiveScanning) {
+        if(AppSettingStorage(context).isActiveNoti) {
             noti("지금 어디 계신가요?")
         }
     }
