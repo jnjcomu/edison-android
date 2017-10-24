@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import android.widget.Toast
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -21,13 +22,14 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        TedPermission.with(this)
-                .setPermissionListener(this)
-                .setDeniedMessage("권한 허가가 되지 않으면 앱을 이용하실 수 없습니다.")
-                .setPermissions(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
-                .check()
+        if(!appStorage.permissionGranted)
+            TedPermission.with(this)
+                    .setPermissionListener(this)
+                    .setDeniedMessage("권한 허가가 되지 않으면 앱을 이용하실 수 없습니다.")
+                    .setPermissions(
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .check()
     }
 
     override fun onResume() {
@@ -131,6 +133,10 @@ class MainActivity : AppCompatActivity(), CloudEventListener, PermissionListener
 
     override fun onPermissionDenied(arrayList: ArrayList<String>) {
 
+    }
+
+    fun checkIn(v: View) {
+        startActivity(Intent(this, CheckInActivity::class.java))
     }
 
 }

@@ -76,4 +76,14 @@
 
     </LinearLayout>
 
+    <TextView
+        android:onClick="checkIn"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        android:text="체크인"/>
+
 </RelativeLayout>

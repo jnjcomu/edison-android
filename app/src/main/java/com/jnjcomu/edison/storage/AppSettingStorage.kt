@@ -18,6 +18,9 @@ class AppSettingStorage(context: Context) {
     var isFirstRun: Boolean = false
         private set
 
+    var permissionGranted: Boolean = false
+        private set
+
     var userName: String = "username"
         private set
 
@@ -26,6 +29,7 @@ class AppSettingStorage(context: Context) {
         mEditor = mPref.edit()
 
         isActiveScanning = mPref.getBoolean(ACTIVITED_PREF, false)
+        permissionGranted = mPref.getBoolean(PERMISSION_PREF, false)
         isFirstRun = mPref.getBoolean(FIRSTRUN_PREF, true)
         userName = mPref.getString(USER_NAME, "nothing")
     }
@@ -40,6 +44,11 @@ class AppSettingStorage(context: Context) {
         mEditor.putBoolean(FIRSTRUN_PREF, isActive).commit()
     }
 
+    fun savePermission(isActive: Boolean) {
+        this.permissionGranted = isActive
+        mEditor.putBoolean(PERMISSION_PREF, isActive).commit()
+    }
+
     fun saveUserName(name: String) {
         this.userName = name
         mEditor.putString(USER_NAME, name).commit()
@@ -52,6 +61,7 @@ class AppSettingStorage(context: Context) {
     companion object {
         private val PREF_NAME = "app_setting"
         private val ACTIVITED_PREF = "activited"
+        private val PERMISSION_PREF = "permission"
         private val FIRSTRUN_PREF = "firstrun"
         private val USER_NAME = "username"
     }

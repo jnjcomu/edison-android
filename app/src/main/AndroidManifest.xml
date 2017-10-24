@@ -51,6 +51,8 @@
             android:name=".activity.IntroActivity"
             android:noHistory="true" />
         <activity android:name=".activity.SettingsActivity" />
+        <activity android:name=".activity.WebviewActivity" />
+        <activity android:name=".activity.CheckInActivity"/>
 
         <receiver
             android:name="com.loplat.placeengine.EventReceiver"
@@ -71,8 +73,6 @@
         <receiver android:name=".broadcast.EdisonReceiver" />
 
         <service android:name="com.loplat.placeengine.location.LocationMonitorService" />
-
-        <activity android:name=".activity.WebviewActivity"></activity>
     </application>
 
 </manifest>
