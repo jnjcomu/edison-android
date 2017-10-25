@@ -46,12 +46,18 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
         swt_scanning.isChecked = appStorage.isActiveScanning
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        inApplication.destroyEventListener()
+    }
+
     override fun onPermissionGranted() {
         val nm = NetManager(this)
 
         if(!nm.isActive())
             nm.activeWifi()
 
+        inApplication.registerEventListener(this)
         Plengi.getInstance(this).refreshPlace()
 
         img_logo.startAnim(this, R.anim.logo_vibrate)
@@ -66,7 +72,7 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
         }
 
         btn_refresh.setOnClickListener {
-            img_logo.startAnim(this, R.anim.logo_vibrate)
+            img_logo.restartAnim(this, R.anim.logo_vibrate)
             tv_place.text = "잠시만 기다려주세요..."
             plengi.refreshPlace()
         }
@@ -94,7 +100,7 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
             Toast.makeText(this, "로고를 터치해 체크인을 완료하세요!", Toast.LENGTH_LONG).show()
             img_logo.setOnClickListener({
                 checkIn(response.place.name)
-                img_logo.startAnim(this, R.anim.logo_vibrate)
+                img_logo.restartAnim(this, R.anim.logo_vibrate)
                 tv_incorrect.visibility = View.GONE
             })
         }
@@ -122,7 +128,7 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
 
     private fun displayPlace(msg: String) {
         tv_place.text = msg
-        img_logo.startAnim(
+        img_logo.restartAnim(
                 this, R.anim.logo_scale,
                 InterpolatorFactory.makeLogoInterpolator()
         )
