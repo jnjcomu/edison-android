@@ -55,7 +55,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -68,7 +68,8 @@
         <TextView
             android:id="@+id/tv_place"
             android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans"
             android:text="잠시만 기다려주세요..."

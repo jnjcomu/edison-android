@@ -3,6 +3,7 @@ package com.jnjcomu.edison.addition
 import android.content.Context
 import com.jnjcomu.edison.network.NetManager
 import com.jnjcomu.edison.storage.AppSettingStorage
+import com.jnjcomu.edison.storage.CheckInHistory
 import com.jnjcomu.edison.storage.Configuration
 
 /**
@@ -12,6 +13,9 @@ import com.jnjcomu.edison.storage.Configuration
 
 val Context.appStorage: AppSettingStorage
     get() = AppSettingStorage(this)
+
+val Context.checkInHistory: CheckInHistory
+    get() = CheckInHistory(this)
 
 val Context.configurator: Configuration
     get() = Configuration(this)

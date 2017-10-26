@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_checkin.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.ArrayList
+import java.util.*
 
 class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListener {
 
@@ -89,34 +89,26 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
     }
 
     override fun onPlaceDefault(response: PlengiResponse) {
-        displayPlace(
-                if (response.place == null) {
-                    "장소 인식에 실패했습니다."
-                } else {
-                    "${response.place}에 계시군요!"
-                }
-        )
-        if (response.place != null) {
-            Toast.makeText(this, "로고를 터치해 체크인을 완료하세요!", Toast.LENGTH_LONG).show()
-            img_logo.setOnClickListener({
-                checkIn(response.place.name)
-                img_logo.restartAnim(this, R.anim.logo_vibrate)
-                tv_incorrect.visibility = View.GONE
-            })
-        }
+        val place = response.place
 
-        val msg = "현재 계신 곳이 ${response.place.name}이 아닌가요?"
-        tv_incorrect.text = msg
-        tv_incorrect.visibility = View.VISIBLE
-        tv_incorrect.setOnClickListener({
-            AlertDialog.Builder(this)
-                    .setTitle("")
-                    .setItems(rooms, { _, index ->
-                        checkIn(rooms[index])
-                        img_logo.startAnim(this, R.anim.logo_vibrate)
-                        tv_incorrect.visibility = View.GONE
-                    })
-                    .create().show()
+        this.runOnUiThread({
+            displayPlace(
+                    if (place == null) {
+                        "장소 인식에 실패했습니다."
+                    } else {
+                        "${place.name}에 계시군요!"
+                    }
+            )
+
+            val calendar = Calendar.getInstance(Locale.getDefault())
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
+
+            if(((hour==19&&minute>=45) || hour==20) && !checkInHistory.getFirst()!!) {
+                activeCheckIn(place)
+            } else if (((hour==21&&minute>=35) || hour==22) && !checkInHistory.getSecond()!!) {
+                activeCheckIn(place)
+            }
         })
     }
 
@@ -132,6 +124,46 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
                 this, R.anim.logo_scale,
                 InterpolatorFactory.makeLogoInterpolator()
         )
+    }
+
+    private fun activeCheckIn(place: PlengiResponse.Place) {
+        Toast.makeText(this, "로고를 터치해 체크인을 완료하세요!", Toast.LENGTH_LONG).show()
+        img_logo.setOnClickListener({
+            AlertDialog.Builder(this)
+                    .setTitle("${place.name}에 체크인하시겠습니까?")
+                    .setPositiveButton("체크인", {_, _ ->
+                        checkIn(place.name)
+                        img_logo.restartAnim(
+                                this, R.anim.logo_scale,
+                                InterpolatorFactory.makeLogoInterpolator()
+                        )
+                        tv_incorrect.visibility = View.GONE
+                    })
+                    .setNegativeButton("취소", null)
+                    .create().show()
+        })
+        val msg = "현재 계신 곳이 ${place.name}이 아닌가요?"
+        tv_incorrect.text = msg
+        tv_incorrect.visibility = View.VISIBLE
+        tv_incorrect.setOnClickListener({
+            AlertDialog.Builder(this)
+                    .setTitle("")
+                    .setItems(rooms, { _, index ->
+                        AlertDialog.Builder(this)
+                                .setTitle("${rooms[index]}에 체크인하시겠습니까?")
+                                .setPositiveButton("체크인", {_, _ ->
+                                    checkIn(rooms[index])
+                                    img_logo.restartAnim(
+                                            this, R.anim.logo_scale,
+                                            InterpolatorFactory.makeLogoInterpolator()
+                                    )
+                                    tv_incorrect.visibility = View.GONE
+                                })
+                                .setNegativeButton("취소", null)
+                                .create().show()
+                    })
+                    .create().show()
+        })
     }
 
     private fun checkIn(place: String) {
