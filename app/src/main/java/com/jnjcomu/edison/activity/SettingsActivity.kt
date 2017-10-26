@@ -104,7 +104,7 @@ class SettingsActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "tip" -> {
-                    Toast.makeText(activity, "준비중입니다.", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(activity, IntroActivity::class.java))
                 }
                 "appVersion" -> {
                     val update = Intent(Intent.ACTION_VIEW)

@@ -138,6 +138,7 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
                                 InterpolatorFactory.makeLogoInterpolator()
                         )
                         tv_incorrect.visibility = View.GONE
+                        img_logo.setOnClickListener(null)
                     })
                     .setNegativeButton("취소", null)
                     .create().show()
@@ -158,6 +159,7 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
                                             InterpolatorFactory.makeLogoInterpolator()
                                     )
                                     tv_incorrect.visibility = View.GONE
+                                    img_logo.setOnClickListener(null)
                                 })
                                 .setNegativeButton("취소", null)
                                 .create().show()
