@@ -83,10 +83,19 @@ class SettingsActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
                 "terms" -> {
+                    val intent = Intent(activity, WebviewActivity::class.java)
+                    intent.putExtra("title", "서비스 이용약관")
+                    intent.putExtra("doc", "file:///android_asset/terms.html")
+                    startActivity(intent)
                 }
                 "location" -> {
+                    Toast.makeText(activity, "준비중입니다.", Toast.LENGTH_SHORT).show()
                 }
                 "privacy" -> {
+                    val intent = Intent(activity, WebviewActivity::class.java)
+                    intent.putExtra("title", "개인정보처리방침")
+                    intent.putExtra("doc", "file:///android_asset/terms_privacy.html")
+                    startActivity(intent)
                 }
                 "openSource" -> {
                     val intent = Intent(activity, WebviewActivity::class.java)
