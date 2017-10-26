@@ -69,6 +69,7 @@
         <receiver android:name=".broadcast.EdisonReceiver" />
 
         <service android:name="com.loplat.placeengine.location.LocationMonitorService" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -15,7 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class  LoginActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -43,13 +43,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         showToast("잘못된 아이디나 비밀번호입니다.")
                     }
                 } catch (e: NullPointerException) {
-                    showToast("로그인에 실패했습니다. 잠시후 다시 시도해주세요.")
+                    showToast("잘못된 아이디나 비밀번호입니다.")
                 }
             }
 
             override fun onFailure(call: Call<Session>?, t: Throwable?) {
                 progress_bar.visibility = View.INVISIBLE
-                showToast("로그인에 실패했습니다. 잠시후 다시 시도해주세요.")
+                showToast("잘못된 아이디나 비밀번호입니다.")
             }
         })
     }

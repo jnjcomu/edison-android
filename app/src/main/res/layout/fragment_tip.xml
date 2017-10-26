@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:fontFamily="@font/noto_sans"
-            android:text="위치 자동 전송 기능"
+            android:text="체크인 알림 기능"
             android:textColor="@color/colorBlack"
             android:textSize="20sp"/>
 
@@ -43,7 +43,7 @@
             android:gravity="center"
             android:layout_margin="10dp"
             android:fontFamily="@font/noto_sans"
-            android:text="위치 자동 전송 기능을 활성화하면 자습 시작시 현재 위치가 서버로 전송되어 기록됩니다." />
+            android:text="체크인 알림 기능을 활성화하면 자습 시작시 체크인 알림이 표시됩니다." />
 
     </LinearLayout>
 
