@@ -6,86 +6,93 @@
     android:layout_height="match_parent"
     tools:context=".activity.IntroActivity">
 
-    <LinearLayout
-        android:padding="10dp"
+    <ScrollView
+        android:layout_above="@+id/start"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/terms"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/noto_sans"
-            android:textColor="@color/colorBlack"
-            android:text="Edison 서비스를 시작하려면 이용약관에 동의해주세요."/>
-
-        <FrameLayout
-            android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-            <WebView
-                android:id="@+id/terms_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/agree_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:fontFamily="@font/noto_sans"
-                android:text="약관에 동의합니다."
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:text="Edison 서비스를 시작하려면 이용약관에 동의해주세요."/>
+
+            <FrameLayout
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+                <WebView
+                    android:id="@+id/terms_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/agree_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans"
+                    android:text="약관에 동의합니다."
+                    android:textColor="@color/colorBlack"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+                <WebView
+                    android:id="@+id/terms_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/agree_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/noto_sans"
+                    android:text="약관에 동의합니다."
+                    android:textColor="@color/colorBlack"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
-
-            <WebView
-                android:id="@+id/terms_2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/agree_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/noto_sans"
-                android:text="약관에 동의합니다."
-                android:textColor="@color/colorBlack"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/start"

@@ -11,6 +11,8 @@ import android.webkit.WebView
 import android.widget.Toast
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.activity.CheckInActivity
+import com.jnjcomu.edison.addition.appStorage
+import com.jnjcomu.edison.storage.AppSettingStorage
 
 /**
  * @author kimwoojae <wj1187@naver.com>
@@ -29,6 +31,7 @@ class TermsFragment : Fragment() {
             if(view.findViewById<AppCompatCheckBox>(R.id.agree_1).isChecked &&
                     view.findViewById<AppCompatCheckBox>(R.id.agree_2).isChecked) {
                 startActivity(Intent(activity, CheckInActivity::class.java))
+                AppSettingStorage(activity).saveFirstrun(false)
             } else {
                 Toast.makeText(activity,"약관에 모두 동의해야 Edison 서비스를 이용하실 수 있습니다.", Toast.LENGTH_SHORT).show()
             }

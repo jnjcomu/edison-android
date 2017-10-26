@@ -58,8 +58,6 @@ class  LoginActivity : AppCompatActivity(), View.OnClickListener {
         sendBroadcast(Intent(this, BootBroadcastReceiver::class.java))
         startActivity(Intent(this, IntroActivity::class.java))
         finish()
-
-        appStorage.saveFirstrun(false)
     }
 
     fun showToast(msg: String) {
