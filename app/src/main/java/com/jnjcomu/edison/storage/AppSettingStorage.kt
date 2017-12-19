@@ -55,7 +55,7 @@ class AppSettingStorage(context: Context) {
     }
 
     fun clear() {
-        mEditor.clear()
+        mEditor.clear().commit()
     }
 
     companion object {

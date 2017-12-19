@@ -1,9 +1,12 @@
 package com.jnjcomu.edison.api
 
+import com.jnjcomu.edison.model.Location
 import com.jnjcomu.edison.model.Session
 import retrofit2.Call
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.POST
 
 /**
  * @author kimwoojae <wj1187@naver.com>
@@ -12,13 +15,18 @@ import retrofit2.http.Query
 
 interface EdisonAPISpec {
 
-    @GET("/edison/inputLocation")
-    fun checkIn(@Query("location") data: String): Call<Void>
+    @FormUrlEncoded
+    @POST("/edison/inputLocation")
+    fun checkIn(@Field("location") data: String): Call<Void>
 
-    @GET("/login/do")
-    fun login(@Query("id") id: String, @Query("password") pw: String): Call<Session>
+    @FormUrlEncoded
+    @POST("/login/api")
+    fun login(@Field("id") id: String, @Field("password") pw: String): Call<Session>
 
     @GET("/login/checklogin")
     fun checkLogin(): Call<Session>
+
+    @GET("/edison/locationList")
+    fun getList(): Call<List<Location>>
 
 }

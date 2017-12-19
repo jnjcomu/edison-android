@@ -8,7 +8,6 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.jnjcomu.edison.R
 import com.jnjcomu.edison.activity.CheckInActivity
-import com.jnjcomu.edison.activity.SplashActivity
 import com.jnjcomu.edison.storage.AppSettingStorage
 
 /**
@@ -36,7 +35,7 @@ class EdisonReceiver : BroadcastReceiver() {
         val notifyIntent = Intent(context, CheckInActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, 0)
         builder.setContentIntent(pendingIntent)
-        val managerCompat = NotificationManagerCompat.from(context)
+        val managerCompat = NotificationManagerCompat.from(context!!)
         managerCompat.notify(777, builder.build())
     }
 }

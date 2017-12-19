@@ -1,93 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite"
     tools:context="com.jnjcomu.edison.activity.CheckInActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:gravity="start|center_vertical"
-        android:layout_height="56dp">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
 
-        <ImageButton
-            android:id="@+id/btn_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@null"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_settings_white_24dp"
-            android:padding="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="start|center_vertical"
+            android:layout_height="56dp">
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/btn_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@null"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:src="@drawable/ic_settings_white_24dp"
+                android:padding="16dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="end|center_vertical"
-        android:orientation="horizontal"
-        android:layout_height="56dp">
+        </LinearLayout>
 
-        <ImageButton
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/btn_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:padding="16dp"
-            android:src="@drawable/ic_autorenew_white_24dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal"
+            android:layout_height="56dp">
 
-        <Switch
-            android:id="@+id/swt_scanning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:theme="@style/Switch" />
+            <ImageButton
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/btn_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="16dp"
+                android:src="@drawable/ic_autorenew_white_24dp" />
 
-    </LinearLayout>
+            <Switch
+                android:id="@+id/swt_scanning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:theme="@style/Switch" />
 
-    <TextView
-        android:id="@+id/tv_incorrect"
-        android:visibility="visible"
-        android:layout_below="@+id/container"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/noto_sans"
-        android:textColor="@color/colorGray"
-        android:text="현재 계신 곳이 휴머실이 아닌가요?"/>
-
-    <LinearLayout
-        android:id="@+id/container"
-        android:orientation="vertical"
-        android:layout_centerInParent="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/img_logo"
-            android:layout_gravity="center"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/logo_colored" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_place"
+            android:id="@+id/tv_incorrect"
+            android:visibility="gone"
+            android:layout_below="@+id/container"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans"
-            android:text="잠시만 기다려주세요..."
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorGray"
+            android:text="현재 계신 곳이 휴머실이 아닌가요?"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/container"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/img_logo"
+                android:layout_gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/logo_colored" />
+
+            <TextView
+                android:id="@+id/tv_place"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans"
+                android:text="잠시만 기다려주세요..."
+                android:textColor="@color/colorBlack"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        app:srcCompat="@drawable/ic_mode_edit_white_24dp"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_gravity="bottom|end"
+        android:id="@+id/fab"
+        android:onClick="onClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
+
+</android.support.design.widget.CoordinatorLayout>

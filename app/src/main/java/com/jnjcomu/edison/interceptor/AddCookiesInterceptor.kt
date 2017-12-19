@@ -29,7 +29,7 @@ class AddCookiesInterceptor(context: Context) : Interceptor {
                 builder.addHeader("Cookie", cookie)
             }
 
-        builder.removeHeader("User-Agent").addHeader("User-Agent", "Android")
+        builder.removeHeader("Session-Agent").addHeader("Session-Agent", "Android")
         return chain.proceed(builder.build())
     }
 

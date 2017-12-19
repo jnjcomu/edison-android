@@ -2,10 +2,10 @@ package com.jnjcomu.edison.activity
 
 import android.Manifest
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.gun0912.tedpermission.PermissionListener
@@ -15,6 +15,7 @@ import com.jnjcomu.edison.addition.*
 import com.jnjcomu.edison.api.API
 import com.jnjcomu.edison.callback.CloudEventListener
 import com.jnjcomu.edison.factory.InterpolatorFactory
+import com.jnjcomu.edison.model.Location
 import com.jnjcomu.edison.network.NetManager
 import com.loplat.placeengine.Plengi
 import com.loplat.placeengine.PlengiResponse
@@ -26,11 +27,13 @@ import java.util.*
 
 class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListener {
 
-    val rooms = arrayOf("휴머실", "그린IT실")
+    var rooms: Array<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkin)
+
+        getList()
 
         TedPermission.with(this)
                 .setPermissionListener(this)
@@ -151,9 +154,9 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
                     .setTitle("")
                     .setItems(rooms, { _, index ->
                         AlertDialog.Builder(this)
-                                .setTitle("${rooms[index]}에 체크인하시겠습니까?")
+                                .setTitle("${rooms!![index]}에 체크인하시겠습니까?")
                                 .setPositiveButton("체크인", {_, _ ->
-                                    checkIn(rooms[index])
+                                    checkIn(rooms!![index])
                                     img_logo.restartAnim(
                                             this, R.anim.logo_scale,
                                             InterpolatorFactory.makeLogoInterpolator()
@@ -168,6 +171,27 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
         })
     }
 
+    fun onClick(v: View) {
+        AlertDialog.Builder(this)
+                .setTitle("")
+                .setItems(rooms, { _, index ->
+                    AlertDialog.Builder(this)
+                            .setTitle("${rooms!![index]}에 체크인하시겠습니까?")
+                            .setPositiveButton("체크인", {_, _ ->
+                                checkIn(rooms!![index])
+                                img_logo.restartAnim(
+                                        this, R.anim.logo_scale,
+                                        InterpolatorFactory.makeLogoInterpolator()
+                                )
+                                tv_incorrect.visibility = View.GONE
+                                img_logo.setOnClickListener(null)
+                            })
+                            .setNegativeButton("취소", null)
+                            .create().show()
+                })
+                .create().show()
+    }
+
     private fun checkIn(place: String) {
         val call = API.getApi(this)
         call.checkIn(place).enqueue(object : Callback<Void>{
@@ -177,6 +201,21 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
 
             override fun onFailure(call: Call<Void>?, t: Throwable?) {
                 displayPlace("체크인에 실패했습니다. 잠시후 다시 시도해주세요.")
+            }
+        })
+    }
+
+    private fun getList() {
+        val list: MutableList<String> = listOf<String>().toMutableList()
+        val call = API.getApi(this)
+        call.getList().enqueue(object : Callback<List<Location>>{
+            override fun onResponse(call: Call<List<Location>>?, response: Response<List<Location>>?) {
+                for (l in response!!.body()!!)
+                    list.add(l.location)
+                rooms = list.toTypedArray()
+            }
+
+            override fun onFailure(call: Call<List<Location>>?, t: Throwable?) {
             }
         })
     }

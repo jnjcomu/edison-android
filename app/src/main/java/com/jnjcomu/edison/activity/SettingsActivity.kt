@@ -13,11 +13,6 @@ import com.jnjcomu.edison.R
 import com.jnjcomu.edison.storage.AppSettingStorage
 import com.jnjcomu.edison.storage.CookieStorage
 
-/**
- * @author kimwoojae <wj1187@naver.com>
- * @since 2017-10-04
- */
-
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +39,7 @@ class SettingsActivity : AppCompatActivity() {
             val name = appStorage!!.userName
             profile.summary = "현재 사용자 : " + name
 
-            val clicks = arrayOf("profile", "terms", "location", "privacy", "openSource", "tip", "appVersion", "dev")
+            val clicks = arrayOf("profile", "terms", "privacy", "openSource", "appVersion", "dev")
 
             for(p in clicks)
                 setOnPreferenceClick(findPreference(p))
@@ -88,9 +83,6 @@ class SettingsActivity : AppCompatActivity() {
                     intent.putExtra("doc", "file:///android_asset/terms.html")
                     startActivity(intent)
                 }
-                "location" -> {
-                    Toast.makeText(activity, "준비중입니다.", Toast.LENGTH_SHORT).show()
-                }
                 "privacy" -> {
                     val intent = Intent(activity, WebviewActivity::class.java)
                     intent.putExtra("title", "개인정보처리방침")
@@ -102,9 +94,6 @@ class SettingsActivity : AppCompatActivity() {
                     intent.putExtra("title", "오픈소스 정보")
                     intent.putExtra("doc", "file:///android_asset/license.html")
                     startActivity(intent)
-                }
-                "tip" -> {
-                    startActivity(Intent(activity, IntroActivity::class.java))
                 }
                 "appVersion" -> {
                     val update = Intent(Intent.ACTION_VIEW)
