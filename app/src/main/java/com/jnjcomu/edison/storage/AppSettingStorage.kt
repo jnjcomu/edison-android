@@ -12,7 +12,7 @@ class AppSettingStorage(context: Context) {
     private val mPref: SharedPreferences
     private val mEditor: SharedPreferences.Editor
 
-    var isActiveScanning: Boolean = false
+    var isActiveScanning: Boolean = true
         private set
 
     var isFirstRun: Boolean = false
@@ -28,7 +28,7 @@ class AppSettingStorage(context: Context) {
         mPref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         mEditor = mPref.edit()
 
-        isActiveScanning = mPref.getBoolean(ACTIVITED_PREF, false)
+        isActiveScanning = mPref.getBoolean(ACTIVITED_PREF, true)
         permissionGranted = mPref.getBoolean(PERMISSION_PREF, false)
         isFirstRun = mPref.getBoolean(FIRSTRUN_PREF, true)
         userName = mPref.getString(USER_NAME, "nothing")

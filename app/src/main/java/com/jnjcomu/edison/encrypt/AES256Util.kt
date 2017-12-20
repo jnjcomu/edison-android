@@ -16,7 +16,7 @@ import javax.crypto.spec.SecretKeySpec
  * @since 2017-04-05
  */
 
-class Encrypter(private val context: Context) {
+class AES256Util(private val context: Context) {
     private var keyIV: String? = null
 
     /**

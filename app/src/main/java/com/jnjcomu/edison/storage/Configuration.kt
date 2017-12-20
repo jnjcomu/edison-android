@@ -1,7 +1,7 @@
 package com.jnjcomu.edison.storage
 
 import android.content.Context
-import com.jnjcomu.edison.encrypt.Encrypter
+import com.jnjcomu.edison.encrypt.AES256Util
 import org.json.JSONObject
 
 /**
@@ -26,7 +26,7 @@ class Configuration(context: Context) {
         private set
 
     init {
-        val encrypt = Encrypter(context)
+        val encrypt = AES256Util(context)
 
         context.assets.open(CONFIGURATION_JSON_NAME).use {
             val size = it.available()

@@ -20,6 +20,8 @@ import com.jnjcomu.edison.network.NetManager
 import com.loplat.placeengine.Plengi
 import com.loplat.placeengine.PlengiResponse
 import kotlinx.android.synthetic.main.activity_checkin.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -111,6 +113,8 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
                 activeCheckIn(place)
             } else if (((hour==21&&minute>=35) || hour==22) && !checkInHistory.getSecond()!!) {
                 activeCheckIn(place)
+            } else{
+                toast("지금은 체크인 가능 시간이 아닙니다.")
             }
         })
     }
@@ -150,28 +154,25 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
         tv_incorrect.text = msg
         tv_incorrect.visibility = View.VISIBLE
         tv_incorrect.setOnClickListener({
-            AlertDialog.Builder(this)
-                    .setTitle("")
-                    .setItems(rooms, { _, index ->
-                        AlertDialog.Builder(this)
-                                .setTitle("${rooms!![index]}에 체크인하시겠습니까?")
-                                .setPositiveButton("체크인", {_, _ ->
-                                    checkIn(rooms!![index])
-                                    img_logo.restartAnim(
-                                            this, R.anim.logo_scale,
-                                            InterpolatorFactory.makeLogoInterpolator()
-                                    )
-                                    tv_incorrect.visibility = View.GONE
-                                    img_logo.setOnClickListener(null)
-                                })
-                                .setNegativeButton("취소", null)
-                                .create().show()
-                    })
-                    .create().show()
+            showList()
         })
     }
 
     fun onClick(v: View) {
+        val calendar = Calendar.getInstance(Locale.getDefault())
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        if(((hour==19&&minute>=45) || hour==20) && !checkInHistory.getFirst()!!) {
+            showList()
+        } else if (((hour==21&&minute>=35) || hour==22) && !checkInHistory.getSecond()!!) {
+            showList()
+        } else{
+            toast("지금은 체크인 가능 시간이 아닙니다.")
+        }
+
+    }
+
+    private fun showList() {
         AlertDialog.Builder(this)
                 .setTitle("")
                 .setItems(rooms, { _, index ->
