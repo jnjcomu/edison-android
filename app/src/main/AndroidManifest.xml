@@ -21,8 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/EdisonTheme">
         <activity
-            android:name=".activity.SplashActivity"
-            android:theme="@style/EdisonTheme.Splash">
+            android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

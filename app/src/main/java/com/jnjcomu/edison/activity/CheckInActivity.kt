@@ -109,13 +109,16 @@ class CheckInActivity : AppCompatActivity(), CloudEventListener, PermissionListe
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
 
-            if(((hour==19&&minute>=45) || hour==20) && !checkInHistory.getFirst()!!) {
-                activeCheckIn(place)
-            } else if (((hour==21&&minute>=35) || hour==22) && !checkInHistory.getSecond()!!) {
-                activeCheckIn(place)
-            } else{
-                toast("지금은 체크인 가능 시간이 아닙니다.")
-            }
+            if(place!=null)
+                if(((hour==19&&minute>=45) || hour==20) && !checkInHistory.getFirst()!!) {
+                    activeCheckIn(place)
+                } else if (((hour==21&&minute>=35) || hour==22) && !checkInHistory.getSecond()!!) {
+                    activeCheckIn(place)
+                } else{
+                    toast("지금은 체크인 가능 시간이 아닙니다.")
+                }
+            else
+                toast("장소 인식에 실패했습니다. 직접 장소를 전송하려면 우측 하단 버튼을 누르세요.")
         })
     }
 
